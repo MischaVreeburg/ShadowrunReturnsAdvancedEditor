@@ -1,9 +1,0 @@
-Bugs in items
-
-Acid stream 2 description: A stream of acid that also does ongoing -6 HP for 2 RNDS. should be -8
-Bound Air spirit 3 Equipment sheet id = Spirit AIr F$ Gear. Should be "Spirit Air F$ Gear"
-
-TsFunction.name = Compare Hire-able Actor Skill
-TsFunction.group = ConditionFunction
-TsFunction.grammarText = At least one hired Actors {{skill}} is {{op}} than {{value}}
-TsFunction.tooltipText = Guarantees the player hires at least [on] actor with a particular skill level : should be "one"
