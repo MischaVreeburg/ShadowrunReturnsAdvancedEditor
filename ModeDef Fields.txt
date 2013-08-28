@@ -1,0 +1,8 @@
+Public Class ModeDef
+		Implements IExtensible
+
+		Private _uirep As UIRep
+
+		Private _prereqStrings As List(Of String) = New List(Of String)()
+
+		Private _abilities As List(Of String) = New List(Of String)()

@@ -1,0 +1,32 @@
+﻿TO DO:
+Equipment sheet id invullen in items list bij laden.
+Bij toevoegen van bestaande EquipSheetId, de EquipsheetId object aanvullen,
+bij toevoegen van nieuwe equipsheetId, een nieuw equipmentsheetid object aanmaken
+Verwijderen van item van equipmentsheetid bij verwijdering van equipmentsheetid in lijst
+Object sorting en filtering toevoegen
+Search functionaliteit voor objecten.
+Better install srr location scanner + message box en mogelijkheid om te veranderen.
+schrijf readme + licenties
+Configureer opties voor saven.
+tlib creator schrijven
+save uncooked files - base functions implemented
+Load uncooked files - base functions implemented
+Lijst van changed objecten
+read shadowrun install location from: C:\Program Files (x86)\Steam\config\config.vdf
+using reg key HKEY_CURRENT_USER\software\valve\steam\ steampath
+Find key under HKEY_CURRENT_USER\software\valve\steam\app
+use key name to get personal install path for UGC
+Add for DRMfree UGC path C:\Users\Mischa Vreeburg\Documents\Shadowrun Returns\ContentPacks
+Load cpr(zip)
+Save item.=> Clear backup.
+
+Add for result bucket, test funcionality if  earlier entries are greater then later.
+
+
+DONE:
+Dubbel Klik op naam in abilities list, modeless abilities list ,.. Open object. - Done
+Voeg nieuw naam toe( niet in lijst) aan abilities list, modeless abilities list, creeer nieuw object. - done
+contains: epilogue, ai_perception,credentials, hiring filter - done
+Geen extra manifest entry aanmaken bij saven naar bestaande files, Wel bij nieuwe - Done
+Treeview state bewaren. bij reload. - Done
+

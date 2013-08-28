@@ -1,0 +1,30 @@
+		OK-id As String
+		OK-uirep As UIRep
+		OK-anim_action As AnimAction = AnimAction.AnimAction_Null
+		OK-anim_modifier As AnimModifier = AnimModifier.AnimModifier_Null
+		OK-apCostMod As Integer
+		OK-hpDamageMod As Single
+		OK-apDamageMod As Single
+		OK-accuracyMod As Single
+		OK-prereqStrings As List(Of String) = New List(Of String)()
+		OK-damageBucket As ResultBucket
+		OK-attackRatingMod As Single
+		OK-offensiveAbility As Boolean
+		OK-defensiveAbility As Boolean
+		OK-ammoCost As Integer
+		OK-effectDuration As Integer = -1
+		OK-drainBucket As ResultBucket
+		OK-repetition As Integer = 1
+		OK-can_summon As Boolean
+		OK-cooldown As Integer
+		OK-cooldown_category As String = String.Empty
+		OK-spreadAngle As Single
+		OK-damageType As VulnerabilityType
+		OK-effectModTable As List(Of Single) = New List(Of Single)()
+		OK-additionalTargets As Integer = -1
+		OK-fxrep As FxRep
+		OK-toHitFunction As String = String.Empty
+		OK-damageFunction As String = String.Empty
+		OK-activationStatusEffects As StatusEffects
+		OK-intended_user As IntendedUser
+		
