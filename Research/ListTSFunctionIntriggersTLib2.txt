@@ -1,0 +1,76 @@
+Tsfunction.name;Tsfunction.hideInEditor;Tfunction.params.Count;;param.name;param.typeName;param.hint;param.defaultValue.ToString;param.defaultValue.bool_value;param.defaultValue.float_value;param.defaultValue.int_value;param.defaultValue.string_value;param.defaultValue.call_value.ToString; param.defaultValue.call_value.functionName;param.defaultValue.variableref_value.ToString;param.defaultValue.variableref_value.name;param.defaultValue.variableref_value.scope_name;param.defaultValue.variableref_value.typeName;param.defaultValue.variableref_value.parent_story.story_id;param.defaultValue.variableref_value.scope;
+
+Enable/Disable Trigger;False;2;;enables;EnableOrDisable;;Nothing;
+Enable/Disable Trigger;False;2;;triggerVal;trigger;;Nothing;
+
+Trigger Execution Count;False;1;;triggerVal;trigger;;Nothing;
+
+Log Debug Message;False;2;;level;Log Levels;;Nothing;
+Log Debug Message;False;2;;message;string;;Nothing;
+
+Arithmetic (int);False;3;;a;int;;Nothing;
+Arithmetic (int);False;3;;op;Arithmetic Ops;;Nothing;
+Arithmetic (int);False;3;;b;int;;Nothing;
+
+Arithmetic (float);False;3;;a;float;;Nothing;
+Arithmetic (float);False;3;;op;Arithmetic Ops;;Nothing;
+Arithmetic (float);False;3;;b;float;;Nothing;
+
+Comparison (int);False;3;;a;int;;Nothing;
+Comparison (int);False;3;;op;Comparison Ops;;Nothing;
+Comparison (int);False;3;;b;int;;Nothing;
+
+Comparison (float);False;3;;a;float;;Nothing;
+Comparison (float);False;3;;op;Comparison Ops;;Nothing;
+Comparison (float);False;3;;b;float;;Nothing;
+
+Comparison (string);False;3;;a;string;;Nothing;
+Comparison (string);False;3;;op;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Comparison (string);False;3;;b;string;;Nothing;
+
+Comparison (bool);False;3;;a;bool;;Nothing;
+Comparison (bool);False;3;;op;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Comparison (bool);False;3;;b;bool;;Nothing;
+
+Invert Bool;False;1;;val;bool;;Nothing;
+
+Convert (string) to (int);False;1;;val;string;;Nothing;
+
+Convert (float) to (int);False;1;;val;float;;Nothing;
+
+Convert (string) to (float);False;1;;val;string;;Nothing;
+
+Convert (int) to (float);False;1;;val;int;;Nothing;
+
+Convert (int) to (string);False;1;;val;int;;Nothing;
+
+Convert (float) to (string);False;1;;val;float;;Nothing;
+
+Convert (bool) to (string);False;1;;val;bool;;Nothing;
+
+Get User Entitlement (string);False;1;;entitlement;EntitlementType;;Nothing;
+
+Get UserPref (string);False;2;;pref;string;;Nothing;
+Get UserPref (string);False;2;;default;string;;Nothing;
+
+Set UserPref (string);True;2;;pref;string;;Nothing;
+Set UserPref (string);True;2;;value;string;;Nothing;
+
+Absolute Value (int);False;1;;val;int;;Nothing;
+
+Absolute Value (float);False;1;;val;float;;Nothing;
+
+Round (Math);False;1;;val;float;;Nothing;
+
+Floor (Math);False;1;;val;float;;Nothing;
+
+Ceil (Math);False;1;;val;float;;Nothing;
+
+Random (int);False;2;;min;int;;Nothing;
+Random (int);False;2;;max;int;;Nothing;
+
+Random (float);False;2;;min;float;;Nothing;
+Random (float);False;2;;max;float;;Nothing;
+
+Append (string);False;2;;val;string;;Nothing;
+Append (string);False;2;;base;string;;Nothing;

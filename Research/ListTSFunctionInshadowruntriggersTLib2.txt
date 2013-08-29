@@ -1,0 +1,1023 @@
+Tsfunction.name;Tsfunction.hideInEditor;Tfunction.params.Count;;param.name;param.typeName;param.hint;param.defaultValue.ToString;param.defaultValue.bool_value;param.defaultValue.float_value;param.defaultValue.int_value;param.defaultValue.string_value;param.defaultValue.call_value.ToString; param.defaultValue.call_value.functionName;param.defaultValue.variableref_value.ToString;param.defaultValue.variableref_value.name;param.defaultValue.variableref_value.scope_name;param.defaultValue.variableref_value.typeName;param.defaultValue.variableref_value.parent_story.story_id;param.defaultValue.variableref_value.scope;
+
+On Map Start;False;0;
+
+On New Round;False;1;;dimName;SceneDimension;;Nothing;
+
+On Actor Start Turn;False;0;
+
+On Actor End Turn;False;0;
+
+On Actor Alive;False;0;
+
+On Actor Movement Finished;False;0;
+
+On Actor Downed;False;0;
+
+On Actor Death;False;0;
+
+On Actor Damage;False;1;;dmgType;HPOrAP;;Nothing;
+
+On Actor Revived;False;0;
+
+On Host Jacked Out;False;0;
+
+On Conversation Complete;False;0;
+
+On Turn Mode Enter;False;0;
+
+On Freemove Mode Enter;False;0;
+
+On Region Enter;False;1;;region;Region;;Nothing;
+
+On Region Exit;False;1;;region;Region;;Nothing;
+
+On Camera Fade Out;False;0;
+
+On Camera Fade In;False;0;
+
+On Camera Region Activated;False;1;;region;CameraRegion;;Nothing;
+
+On Actor Awareness of Another Actor;False;0;
+
+On AI Threat Evaluation;False;1;;threat;ThreatType;;Nothing;
+
+On AI New Target;False;0;
+
+On AI Red Alert;False;0;
+
+On Actor Clicked;False;0;
+
+On Item Interaction;False;1;;object;InteractableObject;;Nothing;
+
+On Item Pickup;False;0;
+
+On Alarm Activated;False;0;
+
+On Dimension Heat Threshold;False;1;;dimName;SceneDimension;;Nothing;
+
+On Goal Update;False;1;;goalName;Goal;;Nothing;
+
+On Character Creation Confirmed;False;0;
+
+On Roster Confirmed;False;0;
+
+On Equip Confirmed;False;0;
+
+On Combat Entered;False;0;
+
+On Combat Exited;False;0;
+
+On Load From Save Game;True;0;
+
+No Condition;False;0;
+
+AND;False;2;;cond1;bool;;Nothing;
+AND;False;2;;cond2;bool;;Nothing;
+
+OR;False;2;;cond1;bool;;Nothing;
+OR;False;2;;cond2;bool;;Nothing;
+
+Comparison (Actor);False;3;;ActorA;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Comparison (Actor);False;3;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Comparison (Actor);False;3;;ActorB;Actor;;Nothing;
+
+Compare Actor Team;False;4;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Compare Actor Team;False;4;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Compare Actor Team;False;4;;team;FactionList;;Nothing;
+Compare Actor Team;False;4;;dimName;SceneDimension;;Nothing;
+
+Compare Actor Race;False;3;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Compare Actor Race;False;3;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Compare Actor Race;False;3;;race;Race;;Nothing;
+
+Compare Actor Gender;False;3;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Compare Actor Gender;False;3;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Compare Actor Gender;False;3;;gender;Gender;;Nothing;
+
+Compare Actor Attribute;False;5;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Compare Actor Attribute;False;5;;baseorcurrent;BaseOrCurrent;;Nothing;
+Compare Actor Attribute;False;5;;attribute;ActorAttributes;;Nothing;
+Compare Actor Attribute;False;5;;op;Comparison Ops;;Nothing;
+Compare Actor Attribute;False;5;;b;int;;Nothing;
+
+Compare Actor Skill;False;5;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Compare Actor Skill;False;5;;baseorcurrent;BaseOrCurrent;;Nothing;
+Compare Actor Skill;False;5;;attribute;ActorSkills;;Nothing;
+Compare Actor Skill;False;5;;op;Comparison Ops;;Nothing;
+Compare Actor Skill;False;5;;b;int;;Nothing;
+
+Compare Actor Specialization;False;5;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Compare Actor Specialization;False;5;;baseorcurrent;BaseOrCurrent;;Nothing;
+Compare Actor Specialization;False;5;;attribute;ActorSpecializations;;Nothing;
+Compare Actor Specialization;False;5;;op;Comparison Ops;;Nothing;
+Compare Actor Specialization;False;5;;b;int;;Nothing;
+
+Compare Hire-able Actor Skill;False;3;;skill;ActorSkills;;Nothing;
+Compare Hire-able Actor Skill;False;3;;op;Comparison Ops;;Nothing;
+Compare Hire-able Actor Skill;False;3;;value;int;;Nothing;
+
+Compare Hire-able Actor Attribute;False;3;;attribute;ActorAttributes;;Nothing;
+Compare Hire-able Actor Attribute;False;3;;op;Comparison Ops;;Nothing;
+Compare Hire-able Actor Attribute;False;3;;value;int;;Nothing;
+
+Evaluate Actor Consciousness;False;2;;Actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Evaluate Actor Consciousness;False;2;;consciousness;Consciousness;;Nothing;
+
+Evaluate Actor Cover;False;2;;Actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Evaluate Actor Cover;False;2;;isVal;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Evaluate Cover Between Actors;False;4;;baseActor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Evaluate Cover Between Actors;False;4;;comparison;Comparison Ops;;Nothing;
+Evaluate Cover Between Actors;False;4;;coverAmount;CoverAmount;;Nothing;
+Evaluate Cover Between Actors;False;4;;targetActor;ActorList;;Nothing;
+
+Evaluate Actor ThreatType to Actor;False;4;;targetActor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Evaluate Actor ThreatType to Actor;False;4;;isVal;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Evaluate Actor ThreatType to Actor;False;4;;threat;ThreatType;;Nothing;
+Evaluate Actor ThreatType to Actor;False;4;;baseActor;Actor;;Nothing;
+
+Evaluate Team Survival Percentage;False;4;;comparison;Comparison Ops;;Nothing;
+Evaluate Team Survival Percentage;False;4;;val;int;;Nothing;
+Evaluate Team Survival Percentage;False;4;;team;FactionList;;Nothing;
+Evaluate Team Survival Percentage;False;4;;dimName;SceneDimension;;Nothing;
+
+Evaluate Tag for Actor;False;3;;Actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Evaluate Tag for Actor;False;3;;comp;HasOrHasNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Evaluate Tag for Actor;False;3;;tagName;SenseTagList;;Nothing;
+
+Evaluate Tag for Prop;False;3;;Prop;Prop;;Nothing;
+Evaluate Tag for Prop;False;3;;comp;HasOrHasNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Evaluate Tag for Prop;False;3;;tagName;SenseTagList;;Nothing;
+
+Evaluate If Actor Has Item;False;3;;Actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Evaluate If Actor Has Item;False;3;;comp;HasOrHasNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Evaluate If Actor Has Item;False;3;;itemName;Item;;Nothing;
+
+Evaluate If Team Has Cyberdeck;False;3;;targetTeam;FactionList;;Nothing;
+Evaluate If Team Has Cyberdeck;False;3;;comp;HasOrHasNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Evaluate If Team Has Cyberdeck;False;3;;dimName;SceneDimension;;Nothing;
+
+Evaluate If Actor is Inside Region;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Evaluate If Actor is Inside Region;False;3;;comp;AreOrAreNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Evaluate If Actor is Inside Region;False;3;;regionName;Region;;Nothing;
+
+Evaluate Turn Mode;False;1;;turnmode;TurnBasedOrFreeMove;;Nothing;
+
+Evaluate Alarm State;False;1;;alarmState;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Evaluate Goal;False;3;;goalName;Goal;;Nothing;
+Evaluate Goal;False;3;;goalStatus;GoalStatus;;Nothing;
+Evaluate Goal;False;3;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Goal Is Primary;False;2;;goalName;Goal;;Nothing;
+Goal Is Primary;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Actor Has Status Condition;False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Actor Has Status Condition;False;3;;hashasnot;HasOrHasNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Actor Has Status Condition;False;3;;cond;StatusCondition;;Nothing;
+
+Actor Has Run Speed;False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Actor Has Run Speed;False;3;;hashasnot;HasOrHasNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Actor Has Run Speed;False;3;;runspeed;RunSpeedMethod;;Nothing;
+
+Evaluate Nuyen;False;2;;comparison;Comparison Ops;;Nothing;
+Evaluate Nuyen;False;2;;val;int;;Nothing;
+
+No Effect;False;0;
+
+Set Retain Trigger;False;1;;val;bool;;Nothing;
+
+Trigger: Wait Until Triggered Again;False;0;
+
+Trigger: Wait for Event;False;1;;event;Event;;Nothing;
+
+Trigger: Wait for Rounds;False;2;;roundCount;int;;Nothing;
+Trigger: Wait for Rounds;False;2;;dimName;SceneDimension;;Nothing;
+
+Trigger: Run Alternate Trigger;False;3;;trigger;trigger;;Nothing;
+Trigger: Run Alternate Trigger;False;3;;withorwithout;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Trigger: Run Alternate Trigger;False;3;;waits;WaitOrNot;;Nothing;
+
+Open Scene;False;1;;sceneName;Scene;;Nothing;
+
+Open Starting Scene;False;0;
+
+End Story With Epilogue;False;1;;epilogue;string;;Nothing;
+
+Open Character Creation Screen;False;0;
+
+Open Hiring Screen;False;0;
+
+Open Hiring Screen and Open Scene;False;2;;sceneName;Scene;;Nothing;
+Open Hiring Screen and Open Scene;False;2;;confirmationText;string;;Nothing;
+
+Open Equip Screen;False;0;
+
+Save Game;True;2;;manualSaveType;SaveGameType;;Nothing;
+Save Game;True;2;;majorSaveType;MajorMinorSaveType;;Nothing;
+
+Load Game;True;0;
+
+Send Event;False;1;;event;Event;;Nothing;
+
+Send Event After Delay;False;2;;event;Event;;Nothing;
+Send Event After Delay;False;2;;delay;float;;Nothing;
+
+Set Ambient Light Color;False;6;;r;float;;Nothing;
+Set Ambient Light Color;False;6;;g;float;;Nothing;
+Set Ambient Light Color;False;6;;b;float;;Nothing;
+Set Ambient Light Color;False;6;;a;float;;Nothing;
+Set Ambient Light Color;False;6;;seconds;float;;Nothing;
+Set Ambient Light Color;False;6;;region;CameraRegion;;Nothing;
+
+Set Directional Light Color;False;9;;r;float;;Nothing;
+Set Directional Light Color;False;9;;g;float;;Nothing;
+Set Directional Light Color;False;9;;b;float;;Nothing;
+Set Directional Light Color;False;9;;a;float;;Nothing;
+Set Directional Light Color;False;9;;x;float;;Nothing;
+Set Directional Light Color;False;9;;y;float;;Nothing;
+Set Directional Light Color;False;9;;z;float;;Nothing;
+Set Directional Light Color;False;9;;seconds;float;;Nothing;
+Set Directional Light Color;False;9;;region;CameraRegion;;Nothing;
+
+Set Environmental Effect Amount;False;2;;fxName;EnvironmentalEffects;;Nothing;
+Set Environmental Effect Amount;False;2;;percentage;int;;Nothing;
+
+Set Alarm State;False;1;;state;bool;;Nothing;
+
+Modify Dimension Heat;False;2;;dimension;SceneDimension;;Nothing;
+Modify Dimension Heat;False;2;;amount;float;;Nothing;
+
+Add Tag to Actor;False;2;;tagName;SenseTagList;;Nothing;
+Add Tag to Actor;False;2;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Remove Tag from Actor;False;2;;tagName;SenseTagList;;Nothing;
+Remove Tag from Actor;False;2;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Add Tag to Prop;False;2;;tagName;SenseTagList;;Nothing;
+Add Tag to Prop;False;2;;prop;Prop;;Nothing;
+
+Remove Tag from Prop;False;2;;tagName;SenseTagList;;Nothing;
+Remove Tag from Prop;False;2;;Prop;Prop;;Nothing;
+
+Force-Use Interactable Object (Basic);False;1;;objectName;InteractableObject;;Nothing;
+
+Force-Use Interactable Object (with Actor);False;2;;objectName;InteractableObject;;Nothing;
+Force-Use Interactable Object (with Actor);False;2;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Enable/Disable Interactable Object;False;2;;enables;EnableOrDisable;;Nothing;
+Enable/Disable Interactable Object;False;2;;objectName;InteractableObject;;Nothing;
+
+Enable/Disable Hack Indicator On Matrix Node Object;False;2;;enables;EnableOrDisable;;Nothing;
+Enable/Disable Hack Indicator On Matrix Node Object;False;2;;objectName;InteractableObject;;Nothing;
+
+Set Hack Status On Matrix Node Object;False;2;;hacked;HackIndicatorStatus;;Nothing;
+Set Hack Status On Matrix Node Object;False;2;;objectName;MatrixNodeInteractableObject;;Nothing;
+
+Set Region Enabled;False;2;;enables;EnableOrDisable;;Nothing;
+Set Region Enabled;False;2;;regionName;Region;;Nothing;
+
+Add Item to Actor;False;3;;itemName;Item;;Nothing;
+Add Item to Actor;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Add Item to Actor;False;3;;notify;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Add Item to Team;False;4;;itemName;Item;;Nothing;
+Add Item to Team;False;4;;targetTeam;FactionList;;Nothing;
+Add Item to Team;False;4;;notify;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Add Item to Team;False;4;;dimName;SceneDimension;;Nothing;
+
+Remove Item from Actor;False;3;;itemName;Item;;Nothing;
+Remove Item from Actor;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Remove Item from Actor;False;3;;notify;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Remove Item from Team;False;4;;itemName;Item;;Nothing;
+Remove Item from Team;False;4;;targetTeam;FactionList;;Nothing;
+Remove Item from Team;False;4;;notify;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Remove Item from Team;False;4;;dimName;SceneDimension;;Nothing;
+
+Set Item AI priority weight;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Item AI priority weight;False;3;;itemName;Item;;Nothing;
+Set Item AI priority weight;False;3;;weight;int;;Nothing;
+
+Set Variable (int);False;2;;intVar;Variable;;Nothing;
+Set Variable (int);False;2;;val;int;;Nothing;
+
+Set Variable (float);False;2;;floatVar;Variable;;Nothing;
+Set Variable (float);False;2;;val;float;;Nothing;
+
+Set Variable (bool);False;2;;boolVar;Variable;;Nothing;
+Set Variable (bool);False;2;;val;bool;;Nothing;
+
+Set Variable (string);False;2;;stringVar;Variable;;Nothing;
+Set Variable (string);False;2;;val;string;;Nothing;
+
+Add To Variable (int);False;2;;intVar;Variable;;Nothing;
+Add To Variable (int);False;2;;b;int;;Nothing;
+
+Add To Variable (float);False;2;;floatVar;Variable;;Nothing;
+Add To Variable (float);False;2;;b;float;;Nothing;
+
+Show Help Screen Popup;False;0;
+
+Set Goal Status;False;2;;goalName;Goal;;Nothing;
+Set Goal Status;False;2;;goalStatus;GoalStatus;;Nothing;
+
+Add Nuyen;False;1;;amount;int;;Nothing;
+
+Remove Nuyen;False;1;;amount;int;;Nothing;
+
+Add Item to Stash;False;2;;itemName;Item;;Nothing;
+Add Item to Stash;False;2;;notify;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Remove Item from Stash;False;2;;itemName;Item;;Nothing;
+Remove Item from Stash;False;2;;notify;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Apply Camera Shake;False;2;;intensity;float;;Nothing;
+Apply Camera Shake;False;2;;duration;float;;Nothing;
+
+Teleport Camera To Actor;False;1;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Teleport Camera To Point;False;1;;point;Point;;Nothing;
+
+Fade Camera Out;False;2;;time;float;;Nothing;
+Fade Camera Out;False;2;;delay;float;;Nothing;
+
+Fade Camera In;False;2;;time;float;;Nothing;
+Fade Camera In;False;2;;delay;float;;Nothing;
+
+Add Camera Point of Interest (Actors);False;2;;target;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Add Camera Point of Interest (Actors);False;2;;time;float;;Nothing;
+
+Add Camera Point of Interest (Point);False;2;;target;Point;;Nothing;
+Add Camera Point of Interest (Point);False;2;;time;float;;Nothing;
+
+Remove Camera Point of Interest (Actors);False;1;;target;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Remove Camera Point of Interest (Point);False;1;;target;Point;;Nothing;
+
+Clear Camera Points of Interest;False;0;
+
+Attach Region to Actor;False;2;;regionName;Region;;Nothing;
+Attach Region to Actor;False;2;;actorName;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Detach Region;False;1;;regionName;Region;;Nothing;
+
+Adjust Region Size;False;3;;regionName;Region;;Nothing;
+Adjust Region Size;False;3;;width;int;;Nothing;
+Adjust Region Size;False;3;;depth;int;;Nothing;
+
+Move Region to Point;False;2;;regionName;Region;;Nothing;
+Move Region to Point;False;2;;destination;Point;;Nothing;
+
+Set Team Alliance;False;4;;baseTeam;FactionList;;Nothing;
+Set Team Alliance;False;4;;affiliation;TeamAlliance;;Nothing;
+Set Team Alliance;False;4;;targetTeam;FactionList;;Nothing;
+Set Team Alliance;False;4;;dimName;SceneDimension;;Nothing;
+
+Change Actor Attack Style;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Change Actor Attack Style;False;2;;attackStyle;AIAttackStyle;;Nothing;
+
+Change Actor Team;False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Change Actor Team;False;3;;newTeam;FactionList;;Nothing;
+Change Actor Team;False;3;;dimName;SceneDimension;;Nothing;
+
+Change Actor Control;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Change Actor Control;False;2;;playerai;PlayerOrAI;;Nothing;
+
+Attack Actor With Weapon;False;2;;attacker;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Attack Actor With Weapon;False;2;;target;Actor;;Nothing;
+
+Reload Weapon;False;1;;attacker;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Enter/Exit Cover;False;2;;attacker;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Enter/Exit Cover;False;2;;enterexit;EnterOrExit;;Nothing;
+
+Order Actor to Patrol;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Patrol;False;2;;orderTarget;PatrolRoute;;Nothing;
+
+Order Actor to Face Direction;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Face Direction;False;2;;facing;FacingDirection;;Nothing;
+
+Order Actor to Move To (Point);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Move To (Point);False;3;;orderTarget;Point;;Nothing;
+Order Actor to Move To (Point);False;3;;facing;FacingDirection;;Nothing;
+
+Order Actor to Move To (Actor);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Move To (Actor);False;3;;orderTarget;Actor;;Nothing;
+Order Actor to Move To (Actor);False;3;;facing;FacingDirection;;Nothing;
+
+Order Actor to Move To (Prop);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Move To (Prop);False;3;;orderTarget;Prop;;Nothing;
+Order Actor to Move To (Prop);False;3;;facing;FacingDirection;;Nothing;
+
+Order Actor to Move To (Region);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Move To (Region);False;3;;orderTarget;Region;;Nothing;
+Order Actor to Move To (Region);False;3;;facing;FacingDirection;;Nothing;
+
+Order Actor to Move To (ThreatType);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Move To (ThreatType);False;2;;orderTarget;ThreatType;;Nothing;
+
+Order Actor to Move To (Start Position);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Move To (Start Position);False;2;;facing;FacingDirection;;Nothing;
+
+Set Actor Behavior;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Behavior;False;2;;behavior;AIAttitude;;Nothing;
+
+Order Actor to Protect (Point);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Protect (Point);False;2;;orderTarget;Point;;Nothing;
+
+Order Actor to Protect (Actor);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Protect (Actor);False;2;;orderTarget;Actor;;Nothing;
+
+Order Actor to Protect (Prop);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Protect (Prop);False;2;;orderTarget;Prop;;Nothing;
+
+Order Actor to Protect (Team);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Protect (Team);False;3;;orderTarget;FactionList;;Nothing;
+Order Actor to Protect (Team);False;3;;dimName;SceneDimension;;Nothing;
+
+Order Actor to Protect (Region);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Protect (Region);False;2;;orderTarget;Region;;Nothing;
+
+Order Actor to Protect (ThreatType);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Protect (ThreatType);False;2;;orderTarget;ThreatType;;Nothing;
+
+Order Actor to Seek And Destroy (Team);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Seek And Destroy (Team);False;3;;orderTarget;FactionList;;Nothing;
+Order Actor to Seek And Destroy (Team);False;3;;dimName;SceneDimension;;Nothing;
+
+Order Actor to Seek And Destroy (ThreatType);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Seek And Destroy (ThreatType);False;2;;orderTarget;ThreatType;;Nothing;
+
+Order Actor to Hunt And Destroy (Team);False;3;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Hunt And Destroy (Team);False;3;;orderTarget;FactionList;;Nothing;
+Order Actor to Hunt And Destroy (Team);False;3;;dimName;SceneDimension;;Nothing;
+
+Order Actor to Hunt And Destroy (ThreatType);False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Hunt And Destroy (ThreatType);False;2;;orderTarget;ThreatType;;Nothing;
+
+Order Actor to become a Non-Combatant;False;1;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Order Actor to Set Target Preference;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Set Target Preference;False;2;;orderTarget;TargetPreference;;Nothing;
+
+Order Actor to Set Priority Target;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Set Priority Target;False;2;;orderTarget;Actor;;Nothing;
+
+Order Actor to Clear ThreatList;False;1;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Order Actor to Interact with Object;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Interact with Object;False;2;;orderTarget;InteractableObject;;Nothing;
+
+Order Actor to Communicate;False;2;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Order Actor to Communicate;False;2;;orderTarget;string;;Nothing;
+
+Order Actor to Call for help;False;1;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Order Actor to Flee;False;1;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Clear Actor Orders;False;1;;actorName;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Set Waypoint on Point;False;2;;style;PrimaryOrSecondary;;Nothing;
+Set Waypoint on Point;False;2;;target;Point;;Nothing;
+
+Clear Waypoint from Point;False;1;;target;Point;;Nothing;
+
+Set Waypoint on Actor;False;2;;style;PrimaryOrSecondary;;Nothing;
+Set Waypoint on Actor;False;2;;target;Actor;;Nothing;
+
+Clear Waypoint from Actor;False;1;;target;Actor;;Nothing;
+
+Set Waypoint on Prop;False;2;;style;PrimaryOrSecondary;;Nothing;
+Set Waypoint on Prop;False;2;;target;Prop;;Nothing;
+
+Clear Waypoint from Prop;False;1;;target;Prop;;Nothing;
+
+Clear All Waypoints;False;0;
+
+Display Text over Actor;False;10;;target;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Display Text over Actor;False;10;;style;TextPopupStyle;;Nothing;
+Display Text over Actor;False;10;;text;string;;Nothing;
+Display Text over Actor;False;10;;r;float;;Nothing;
+Display Text over Actor;False;10;;g;float;;Nothing;
+Display Text over Actor;False;10;;b;float;;Nothing;
+Display Text over Actor;False;10;;a;float;;Nothing;
+Display Text over Actor;False;10;;time;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text over Actor;False;10;;fadeTime;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text over Actor;False;10;;delayTime;float;;Nothing;
+
+Display Text over Prop;False;10;;target;Prop;;Nothing;
+Display Text over Prop;False;10;;style;TextPopupStyle;;Nothing;
+Display Text over Prop;False;10;;text;string;;Nothing;
+Display Text over Prop;False;10;;r;float;;Nothing;
+Display Text over Prop;False;10;;g;float;;Nothing;
+Display Text over Prop;False;10;;b;float;;Nothing;
+Display Text over Prop;False;10;;a;float;;Nothing;
+Display Text over Prop;False;10;;time;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text over Prop;False;10;;fadeTime;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text over Prop;False;10;;delayTime;float;;Nothing;
+
+Display Text over Point;False;10;;target;Point;;Nothing;
+Display Text over Point;False;10;;style;TextPopupStyle;;Nothing;
+Display Text over Point;False;10;;text;string;;Nothing;
+Display Text over Point;False;10;;r;float;;Nothing;
+Display Text over Point;False;10;;g;float;;Nothing;
+Display Text over Point;False;10;;b;float;;Nothing;
+Display Text over Point;False;10;;a;float;;Nothing;
+Display Text over Point;False;10;;time;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text over Point;False;10;;fadeTime;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text over Point;False;10;;delayTime;float;;Nothing;
+
+Display Text at Screen Position;False;11;;style;TextPopupStyle;;Nothing;
+Display Text at Screen Position;False;11;;text;string;;Nothing;
+Display Text at Screen Position;False;11;;x;float;;Nothing;
+Display Text at Screen Position;False;11;;y;float;;Nothing;
+Display Text at Screen Position;False;11;;r;float;;Nothing;
+Display Text at Screen Position;False;11;;g;float;;Nothing;
+Display Text at Screen Position;False;11;;b;float;;Nothing;
+Display Text at Screen Position;False;11;;a;float;;Nothing;
+Display Text at Screen Position;False;11;;time;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text at Screen Position;False;11;;fadeTime;float;;isogame.TsVariant;False;3;0;;Nothing;
+Display Text at Screen Position;False;11;;delayTime;float;;Nothing;
+
+Play Animation;False;2;;target;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Play Animation;False;2;;anim;string;;Nothing;
+
+Set Animation State Of Actor To Animation Modifier;False;3;;animState;AnimationState;;Nothing;
+Set Animation State Of Actor To Animation Modifier;False;3;;target;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Set Animation State Of Actor To Animation Modifier;False;3;;animMod;AnimationModifiers;;Nothing;
+
+Spawn Prop;True;2;;prop;Prop;;Nothing;
+Spawn Prop;True;2;;pos;Point;;Nothing;
+
+Clone Prop;False;2;;prop;Prop;;Nothing;
+Clone Prop;False;2;;pos;Point;;Nothing;
+
+Delete Prop;False;1;;prop;Prop;;Nothing;
+
+Move Prop;False;2;;prop;Prop;;Nothing;
+Move Prop;False;2;;pos;Point;;Nothing;
+
+Spawn Actor;True;2;;actor;Actor;;Nothing;
+Spawn Actor;True;2;;pos;Point;;Nothing;
+
+Clone Actor;False;2;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Clone Actor;False;2;;pos;Point;;Nothing;
+
+Kill Actor;False;2;;actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Kill Actor;False;2;;method;DeathMethod;;Nothing;
+
+Teleport Actor;False;4;;actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Teleport Actor;False;4;;pos;Point;;Nothing;
+Teleport Actor;False;4;;facing;FacingDirection;;Nothing;
+Teleport Actor;False;4;;method;TeleportMethod;;Nothing;
+
+Play FX at Point;False;2;;scriptName;string;;Nothing;
+Play FX at Point;False;2;;pos;Point;;Nothing;
+
+Remove FX at Point;False;2;;scriptName;string;;Nothing;
+Remove FX at Point;False;2;;pos;Point;;Nothing;
+
+Play FX on Actor;False;2;;scriptName;string;;Nothing;
+Play FX on Actor;False;2;;target;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Remove FX From Actor;False;2;;scriptName;string;;Nothing;
+Remove FX From Actor;False;2;;target;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Play FX at Point With Target Point;False;3;;scriptName;string;;Nothing;
+Play FX at Point With Target Point;False;3;;pos;Point;;Nothing;
+Play FX at Point With Target Point;False;3;;target;Point;;Nothing;
+
+Play FX at Point With Target Actor;False;3;;scriptName;string;;Nothing;
+Play FX at Point With Target Actor;False;3;;pos;Point;;Nothing;
+Play FX at Point With Target Actor;False;3;;target;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Stop All Triggered FX On Actor;True;1;;target;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+
+Stop All Triggered FX;True;0;
+
+Cause Damage;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Cause Damage;False;3;;damage;int;;Nothing;
+Cause Damage;False;3;;hporap;HPOrAP;;Nothing;
+
+Cause Damage Over Time;False;4;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Cause Damage Over Time;False;4;;damage;int;;Nothing;
+Cause Damage Over Time;False;4;;hporap;HPOrAP;;Nothing;
+Cause Damage Over Time;False;4;;rounds;int;;Nothing;
+
+Heal Actor;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Heal Actor;False;3;;damage;int;;Nothing;
+Heal Actor;False;3;;hporap;HPOrAP;;Nothing;
+
+Heal Actor Over Time;False;4;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Heal Actor Over Time;False;4;;damage;int;;Nothing;
+Heal Actor Over Time;False;4;;hporap;HPOrAP;;Nothing;
+Heal Actor Over Time;False;4;;rounds;int;;Nothing;
+
+Apply Condition Status Effect to Actor;False;5;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Apply Condition Status Effect to Actor;False;5;;cond;StatusCondition;;Nothing;
+Apply Condition Status Effect to Actor;False;5;;effectName;string;;Nothing;
+Apply Condition Status Effect to Actor;False;5;;buffType;BuffDebuffType;;Nothing;
+Apply Condition Status Effect to Actor;False;5;;rounds;int;;Nothing;
+
+Apply Attribute Status Effect to Actor;False;6;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Apply Attribute Status Effect to Actor;False;6;;amount;int;;Nothing;
+Apply Attribute Status Effect to Actor;False;6;;cond;ActorAttributes;;Nothing;
+Apply Attribute Status Effect to Actor;False;6;;effectName;string;;Nothing;
+Apply Attribute Status Effect to Actor;False;6;;buffType;BuffDebuffType;;Nothing;
+Apply Attribute Status Effect to Actor;False;6;;rounds;int;;Nothing;
+
+Apply Skill Status Effect to Actor;False;6;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Apply Skill Status Effect to Actor;False;6;;amount;int;;Nothing;
+Apply Skill Status Effect to Actor;False;6;;cond;ActorSkills;;Nothing;
+Apply Skill Status Effect to Actor;False;6;;effectName;string;;Nothing;
+Apply Skill Status Effect to Actor;False;6;;buffType;BuffDebuffType;;Nothing;
+Apply Skill Status Effect to Actor;False;6;;rounds;int;;Nothing;
+
+Apply Specialization Status Effect to Actor;False;6;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Apply Specialization Status Effect to Actor;False;6;;amount;int;;Nothing;
+Apply Specialization Status Effect to Actor;False;6;;cond;ActorSpecializations;;Nothing;
+Apply Specialization Status Effect to Actor;False;6;;effectName;string;;Nothing;
+Apply Specialization Status Effect to Actor;False;6;;buffType;BuffDebuffType;;Nothing;
+Apply Specialization Status Effect to Actor;False;6;;rounds;int;;Nothing;
+
+Remove Status Effect from Actor;False;2;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Remove Status Effect from Actor;False;2;;effectName;string;;Nothing;
+
+Set Actor Base Attribute;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Base Attribute;False;3;;amount;int;;Nothing;
+Set Actor Base Attribute;False;3;;attribute;ActorAttributes;;Nothing;
+
+Set Actor Base Skill;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Base Skill;False;3;;amount;int;;Nothing;
+Set Actor Base Skill;False;3;;skill;ActorSkills;;Nothing;
+
+Set Actor Base Specialization;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Base Specialization;False;3;;amount;int;;Nothing;
+Set Actor Base Specialization;False;3;;specialization;ActorSpecializations;;Nothing;
+
+Add Actor Karma;False;2;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Add Actor Karma;False;2;;amount;int;;Nothing;
+
+Set Actor Run Speed;False;2;;actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Run Speed;False;2;;method;RunSpeedMethod;;Nothing;
+
+Set Actor Ignored by AI;False;2;;actor;Actor;;Nothing;
+Set Actor Ignored by AI;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Set Actor In Passive Mode;False;2;;actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor In Passive Mode;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Set Actor Wander Range;False;2;;actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Wander Range;False;2;;amount;int;;Nothing;
+
+Set Actor Ignored by Camera;False;2;;actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Ignored by Camera;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Set Actor Uninjurable;False;2;;actor;Actor;;Nothing;
+Set Actor Uninjurable;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Set Actor Unkillable;False;2;;actor;Actor;;Nothing;
+Set Actor Unkillable;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Set Actor Vulnerability;False;3;;actors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Set Actor Vulnerability;False;3;;vuln;VulnerabilityType;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Set Actor Vulnerability;False;3;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Start Conversation;False;3;;conversationName;Conversation;;Nothing;
+Start Conversation;False;3;;target;Actor;;Nothing;
+Start Conversation;False;3;;turnToFace;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Start Conversation Between Actors;False;4;;conversationName;Conversation;;Nothing;
+Start Conversation Between Actors;False;4;;player;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Start Conversation Between Actors;False;4;;target;Actor;;Nothing;
+Start Conversation Between Actors;False;4;;turnToFace;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Assign Conversation to Actor;False;4;;conversationName;Conversation;;Nothing;
+Assign Conversation to Actor;False;4;;player;Actor;;Nothing;
+Assign Conversation to Actor;False;4;;withwithout;WithOrWithout;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Assign Conversation to Actor;False;4;;enable;EnableOrDisable;;Nothing;
+
+End Current Actor Turn;False;0;
+
+End Current Team Round;False;0;
+
+Enable/Disable Manual Turn Mode;False;1;;enables;EnableOrDisable;;Nothing;
+
+Enable/Disable Team's Turn;False;3;;team;FactionList;;Nothing;
+Enable/Disable Team's Turn;False;3;;enable;EnableOrDisable;;Nothing;
+Enable/Disable Team's Turn;False;3;;dimension;SceneDimension;;Nothing;
+
+Suspend Team's Turn;False;3;;team;FactionList;;Nothing;
+Suspend Team's Turn;False;3;;rounds;int;;Nothing;
+Suspend Team's Turn;False;3;;dimension;SceneDimension;;Nothing;
+
+Play Sound;False;3;;soundName;Sound;;Nothing;
+Play Sound;False;3;;volume;float;;Nothing;
+Play Sound;False;3;;looping;bool;;Nothing;
+
+Play Music;False;3;;musicName;Music;;Nothing;
+Play Music;False;3;;volume;float;;Nothing;
+Play Music;False;3;;looping;bool;;Nothing;
+
+Stop Sound;False;1;;soundName;Sound;;Nothing;
+
+Stop Music;False;0;
+
+Activate Actor Spawner;False;1;;unspawnedActor;ActorReference;;Nothing;
+
+Open Store Screen From Actor;False;1;;actor;Actor;;Nothing;
+
+Open Cyberware Screen From Actor;False;1;;actor;Actor;;Nothing;
+
+Current Battle Round;False;1;;dimName;SceneDimension;;Nothing;
+
+Current General Round;False;1;;dimName;SceneDimension;;Nothing;
+
+Active Alarm Count;False;0;
+
+Get Percentage of Team Living or Dead;False;3;;team;FactionList;;Nothing;
+Get Percentage of Team Living or Dead;False;3;;deadoralive;DeadOrAlive;;Nothing;
+Get Percentage of Team Living or Dead;False;3;;dimName;SceneDimension;;Nothing;
+
+Get Random Actor on Team;False;2;;team;FactionList;;Nothing;
+Get Random Actor on Team;False;2;;dimName;SceneDimension;;Nothing;
+
+Get Actor's Persona;False;1;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Get Persona's Host;False;1;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Get Random Actor within Area;False;1;;area;Area;;Nothing;
+
+Get Random ThreatType of Actor within Area;False;3;;threat;ThreatType;;Nothing;
+Get Random ThreatType of Actor within Area;False;3;;baseActor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Get Random ThreatType of Actor within Area;False;3;;area;Area;;Nothing;
+
+Get Actor Health Percentage;False;1;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Actor is Player Controlled;False;2;;Actor;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Actor is Player Controlled;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Actor is a Persona;False;2;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Actor is a Persona;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Actor is Jacked in;False;2;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Actor is Jacked in;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Actor is Jacked in to Matrix Dimension;False;3;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Actor is Jacked in to Matrix Dimension;False;3;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+Actor is Jacked in to Matrix Dimension;False;3;;dimension;SceneDimension;;Nothing;
+
+Get Actor Attribute;False;3;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Get Actor Attribute;False;3;;baseorcurrent;BaseOrCurrent;;Nothing;
+Get Actor Attribute;False;3;;attribute;ActorAttributes;;Nothing;
+
+Get Actor Skill;False;3;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Get Actor Skill;False;3;;baseorcurrent;BaseOrCurrent;;Nothing;
+Get Actor Skill;False;3;;skill;ActorSkills;;Nothing;
+
+Get Actor Specialization;False;3;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+Get Actor Specialization;False;3;;baseorcurrent;BaseOrCurrent;;Nothing;
+Get Actor Specialization;False;3;;spec;ActorSpecializations;;Nothing;
+
+Ammo for Weapon;False;2;;baseorcurrent;BaseOrCurrent;;Nothing;
+Ammo for Weapon;False;2;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Ammo Percentage for Weapon;False;1;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Active Actor;False;0;
+
+Last Attacker of Actor;False;1;;baseActor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Previous Active Actor;True;0;
+
+Triggering Actor;False;0;
+
+Triggering Target Actor;False;0;
+
+Filter Test Actor;True;0;
+
+Get Region Enabled;False;1;;regionName;Region;;Nothing;
+
+Prop Can Be Interacted With;False;2;;object;InteractableObject;;Nothing;
+Prop Can Be Interacted With;False;2;;isisnot;IsOrIsNot;;isogame.TsVariant;False;0;0;;isogame.TsCall;Get Preset Value (int);Nothing;
+
+Current Location of Actor;False;1;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Current Location of Prop;False;1;;Prop;Prop;;Nothing;
+
+Arithmetic (Point);False;3;;p0;Point;;Nothing;
+Arithmetic (Point);False;3;;op;Arithmetic Ops;;Nothing;
+Arithmetic (Point);False;3;;p1;Point;;Nothing;
+
+Point Component (int);False;2;;p0;Point;;Nothing;
+Point Component (int);False;2;;op;VectorComponent;;Nothing;
+
+Point Component (float);False;2;;p0;Point;;Nothing;
+Point Component (float);False;2;;op;VectorComponent;;Nothing;
+
+Tag From String;False;1;;str;string;;Nothing;
+
+Specified Point (3D);False;3;;xVal;float;;Nothing;
+Specified Point (3D);False;3;;yVal;float;;Nothing;
+Specified Point (3D);False;3;;zVal;float;;Nothing;
+
+Specified Point (2D);False;2;;xVal;float;;Nothing;
+Specified Point (2D);False;2;;zVal;float;;Nothing;
+
+Get Offset Point;False;2;;basePoint;Point;;Nothing;
+Get Offset Point;False;2;;offsetPoint;Point;;Nothing;
+
+Center of Region;False;1;;regionName;Region;;Nothing;
+
+Get Random Point Within Region;False;1;;regionName;Region;;Nothing;
+
+Get Point Within Region Toward Direction;False;2;;regionName;Region;;Nothing;
+Get Point Within Region Toward Direction;False;2;;regionDirection;FacingDirection;;Nothing;
+
+Teleport Actor near Actor;False;5;;actor0;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Teleport Actor near Actor;False;5;;radius;int;;Nothing;
+Teleport Actor near Actor;False;5;;actor1;Actor;;Nothing;
+Teleport Actor near Actor;False;5;;facing;FacingDirection;;Nothing;
+Teleport Actor near Actor;False;5;;method;TeleportMethod;;Nothing;
+
+Nearest Tagged Actor to Actor;False;2;;tagName;SenseTagList;;Nothing;
+Nearest Tagged Actor to Actor;False;2;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Nearest Tagged Actor to Prop;False;2;;tagName;SenseTagList;;Nothing;
+Nearest Tagged Actor to Prop;False;2;;prop;Prop;;Nothing;
+
+Nearest Tagged Prop to Actor;False;2;;tagName;SenseTagList;;Nothing;
+Nearest Tagged Prop to Actor;False;2;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Nearest Tagged Prop to Prop;False;2;;tagName;SenseTagList;;Nothing;
+Nearest Tagged Prop to Prop;False;2;;prop;Prop;;Nothing;
+
+Area: Entire Map;False;0;
+
+Area: Region;False;1;;region;Region;;Nothing;
+
+Area: Radius Arount Point;False;2;;radius;int;;Nothing;
+Area: Radius Arount Point;False;2;;center;Point;;Nothing;
+
+Triggering Prop;False;0;
+
+Triggering Target Prop;True;0;
+
+Last Created Prop;False;0;
+
+Last Created Actor;False;0;
+
+Last Created Persona;False;0;
+
+Actor's Current Target;False;1;;actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Player Team;False;0;
+
+Active Team;False;0;
+
+Team of Actor;False;1;;Actor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+
+Triggering Region;False;0;
+
+Specific Actor;False;2;;actor;Actor;;Nothing;
+Specific Actor;False;2;;allorany;AllOrAny;;Nothing;
+
+All Actors;False;1;;allorany;AllOrAny;;Nothing;
+
+All Actors With Tag;False;2;;tagName;SenseTagList;;Nothing;
+All Actors With Tag;False;2;;allorany;AllOrAny;;Nothing;
+
+All Actors on Team;False;3;;teamName;FactionList;;Nothing;
+All Actors on Team;False;3;;allorany;AllOrAny;;Nothing;
+All Actors on Team;False;3;;dimName;SceneDimension;;Nothing;
+
+All Actors Within Area;False;2;;area;Area;;Nothing;
+All Actors Within Area;False;2;;allorany;AllOrAny;;Nothing;
+
+All ThreatTypes of Actor;False;3;;threat;ThreatType;;Nothing;
+All ThreatTypes of Actor;False;3;;baseActor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+All ThreatTypes of Actor;False;3;;allorany;AllOrAny;;Nothing;
+
+All ThreatTypes of Actor in Area;False;4;;threat;ThreatType;;Nothing;
+All ThreatTypes of Actor in Area;False;4;;baseActor;Actor;;isogame.TsVariant;False;0;0;;isogame.TsCall;Triggering Actor;Nothing;
+All ThreatTypes of Actor in Area;False;4;;area;Area;;Nothing;
+All ThreatTypes of Actor in Area;False;4;;allorany;AllOrAny;;Nothing;
+
+Filtered List of Actors;True;3;;baseActors;ActorList;;isogame.TsVariant;False;0;0;;isogame.TsCall;Specific Actor;Nothing;
+Filtered List of Actors;True;3;;filters;ConditionBlock;;Nothing;
+Filtered List of Actors;True;3;;allorany;AllOrAny;;Nothing;
+
+Get Actor From ID;False;1;;id;string;;Nothing;
+
+Get Actor ID;False;1;;actor;Actor;;Nothing;
+
+Get Variable (int);False;1;;index;Variable;;Nothing;
+
+Get Variable (float);False;1;;index;Variable;;Nothing;
+
+Get Variable (bool);False;1;;index;Variable;;Nothing;
+
+Get Variable (string);False;1;;index;Variable;;Nothing;
+
+Get Topic Variable (int);False;2;;topicName;string;;Nothing;
+Get Topic Variable (int);False;2;;index;Variable;;Nothing;
+
+Get Topic Variable (float);False;2;;topicName;string;;Nothing;
+Get Topic Variable (float);False;2;;index;Variable;;Nothing;
+
+Get Topic Variable (bool);False;2;;topicName;string;;Nothing;
+Get Topic Variable (bool);False;2;;index;Variable;;Nothing;
+
+Get Topic Variable (string);False;2;;topicName;string;;Nothing;
+Get Topic Variable (string);False;2;;index;Variable;;Nothing;
+
+Get Story Variable (int);False;2;;storyName;string;;Nothing;
+Get Story Variable (int);False;2;;index;Variable;;Nothing;
+
+Get Story Variable (float);False;2;;storyName;string;;Nothing;
+Get Story Variable (float);False;2;;index;Variable;;Nothing;
+
+Get Story Variable (bool);False;2;;storyName;string;;Nothing;
+Get Story Variable (bool);False;2;;index;Variable;;Nothing;
+
+Get Story Variable (string);False;2;;storyName;string;;Nothing;
+Get Story Variable (string);False;2;;index;Variable;;Nothing;
+
+Get Previous Story Variable (int);False;2;;storyName;string;;Nothing;
+Get Previous Story Variable (int);False;2;;intIndex;Variable;;Nothing;
+
+Get Previous Story Variable (float);False;2;;storyName;string;;Nothing;
+Get Previous Story Variable (float);False;2;;floatIndex;Variable;;Nothing;
+
+Get Previous Story Variable (bool);False;2;;storyName;string;;Nothing;
+Get Previous Story Variable (bool);False;2;;boolIndex;Variable;;Nothing;
+
+Get Previous Story Variable (string);False;2;;storyName;string;;Nothing;
+Get Previous Story Variable (string);False;2;;stringIndex;Variable;;Nothing;
+
+Get Dependent Story Variable (int);False;2;;intIndex;PreviousStoryVariable;;Nothing;
+Get Dependent Story Variable (int);False;2;;default;int;;Nothing;
+
+Get Dependent Story Variable (float);False;2;;floatIndex;PreviousStoryVariable;;Nothing;
+Get Dependent Story Variable (float);False;2;;default;float;;Nothing;
+
+Get Dependent Story Variable (bool);False;2;;boolIndex;PreviousStoryVariable;;Nothing;
+Get Dependent Story Variable (bool);False;2;;default;bool;;Nothing;
+
+Get Dependent Story Variable (string);False;2;;stringIndex;PreviousStoryVariable;;Nothing;
+Get Dependent Story Variable (string);False;2;;default;string;;Nothing;
+
+Get Map Item (Actor);False;1;;index;int;;Nothing;
+
+Get Map Item (Player);False;1;;index;int;;Nothing;
+
+Get Map Item (Actor Reference);False;1;;index;int;;Nothing;
+
+Get Map Item (Trigger);False;1;;index;int;;Nothing;
+
+Get Map Item (Prop);False;1;;index;int;;Nothing;
+
+Get Map Item (InteractableObject);False;1;;index;int;;Nothing;
+
+Get Map Item (Region);False;1;;index;int;;Nothing;
+
+Get Map Item (CameraRegion);False;1;;index;int;;Nothing;
+
+Get Map Item (Event);False;1;;index;int;;Nothing;
+
+Get Map Item (SenseTagList);False;1;;index;int;;Nothing;
+
+Get Map Item (Goal);False;1;;index;int;;Nothing;
+
+Get Map Item (Item);False;1;;index;string;;Nothing;
+
+Get Map Item (Conversation);False;1;;index;string;;Nothing;
+
+Get Map Item (PatrolRoute);False;1;;index;string;;Nothing;
+
+Get Map Item (LAN);False;1;;index;string;;Nothing;
+
+Get Map Item (Scene);False;1;;index;string;;Nothing;
+
+Get Map Item (SceneDimension);False;1;;index;string;;Nothing;
+
+Get Map Item (Sound);False;2;;bundleName;string;;Nothing;
+Get Map Item (Sound);False;2;;soundName;string;;Nothing;
+
+Get Map Item (Music);False;2;;bundleName;string;;Nothing;
+Get Map Item (Music);False;2;;musicName;string;;Nothing;
+
+Get Map Item (AnimationModifiers);False;2;;animName;string;;Nothing;
+Get Map Item (AnimationModifiers);False;2;;animMod;string;;Nothing;
+
+Get Preset Value (int);False;2;;typeName;string;;Nothing;
+Get Preset Value (int);False;2;;index;int;;Nothing;
+
+Get Preset Value (float);False;2;;typeName;string;;Nothing;
+Get Preset Value (float);False;2;;index;int;;Nothing;
+
+Get Preset Value (string);False;2;;typeName;string;;Nothing;
+Get Preset Value (string);False;2;;index;int;;Nothing;
+

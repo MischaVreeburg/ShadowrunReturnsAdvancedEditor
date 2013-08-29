@@ -1,0 +1,249 @@
+TsType.name;TsType.hideInEditor;TType.baseTypeName;TType.group;TType.protobufPresetSource;TType.presets.Count;;Preset.name;Preset.hint;Preset.value;Preset.value.bool_value;Preset.value.float_value;Preset.value.int_value;Preset.value.string_value;Preset.value.call_value.ToString;Preset.value.call_value.functionName;Preset.value.variableref_value.ToString;Preset.value.variableref_value.name;Preset.value.variableref_value.parent_story.story_id;
+
+Actor;False;;;;0
+
+ActorList;False;;;;0
+
+ActorReference;False;;;;0
+
+ConditionBlock;False;;;;0
+
+ActionBlock;False;;;;0
+
+Scene;False;;;;0
+
+Prop;False;;;;0
+
+Point;False;;;;0
+
+Item;False;;;;0
+
+Conversation;False;;;;0
+
+Region;False;;;;0
+
+CameraRegion;False;;;;0
+
+Area;False;;;;0
+
+PatrolRoute;False;;;;0
+
+Variable;False;;;;0
+
+PreviousStoryVariable;False;;;;0
+
+InteractableObject;False;;;;0
+
+MatrixNodeInteractableObject;False;;;;0
+
+LANNetwork;False;;;;0
+
+Color;False;;;;0
+
+AIAttackStyle;False;;;;5;Best Only;;isogame.TsVariant;False;0;0;;Nothing;
+AIAttackStyle;False;;;;5;All Equal;;isogame.TsVariant;False;0;1;;Nothing;
+AIAttackStyle;False;;;;5;Any NonZero;;isogame.TsVariant;False;0;2;;Nothing;
+AIAttackStyle;False;;;;5;Cycle All;;isogame.TsVariant;False;0;3;;Nothing;
+AIAttackStyle;False;;;;5;Random All;;isogame.TsVariant;False;0;4;;Nothing;
+
+HackIndicatorStatus;False;;;;3;hacked;;isogame.TsVariant;False;0;0;;Nothing;
+HackIndicatorStatus;False;;;;3;not hacked;;isogame.TsVariant;False;0;1;;Nothing;
+HackIndicatorStatus;False;;;;3;disconnected;;isogame.TsVariant;False;0;2;;Nothing;
+
+TeleportMethod;False;;;;4;Warp Teleport;;isogame.TsVariant;False;0;0;;Nothing;
+TeleportMethod;False;;;;4;Warp FAST;;isogame.TsVariant;False;0;1;;Nothing;
+TeleportMethod;False;;;;4;Warp MEDIUM;;isogame.TsVariant;False;0;2;;Nothing;
+TeleportMethod;False;;;;4;Warp SLOW;;isogame.TsVariant;False;0;3;;Nothing;
+
+AreOrAreNot;False;;;;2;are not;;isogame.TsVariant;False;0;0;;Nothing;
+AreOrAreNot;False;;;;2;are;;isogame.TsVariant;False;0;1;;Nothing;
+
+DeathMethod;False;;;;4;Default;;isogame.TsVariant;False;0;0;;Nothing;
+DeathMethod;False;;;;4;Downed;;isogame.TsVariant;False;0;1;;Nothing;
+DeathMethod;False;;;;4;Permanently Dead;;isogame.TsVariant;False;0;2;;Nothing;
+DeathMethod;False;;;;4;Vanish;;isogame.TsVariant;False;0;3;;Nothing;
+
+VulnerabilityType;False;;;;12;Normal;;isogame.TsVariant;False;0;0;;Nothing;
+VulnerabilityType;False;;;;12;Magic;;isogame.TsVariant;False;0;1;;Nothing;
+VulnerabilityType;False;;;;12;Repair;;isogame.TsVariant;False;0;2;;Nothing;
+VulnerabilityType;False;;;;12;Heal;;isogame.TsVariant;False;0;3;;Nothing;
+VulnerabilityType;False;;;;12;Insecticide;;isogame.TsVariant;False;0;4;;Nothing;
+VulnerabilityType;False;;;;12;Fire;;isogame.TsVariant;False;0;5;;Nothing;
+VulnerabilityType;False;;;;12;Death;;isogame.TsVariant;False;0;6;;Nothing;
+VulnerabilityType;False;;;;12;Buff;;isogame.TsVariant;False;0;7;;Nothing;
+VulnerabilityType;False;;;;12;Debuff;;isogame.TsVariant;False;0;8;;Nothing;
+VulnerabilityType;False;;;;12;Stun;;isogame.TsVariant;False;0;9;;Nothing;
+VulnerabilityType;False;;;;12;Crit;;isogame.TsVariant;False;0;10;;Nothing;
+VulnerabilityType;False;;;;12;PermaDeath;;isogame.TsVariant;False;0;11;;Nothing;
+
+RunSpeedMethod;False;;;;6;Teleport;;isogame.TsVariant;False;0;0;;Nothing;
+RunSpeedMethod;False;;;;6;Sprint;;isogame.TsVariant;False;0;1;;Nothing;
+RunSpeedMethod;False;;;;6;Normal;;isogame.TsVariant;False;0;2;;Nothing;
+RunSpeedMethod;False;;;;6;Walk;;isogame.TsVariant;False;0;3;;Nothing;
+RunSpeedMethod;False;;;;6;Superspeed;;isogame.TsVariant;False;0;4;;Nothing;
+RunSpeedMethod;False;;;;6;Default;;isogame.TsVariant;False;0;5;;Nothing;
+
+TurnBasedOrFreeMove;False;;;;2;Turn-Based;;isogame.TsVariant;False;0;0;;Nothing;
+TurnBasedOrFreeMove;False;;;;2;Freemove;;isogame.TsVariant;False;0;1;;Nothing;
+
+DoesOrDoesNot;False;;;;2;does not;;isogame.TsVariant;False;0;0;;Nothing;
+DoesOrDoesNot;False;;;;2;does;;isogame.TsVariant;False;0;1;;Nothing;
+
+HasOrHasNot;False;;;;2;does not have;;isogame.TsVariant;False;0;0;;Nothing;
+HasOrHasNot;False;;;;2;has;;isogame.TsVariant;False;0;1;;Nothing;
+
+AllOrAny;False;;;;2;All;;isogame.TsVariant;False;0;0;;Nothing;
+AllOrAny;False;;;;2;Any;;isogame.TsVariant;False;0;1;;Nothing;
+
+GoalStatus;False;;;;4;Hidden;;isogame.TsVariant;False;0;0;;Nothing;
+GoalStatus;False;;;;4;Started;;isogame.TsVariant;False;0;1;;Nothing;
+GoalStatus;False;;;;4;Success;;isogame.TsVariant;False;0;2;;Nothing;
+GoalStatus;False;;;;4;Failure;;isogame.TsVariant;False;0;3;;Nothing;
+
+Race;False;;;;14;Human;;isogame.TsVariant;False;0;0;;Nothing;
+Race;False;;;;14;Dwarf;;isogame.TsVariant;False;0;1;;Nothing;
+Race;False;;;;14;Elf;;isogame.TsVariant;False;0;2;;Nothing;
+Race;False;;;;14;Ork;;isogame.TsVariant;False;0;3;;Nothing;
+Race;False;;;;14;Troll;;isogame.TsVariant;False;0;4;;Nothing;
+Race;False;;;;14;Dragon;;isogame.TsVariant;False;0;5;;Nothing;
+Race;False;;;;14;Ghoul;;isogame.TsVariant;False;0;6;;Nothing;
+Race;False;;;;14;Spirit;;isogame.TsVariant;False;0;7;;Nothing;
+Race;False;;;;14;Drone;;isogame.TsVariant;False;0;8;;Nothing;
+Race;False;;;;14;Object;;isogame.TsVariant;False;0;9;;Nothing;
+Race;False;;;;14;Creature;;isogame.TsVariant;False;0;10;;Nothing;
+Race;False;;;;14;Bug;;isogame.TsVariant;False;0;11;;Nothing;
+Race;False;;;;14;Free Spirit;;isogame.TsVariant;False;0;12;;Nothing;
+Race;False;;;;14;Free Drone;;isogame.TsVariant;False;0;13;;Nothing;
+
+Gender;False;;;;3;None;;isogame.TsVariant;False;0;0;;Nothing;
+Gender;False;;;;3;Male;;isogame.TsVariant;False;0;1;;Nothing;
+Gender;False;;;;3;Female;;isogame.TsVariant;False;0;2;;Nothing;
+
+ThreatType;False;;;;6;Enemy;;isogame.TsVariant;False;0;0;;Nothing;
+ThreatType;False;;;;6;Friend;;isogame.TsVariant;False;0;1;;Nothing;
+ThreatType;False;;;;6;Neutral;;isogame.TsVariant;False;0;2;;Nothing;
+ThreatType;False;;;;6;Visible Enemy;;isogame.TsVariant;False;0;3;;Nothing;
+ThreatType;False;;;;6;Visible Friend;;isogame.TsVariant;False;0;4;;Nothing;
+ThreatType;False;;;;6;Visible Neutral;;isogame.TsVariant;False;0;5;;Nothing;
+
+FacingDirection;False;;;;9;No Facing;;isogame.TsVariant;False;0;-1;;Nothing;
+FacingDirection;False;;;;9;North;;isogame.TsVariant;False;0;6;;Nothing;
+FacingDirection;False;;;;9;North East;;isogame.TsVariant;False;0;7;;Nothing;
+FacingDirection;False;;;;9;East;;isogame.TsVariant;False;0;0;;Nothing;
+FacingDirection;False;;;;9;South East;;isogame.TsVariant;False;0;1;;Nothing;
+FacingDirection;False;;;;9;South;;isogame.TsVariant;False;0;2;;Nothing;
+FacingDirection;False;;;;9;South West;;isogame.TsVariant;False;0;3;;Nothing;
+FacingDirection;False;;;;9;West;;isogame.TsVariant;False;0;4;;Nothing;
+FacingDirection;False;;;;9;North West;;isogame.TsVariant;False;0;5;;Nothing;
+
+AIAttitude;False;;;;3;Cautious;;isogame.TsVariant;False;0;1;;Nothing;
+AIAttitude;False;;;;3;Aggressive;;isogame.TsVariant;False;0;2;;Nothing;
+AIAttitude;False;;;;3;Boss;;isogame.TsVariant;False;0;3;;Nothing;
+
+Consciousness;False;;;;2;Unconscious;;isogame.TsVariant;False;0;0;;Nothing;
+Consciousness;False;;;;2;Conscious;;isogame.TsVariant;False;0;1;;Nothing;
+
+DeadOrAlive;False;;;;2;Dead;;isogame.TsVariant;False;0;0;;Nothing;
+DeadOrAlive;False;;;;2;Alive;;isogame.TsVariant;False;0;1;;Nothing;
+
+HPOrAP;False;;;;2;HP;;isogame.TsVariant;False;0;0;;Nothing;
+HPOrAP;False;;;;2;AP;;isogame.TsVariant;False;0;1;;Nothing;
+
+InOrOut;False;;;;2;In;;isogame.TsVariant;False;0;0;;Nothing;
+InOrOut;False;;;;2;Out;;isogame.TsVariant;False;0;1;;Nothing;
+
+PlayerOrAI;False;;;;2;Player;;isogame.TsVariant;False;0;0;;Nothing;
+PlayerOrAI;False;;;;2;AI;;isogame.TsVariant;False;0;1;;Nothing;
+
+SenseTagList;False;;;;0
+
+BaseOrCurrent;False;;;;2;base;;isogame.TsVariant;False;0;0;;Nothing;
+BaseOrCurrent;False;;;;2;current;;isogame.TsVariant;False;0;1;;Nothing;
+
+DoorState;False;;;;3;Locked;;isogame.TsVariant;False;0;0;;Nothing;
+DoorState;False;;;;3;Closed;;isogame.TsVariant;False;0;1;;Nothing;
+DoorState;False;;;;3;Open;;isogame.TsVariant;False;0;2;;Nothing;
+
+WaitOrNot;False;;;;2;don't wait;;isogame.TsVariant;False;0;0;;Nothing;
+WaitOrNot;False;;;;2;wait;;isogame.TsVariant;False;0;1;;Nothing;
+
+EnterOrExit;False;;;;2;Enter;;isogame.TsVariant;False;0;0;;Nothing;
+EnterOrExit;False;;;;2;Exit;;isogame.TsVariant;False;0;1;;Nothing;
+
+VectorComponent;False;;;;3;X;;isogame.TsVariant;False;0;0;;Nothing;
+VectorComponent;False;;;;3;Y;;isogame.TsVariant;False;0;1;;Nothing;
+VectorComponent;False;;;;3;Z;;isogame.TsVariant;False;0;2;;Nothing;
+
+ColorComponent;False;;;;4;R;;isogame.TsVariant;False;0;0;;Nothing;
+ColorComponent;False;;;;4;G;;isogame.TsVariant;False;1;0;;Nothing;
+ColorComponent;False;;;;4;B;;isogame.TsVariant;False;2;0;;Nothing;
+ColorComponent;False;;;;4;A;;isogame.TsVariant;False;3;0;;Nothing;
+
+WithOrWithout;False;;;;2;without;;isogame.TsVariant;False;0;0;;Nothing;
+WithOrWithout;False;;;;2;with;;isogame.TsVariant;False;0;1;;Nothing;
+
+TeamAlliance;False;;;;2;Neutral;;isogame.TsVariant;False;0;0;;Nothing;
+TeamAlliance;False;;;;2;Enemy;;isogame.TsVariant;False;0;1;;Nothing;
+
+TargetPreference;False;;;;8;Closest;;isogame.TsVariant;False;0;0;;Nothing;
+TargetPreference;False;;;;8;Optimum Range;;isogame.TsVariant;False;0;1;;Nothing;
+TargetPreference;False;;;;8;Most Dangerous;;isogame.TsVariant;False;0;2;;Nothing;
+TargetPreference;False;;;;8;Most Wounded;;isogame.TsVariant;False;0;3;;Nothing;
+TargetPreference;False;;;;8;Least Wounded;;isogame.TsVariant;False;0;4;;Nothing;
+TargetPreference;False;;;;8;Jacked Decker;;isogame.TsVariant;False;0;5;;Nothing;
+TargetPreference;False;;;;8;Mage;;isogame.TsVariant;False;0;6;;Nothing;
+TargetPreference;False;;;;8;Shaman;;isogame.TsVariant;False;0;7;;Nothing;
+
+PrimaryOrSecondary;False;;;;2;Primary;;isogame.TsVariant;False;0;0;;Nothing;
+PrimaryOrSecondary;False;;;;2;Secondary;;isogame.TsVariant;False;0;1;;Nothing;
+
+LANNodeTypes;False;;;;8;Generic;;isogame.TsVariant;False;0;0;;Nothing;
+LANNodeTypes;False;;;;8;Data Store;;isogame.TsVariant;False;0;1;;Nothing;
+LANNodeTypes;False;;;;8;Camera;;isogame.TsVariant;False;0;2;;Nothing;
+LANNodeTypes;False;;;;8;Door;;isogame.TsVariant;False;0;3;;Nothing;
+LANNodeTypes;False;;;;8;Turret;;isogame.TsVariant;False;0;4;;Nothing;
+LANNodeTypes;False;;;;8;Computer;;isogame.TsVariant;False;0;5;;Nothing;
+LANNodeTypes;False;;;;8;IC;;isogame.TsVariant;False;0;6;;Nothing;
+LANNodeTypes;False;;;;8;Black IC;;isogame.TsVariant;False;0;7;;Nothing;
+
+CoverAmount;False;;;;4;No Cover;;isogame.TsVariant;False;0;0;;Nothing;
+CoverAmount;False;;;;4;Light Cover;;isogame.TsVariant;False;0;1;;Nothing;
+CoverAmount;False;;;;4;Medium Cover;;isogame.TsVariant;False;0;2;;Nothing;
+CoverAmount;False;;;;4;Heavy Cover;;isogame.TsVariant;False;0;3;;Nothing;
+
+Sound;False;;;;0
+
+Music;False;;;;0
+
+SceneDimension;False;;;;0
+
+EnvironmentalEffects;False;;;;3;rain;;isogame.TsVariant;False;0;0;Weather_Rain;Nothing;
+EnvironmentalEffects;False;;;;3;fog;;isogame.TsVariant;False;0;0;Weather_Fog;Nothing;
+EnvironmentalEffects;False;;;;3;lowClouds;;isogame.TsVariant;False;0;0;Weather_LowClouds;Nothing;
+
+TextPopupStyle;False;;;;3;Speech Bubble;;isogame.TsVariant;False;0;0;;Nothing;
+TextPopupStyle;False;;;;3;GM Text;;isogame.TsVariant;False;0;1;;Nothing;
+TextPopupStyle;False;;;;3;Action Text;;isogame.TsVariant;False;0;2;;Nothing;
+
+BuffDebuffType;False;;;;3;Innate;;isogame.TsVariant;False;0;0;;Nothing;
+BuffDebuffType;False;;;;3;Buff;;isogame.TsVariant;False;0;1;;Nothing;
+BuffDebuffType;False;;;;3;Debuff;;isogame.TsVariant;False;0;2;;Nothing;
+
+SaveGameType;False;;;;2;Manual;;isogame.TsVariant;False;0;0;;Nothing;
+SaveGameType;False;;;;2;Auto;;isogame.TsVariant;False;0;1;;Nothing;
+
+MajorMinorSaveType;False;;;;2;Major;;isogame.TsVariant;False;0;0;;Nothing;
+MajorMinorSaveType;False;;;;2;Minor;;isogame.TsVariant;False;0;1;;Nothing;
+
+AnimationState;False;;;;3;idle alert;;isogame.TsVariant;False;0;0;idle_alert;Nothing;
+AnimationState;False;;;;3;idle calm;;isogame.TsVariant;False;0;0;idle_calm;Nothing;
+AnimationState;False;;;;3;idle cower;;isogame.TsVariant;False;0;0;idle_cower;Nothing;
+
+EntitlementType;False;;;;5;EarlyAccess;;isogame.TsVariant;False;0;0;;Nothing;
+EntitlementType;False;;;;5;DocWagon;;isogame.TsVariant;False;0;1;;Nothing;
+EntitlementType;False;;;;5;Special;;isogame.TsVariant;False;0;2;;Nothing;
+EntitlementType;False;;;;5;Level;;isogame.TsVariant;False;0;3;;Nothing;
+EntitlementType;False;;;;5;ID;;isogame.TsVariant;False;0;4;;Nothing;
+
+AnimationModifiers;False;;;;0
+

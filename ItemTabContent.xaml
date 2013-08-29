@@ -10,7 +10,7 @@
              d:DesignHeight="3456"
              d:DesignWidth="700"
              mc:Ignorable="d"
-             >
+             Loaded="ItemTabContent_Loaded">
     <UserControl.Resources>
         <Local2:WindowSRRItemEditor x:Key="CurrentAbilityDefObj" />
         <Local2:AnimActionConverter x:Key="AnimActionConverter" />

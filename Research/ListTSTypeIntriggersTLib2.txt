@@ -1,0 +1,49 @@
+TsType.name;TsType.hideInEditor;TType.baseTypeName;TType.group;TType.protobufPresetSource;TType.presets.Count;;Preset.name;Preset.hint;Preset.value;Preset.value.bool_value;Preset.value.float_value;Preset.value.int_value;Preset.value.string_value;Preset.value.call_value.ToString;Preset.value.call_value.functionName;Preset.value.variableref_value.ToString;Preset.value.variableref_value.name;Preset.value.variableref_value.parent_story.story_id;
+
+void;False;;;;0
+
+int;False;;;;0
+
+string;False;;;;0
+
+float;False;;;;0
+
+bool;False;;;;2;false;;isogame.TsVariant;False;0;0;;Nothing;
+bool;False;;;;2;true;;isogame.TsVariant;False;0;1;;Nothing;
+
+trigger;False;;;;0
+
+ActiveOrInactive;False;;;;2;inactive;;isogame.TsVariant;False;0;0;;Nothing;
+ActiveOrInactive;False;;;;2;active;;isogame.TsVariant;False;0;1;;Nothing;
+
+EnableOrDisable;False;;;;2;Enable;;isogame.TsVariant;False;0;0;;Nothing;
+EnableOrDisable;False;;;;2;Disable;;isogame.TsVariant;False;0;1;;Nothing;
+
+IsOrIsNot;False;;;;2;is not;;isogame.TsVariant;False;0;0;;Nothing;
+IsOrIsNot;False;;;;2;is;;isogame.TsVariant;False;0;1;;Nothing;
+
+VariableScope;False;;;;6;Local;;isogame.TsVariant;False;0;1;;Nothing;
+VariableScope;False;;;;6;Scene;;isogame.TsVariant;False;0;2;;Nothing;
+VariableScope;False;;;;6;Story Topic;;isogame.TsVariant;False;0;3;;Nothing;
+VariableScope;False;;;;6;Story;;isogame.TsVariant;False;0;4;;Nothing;
+VariableScope;False;;;;6;Actor;;isogame.TsVariant;False;0;5;;Nothing;
+VariableScope;False;;;;6;Player Account;;isogame.TsVariant;False;0;6;;Nothing;
+
+Arithmetic Ops;False;;Math;;5;+;Addition;isogame.TsVariant;False;0;0;;Nothing;
+Arithmetic Ops;False;;Math;;5;-;Subtraction;isogame.TsVariant;False;0;1;;Nothing;
+Arithmetic Ops;False;;Math;;5;*;Multiplication;isogame.TsVariant;False;0;2;;Nothing;
+Arithmetic Ops;False;;Math;;5;/;Division;isogame.TsVariant;False;0;3;;Nothing;
+Arithmetic Ops;False;;Math;;5;=;Set;isogame.TsVariant;False;0;4;;Nothing;
+
+Comparison Ops;False;;Math;;6;equal to;==;isogame.TsVariant;False;0;0;;Nothing;
+Comparison Ops;False;;Math;;6;not equal to;!=;isogame.TsVariant;False;0;1;;Nothing;
+Comparison Ops;False;;Math;;6;greater than;>;isogame.TsVariant;False;0;2;;Nothing;
+Comparison Ops;False;;Math;;6;greater than or equal to;>=;isogame.TsVariant;False;0;3;;Nothing;
+Comparison Ops;False;;Math;;6;less than;<;isogame.TsVariant;False;0;4;;Nothing;
+Comparison Ops;False;;Math;;6;less than or equal to;<=;isogame.TsVariant;False;0;5;;Nothing;
+
+Log Levels;False;int;Debug;;4;DEBUG;A debugging event;isogame.TsVariant;False;0;1;;Nothing;
+Log Levels;False;int;Debug;;4;INFO;Informational event;isogame.TsVariant;False;0;2;;Nothing;
+Log Levels;False;int;Debug;;4;WARN;Warning event (recoverable or ignoreable);isogame.TsVariant;False;0;3;;Nothing;
+Log Levels;False;int;Debug;;4;ERROR;Error condition has been detected;isogame.TsVariant;False;0;4;;Nothing;
+

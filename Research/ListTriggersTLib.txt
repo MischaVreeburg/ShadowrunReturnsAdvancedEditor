@@ -1,0 +1,1078 @@
+tlib.name = Triggers_Base
+
+---------------------------------------------
+
+TsFunction.name = Enable/Disable Trigger
+TsFunction.group = EffectFunction-Trigger
+TsFunction.grammarText = {{enables}} the Trigger {{triggerVal}}
+TsFunction.tooltipText = Sets whether a trigger is Enabled or Disabled.
+TsFunction.returnTypeName = 
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = enables
+	TsParam.typeName = EnableOrDisable
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = triggerVal
+	TsParam.typeName = trigger
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Trigger Execution Count
+TsFunction.group = 
+TsFunction.grammarText = {{triggerVal}} 's execution count
+TsFunction.tooltipText = Returns the number of times the specified trigger has fired.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = triggerVal
+	TsParam.typeName = trigger
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Log Debug Message
+TsFunction.group = 
+TsFunction.grammarText = Log {{message}} as {{level}} message
+TsFunction.tooltipText = Log a message to the console
+TsFunction.returnTypeName = 
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = level
+	TsParam.typeName = Log Levels
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = message
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Arithmetic (int)
+TsFunction.group = 
+TsFunction.grammarText = {{a}} {{op}} {{b}}
+TsFunction.tooltipText = Do some arithmetic with integers
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = a
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = op
+	TsParam.typeName = Arithmetic Ops
+	TsParam.hint = 
+}
+TsType.presets_2 = 
+{
+	TsParam.name = b
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Arithmetic (float)
+TsFunction.group = 
+TsFunction.grammarText = {{a}} {{op}} {{b}}
+TsFunction.tooltipText = Do some arithmetic with floats
+TsFunction.returnTypeName = float
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = a
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = op
+	TsParam.typeName = Arithmetic Ops
+	TsParam.hint = 
+}
+TsType.presets_2 = 
+{
+	TsParam.name = b
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Comparison (int)
+TsFunction.group = 
+TsFunction.grammarText = If {{a}} is {{op}} {{b}}
+TsFunction.tooltipText = Compare two integers.
+TsFunction.returnTypeName = bool
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = a
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = op
+	TsParam.typeName = Comparison Ops
+	TsParam.hint = 
+}
+TsType.presets_2 = 
+{
+	TsParam.name = b
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Comparison (float)
+TsFunction.group = 
+TsFunction.grammarText = If {{a}} is {{op}} {{b}}
+TsFunction.tooltipText = Compare two floats.
+TsFunction.returnTypeName = bool
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = a
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = op
+	TsParam.typeName = Comparison Ops
+	TsParam.hint = 
+}
+TsType.presets_2 = 
+{
+	TsParam.name = b
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Comparison (string)
+TsFunction.group = 
+TsFunction.grammarText = If {{a}} {{op}} {{b}}
+TsFunction.tooltipText = Compare two strings.
+TsFunction.returnTypeName = bool
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = a
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = op
+	TsParam.typeName = IsOrIsNot
+	TsParam.hint = 
+	TsParam.defaultValue = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+		TsVariant.variableref_value = 
+		{
+			TsCall.args_1 = 
+			{
+				TsVariant.bool_value = False
+				TsVariant.float_value = 0
+				TsVariant.int_value = 1
+				TsVariant.string_value = 
+			}
+		}
+	}
+}
+TsType.presets_2 = 
+{
+	TsParam.name = b
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Comparison (bool)
+TsFunction.group = 
+TsFunction.grammarText = If {{a}} {{op}} {{b}}
+TsFunction.tooltipText = Compares two bools.
+TsFunction.returnTypeName = bool
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = a
+	TsParam.typeName = bool
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = op
+	TsParam.typeName = IsOrIsNot
+	TsParam.hint = 
+	TsParam.defaultValue = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+		TsVariant.variableref_value = 
+		{
+			TsCall.args_1 = 
+			{
+				TsVariant.bool_value = False
+				TsVariant.float_value = 0
+				TsVariant.int_value = 1
+				TsVariant.string_value = 
+			}
+		}
+	}
+}
+TsType.presets_2 = 
+{
+	TsParam.name = b
+	TsParam.typeName = bool
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Invert Bool
+TsFunction.group = 
+TsFunction.grammarText = Not {{val}}
+TsFunction.tooltipText = Returns the inverted value of the specified bool.
+TsFunction.returnTypeName = bool
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = bool
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (string) to (int)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as int)
+TsFunction.tooltipText = Converts the specified string into an int.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (float) to (int)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as int)
+TsFunction.tooltipText = Converts the specified float into an int.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (string) to (float)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as float)
+TsFunction.tooltipText = Converts the specified string into a float.
+TsFunction.returnTypeName = float
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (int) to (float)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as float)
+TsFunction.tooltipText = Converts the specified int into a float.
+TsFunction.returnTypeName = float
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (int) to (string)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as string)
+TsFunction.tooltipText = Converts the specified int into a string.
+TsFunction.returnTypeName = string
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (float) to (string)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as string)
+TsFunction.tooltipText = Converts the specified float into a string.
+TsFunction.returnTypeName = string
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Convert (bool) to (string)
+TsFunction.group = 
+TsFunction.grammarText = {{val}} (as string)
+TsFunction.tooltipText = Converts the specified bool into a string.
+TsFunction.returnTypeName = string
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = bool
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Get User Entitlement (string)
+TsFunction.group = 
+TsFunction.grammarText = Get the User Entitlement {{entitlement}}
+TsFunction.tooltipText = Gets the value of the specified User Entitlement
+TsFunction.returnTypeName = string
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = entitlement
+	TsParam.typeName = EntitlementType
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Get UserPref (string)
+TsFunction.group = 
+TsFunction.grammarText = Get the UserPref {{pref}} use {{default}} if it does not exist.
+TsFunction.tooltipText = Gets the value of the specified User Preference
+TsFunction.returnTypeName = string
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = pref
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = default
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Set UserPref (string)
+TsFunction.group = 
+TsFunction.grammarText = Set the UserPref {{pref}} to {{value}} .
+TsFunction.tooltipText = Sets the value of the specified User Preference
+TsFunction.returnTypeName = void
+TsFunction.hideInEditor = True
+TsType.presets_0 = 
+{
+	TsParam.name = pref
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = value
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Absolute Value (int)
+TsFunction.group = 
+TsFunction.grammarText = (abs) {{val}}
+TsFunction.tooltipText = Gets the absolute value of the specified int.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Absolute Value (float)
+TsFunction.group = 
+TsFunction.grammarText = (abs) {{val}}
+TsFunction.tooltipText = Gets the absolute value of the specified float.
+TsFunction.returnTypeName = float
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Round (Math)
+TsFunction.group = 
+TsFunction.grammarText = (round) {{val}}
+TsFunction.tooltipText = Rounds the specified float value to the nearest whole number.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Floor (Math)
+TsFunction.group = 
+TsFunction.grammarText = (floor) {{val}}
+TsFunction.tooltipText = Gets the largest integer value less than or equal to the specified float.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Ceil (Math)
+TsFunction.group = 
+TsFunction.grammarText = (ceil) {{val}}
+TsFunction.tooltipText = Gets the smallest integer value greater than or equal to the specified float.
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Random (int)
+TsFunction.group = 
+TsFunction.grammarText = Random (int) between {{min}} and {{max}}
+TsFunction.tooltipText = Gets a random value between Min and Max (inclusive).
+TsFunction.returnTypeName = int
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = min
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = max
+	TsParam.typeName = int
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Random (float)
+TsFunction.group = 
+TsFunction.grammarText = Random (float) between {{min}} and {{max}}
+TsFunction.tooltipText = Gets a random value between Min and Max (inclusive).
+TsFunction.returnTypeName = float
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = min
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = max
+	TsParam.typeName = float
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsFunction.name = Append (string)
+TsFunction.group = 
+TsFunction.grammarText = {{base}} + {{val}}
+TsFunction.tooltipText = Appends one string to another.
+TsFunction.returnTypeName = string
+TsFunction.hideInEditor = False
+TsType.presets_0 = 
+{
+	TsParam.name = val
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+TsType.presets_1 = 
+{
+	TsParam.name = base
+	TsParam.typeName = string
+	TsParam.hint = 
+}
+
+
+---------------------------------------------
+
+TsType.name = void
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+
+
+---------------------------------------------
+
+TsType.name = int
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+
+
+---------------------------------------------
+
+TsType.name = string
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+
+
+---------------------------------------------
+
+TsType.name = float
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+
+
+---------------------------------------------
+
+TsType.name = bool
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = false
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = true
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = trigger
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+
+
+---------------------------------------------
+
+TsType.name = ActiveOrInactive
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = inactive
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = active
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = EnableOrDisable
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = Enable
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = Disable
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = IsOrIsNot
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = is not
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = is
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = VariableScope
+TsType.group = 
+TsType.baseTypeName = 
+TsType.group = 
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = Local
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = Scene
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 2
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_2 = 
+{
+	TsPresetValue.name = Story Topic
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 3
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_3 = 
+{
+	TsPresetValue.name = Story
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 4
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_4 = 
+{
+	TsPresetValue.name = Actor
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 5
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_5 = 
+{
+	TsPresetValue.name = Player Account
+	TsPresetValue.hint = 
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 6
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = Arithmetic Ops
+TsType.group = Math
+TsType.baseTypeName = 
+TsType.group = Math
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = +
+	TsPresetValue.hint = Addition
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = -
+	TsPresetValue.hint = Subtraction
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_2 = 
+{
+	TsPresetValue.name = *
+	TsPresetValue.hint = Multiplication
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 2
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_3 = 
+{
+	TsPresetValue.name = /
+	TsPresetValue.hint = Division
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 3
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_4 = 
+{
+	TsPresetValue.name = =
+	TsPresetValue.hint = Set
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 4
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = Comparison Ops
+TsType.group = Math
+TsType.baseTypeName = 
+TsType.group = Math
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = equal to
+	TsPresetValue.hint = ==
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 0
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = not equal to
+	TsPresetValue.hint = !=
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_2 = 
+{
+	TsPresetValue.name = greater than
+	TsPresetValue.hint = >
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 2
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_3 = 
+{
+	TsPresetValue.name = greater than or equal to
+	TsPresetValue.hint = >=
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 3
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_4 = 
+{
+	TsPresetValue.name = less than
+	TsPresetValue.hint = <
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 4
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_5 = 
+{
+	TsPresetValue.name = less than or equal to
+	TsPresetValue.hint = <=
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 5
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+
+TsType.name = Log Levels
+TsType.group = Debug
+TsType.baseTypeName = int
+TsType.group = Debug
+TsType.hideInEditor = False
+TsType.protobufPresetSource = 
+TsType.presets_0 = 
+{
+	TsPresetValue.name = DEBUG
+	TsPresetValue.hint = A debugging event
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 1
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_1 = 
+{
+	TsPresetValue.name = INFO
+	TsPresetValue.hint = Informational event
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 2
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_2 = 
+{
+	TsPresetValue.name = WARN
+	TsPresetValue.hint = Warning event (recoverable or ignoreable)
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 3
+		TsVariant.string_value = 
+	}
+}
+TsType.presets_3 = 
+{
+	TsPresetValue.name = ERROR
+	TsPresetValue.hint = Error condition has been detected
+	TsPresetValue.value = 
+	{
+		TsVariant.bool_value = False
+		TsVariant.float_value = 0
+		TsVariant.int_value = 4
+		TsVariant.string_value = 
+	}
+}
+
+
+---------------------------------------------
+

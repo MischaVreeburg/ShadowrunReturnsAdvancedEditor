@@ -12,6 +12,7 @@ Imports isogame
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CompilerServices
 Imports ProtoBuf
+Imports System.Reflection
 Imports Xceed.Wpf.Toolkit
 
 Public Class ContentPackMetaData
@@ -26,16 +27,16 @@ Public Class ContentPackMetaData
         Get
             Return _Location
         End Get
-        Set(value As String)
-            _Location = value
+        Set(Value As String)
+            _Location = Value
         End Set
     End Property
     Public Property Compressed As Boolean
         Get
             Return _Compressed
         End Get
-        Set(value As Boolean)
-            _Compressed = value
+        Set(Value As Boolean)
+            _Compressed = Value
         End Set
     End Property
 
@@ -160,7 +161,7 @@ Class WindowSRRItemEditor
 
     'is list of gameEffect functions => assembly Assembly-CSharp, namespace: none (isogame.actionresult)
     Private Shared _DamageFunctionList As New ObservableCollection(Of String)(New String() {"buffTarget", "buffTargetNotSelf", "disarmDamage", "ExecuteActivateCounterstrike", "ExecuteActivateDrone", "ExecuteAlarmSupression", "ExecuteDroneHoldPosition", "ExecuteDroneRetrieve", "ExecuteESPSpawn", "ExecuteObjectInteraction", "ExecuteRiggerDroneControl", "ExecuteRiggerDroneEject", "ExecuteRiggerDroneSpawn", "ExecuteRiggerDroneSwap", "ExecuteSlaveReturn", "ExecuteSpiritAirSpawn", "ExecuteSpiritBanish", "ExecuteSpiritControl", "ExecuteSpiritRefresh", "ExecuteSpiritSpawn", "ExecuteWeaponReload", "ExecutPlayerInteraction", "healTarget", "magicHealTarget", "matrixDamage", "suicideDamage", "weaponDamage", "weaponDamageNotSelf"})
-    
+
     'is list of gameEffect functions => assembly Assembly-CSharp, namespace: none (single)
     Private Shared _ToHistFunctionList As New ObservableCollection(Of String)(New String() {"actorCanConverse", "actorHasMagicBuffToHit", "actorIsMyAvailableDroneSlave", "actorIsMyDistantDroneSlave", "actorIsMyDistantSpiritSlave", "actorIsMyDroneSibling", "actorIsMySpiritSlave", "actorIsSelf", "actorMatrixAttackToHit", "actorMatrixESPAttackToHit", "actorSpellAttackToHit", "actorSpellNonSpiritAttackToHit", "actorWeaponAttackToHit", "autoHitActor", "autoHitActorInRange", "autoHitActorNotSelfInRange", "autoHitHealActorInRange", "autoHitHealDroneActorInRange", "autoHitLocationInRange", "autoHitMagicHealActorInRange", "autoHitUnconciousActorInRange", "autoHitUnoccupiedLocation", "autoMagicActorInRange", "autoMagicNonSpiritActorInRange", "autoTotemActorInRange", "locationCanActorInteract", "locationSpellToHit", "locationWeaponToHit"})
 
@@ -175,8 +176,8 @@ Class WindowSRRItemEditor
         Get
             Return _DurationFxScriptList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _DurationFxScriptList = value
+        Set(Value As ObservableCollection(Of String))
+            _DurationFxScriptList = Value
         End Set
     End Property
 
@@ -184,16 +185,16 @@ Class WindowSRRItemEditor
         Get
             Return _CharacterPrefabIdList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _CharacterPrefabIdList = value
+        Set(Value As ObservableCollection(Of String))
+            _CharacterPrefabIdList = Value
         End Set
     End Property
     Public Shared Property CharacterSheetIdList As ObservableCollection(Of String)
         Get
             Return _CharacterSheetIdList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _CharacterSheetIdList = value
+        Set(Value As ObservableCollection(Of String))
+            _CharacterSheetIdList = Value
         End Set
     End Property
 
@@ -201,8 +202,8 @@ Class WindowSRRItemEditor
         Get
             Return _DamageFunctionList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _DamageFunctionList = value
+        Set(Value As ObservableCollection(Of String))
+            _DamageFunctionList = Value
         End Set
     End Property
 
@@ -210,16 +211,16 @@ Class WindowSRRItemEditor
         Get
             Return _ToHistFunctionList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _ToHistFunctionList = value
+        Set(Value As ObservableCollection(Of String))
+            _ToHistFunctionList = Value
         End Set
     End Property
     Public Shared Property CharacterUINameList As ObservableCollection(Of String)
         Get
             Return _CharacterUINameList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _CharacterUINameList = value
+        Set(Value As ObservableCollection(Of String))
+            _CharacterUINameList = Value
         End Set
     End Property
 
@@ -227,8 +228,8 @@ Class WindowSRRItemEditor
         Get
             Return _CooldownCategoryList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _CooldownCategoryList = value
+        Set(Value As ObservableCollection(Of String))
+            _CooldownCategoryList = Value
         End Set
     End Property
 
@@ -236,8 +237,8 @@ Class WindowSRRItemEditor
         Get
             Return _DefDeckingWeaponList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _DefDeckingWeaponList = value
+        Set(Value As ObservableCollection(Of String))
+            _DefDeckingWeaponList = Value
         End Set
     End Property
 
@@ -245,16 +246,16 @@ Class WindowSRRItemEditor
         Get
             Return _EquipmentPrefabList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _EquipmentPrefabList = value
+        Set(Value As ObservableCollection(Of String))
+            _EquipmentPrefabList = Value
         End Set
     End Property
     Public Shared Property EquipmentSheetIdList As ObservableCollection(Of String)
         Get
             Return _EquipmentSheetIdList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _EquipmentSheetIdList = value
+        Set(Value As ObservableCollection(Of String))
+            _EquipmentSheetIdList = Value
         End Set
     End Property
 
@@ -262,8 +263,8 @@ Class WindowSRRItemEditor
         Get
             Return _FlagList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _FlagList = value
+        Set(Value As ObservableCollection(Of String))
+            _FlagList = Value
         End Set
     End Property
 
@@ -271,8 +272,8 @@ Class WindowSRRItemEditor
         Get
             Return _FxNamesList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _FxNamesList = value
+        Set(Value As ObservableCollection(Of String))
+            _FxNamesList = Value
         End Set
     End Property
 
@@ -281,8 +282,8 @@ Class WindowSRRItemEditor
         Get
             Return _FXScriptList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _FXScriptList = value
+        Set(Value As ObservableCollection(Of String))
+            _FXScriptList = Value
         End Set
     End Property
 
@@ -290,8 +291,8 @@ Class WindowSRRItemEditor
         Get
             Return _GearBundleList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _GearBundleList = value
+        Set(Value As ObservableCollection(Of String))
+            _GearBundleList = Value
         End Set
     End Property
 
@@ -299,8 +300,8 @@ Class WindowSRRItemEditor
         Get
             Return _GearPrefabList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _GearPrefabList = value
+        Set(Value As ObservableCollection(Of String))
+            _GearPrefabList = Value
         End Set
     End Property
 
@@ -308,8 +309,8 @@ Class WindowSRRItemEditor
         Get
             Return _IconList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _IconList = value
+        Set(Value As ObservableCollection(Of String))
+            _IconList = Value
         End Set
     End Property
 
@@ -318,8 +319,8 @@ Class WindowSRRItemEditor
         Get
             Return _ItemTraitList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _ItemTraitList = value
+        Set(Value As ObservableCollection(Of String))
+            _ItemTraitList = Value
         End Set
     End Property
 
@@ -327,8 +328,8 @@ Class WindowSRRItemEditor
         Get
             Return _OutfitTextureList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _OutfitTextureList = value
+        Set(Value As ObservableCollection(Of String))
+            _OutfitTextureList = Value
         End Set
     End Property
 
@@ -336,8 +337,8 @@ Class WindowSRRItemEditor
         Get
             Return _PreReqList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _PreReqList = value
+        Set(Value As ObservableCollection(Of String))
+            _PreReqList = Value
         End Set
     End Property
 
@@ -345,8 +346,8 @@ Class WindowSRRItemEditor
         Get
             Return _SortingGroupList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _SortingGroupList = value
+        Set(Value As ObservableCollection(Of String))
+            _SortingGroupList = Value
         End Set
     End Property
 
@@ -354,8 +355,8 @@ Class WindowSRRItemEditor
         Get
             Return _StackingCategoriesList
         End Get
-        Set(value As ObservableCollection(Of String))
-            _StackingCategoriesList = value
+        Set(Value As ObservableCollection(Of String))
+            _StackingCategoriesList = Value
         End Set
     End Property
 
@@ -434,6 +435,30 @@ Class WindowSRRItemEditor
             My.Settings.Save()
         End If
 
+        '  MsgBox("Im executed")
+
+
+        'using reflection to get list of fuctions
+
+        Dim Asm As Assembly = Assembly.LoadFile(Path.Combine(My.Settings.SRRLocation, "Shadowrun_Data\Managed\Assembly-CSharp.dll"))
+
+
+        Dim methodInfos As MethodInfo() = Asm.GetType("GameEffect").GetMethods(BindingFlags.[Public] Or BindingFlags.[Static])
+
+        DamageFunctionList.Clear()
+        ToHistFunctionList.Clear()
+
+        For Each methodInfo As MethodInfo In methodInfos.OrderBy(Function(x As MethodInfo) x.Name)
+
+            If methodInfo.ReturnType.FullName = "isogame.ActionResult" AndAlso methodInfo.IsPublic Then
+                DamageFunctionList.Add(String.Copy(methodInfo.Name))
+            ElseIf methodInfo.ReturnType.FullName = "System.Single" AndAlso methodInfo.IsPublic Then
+
+                ToHistFunctionList.Add(String.Copy(methodInfo.Name))
+            End If
+
+        Next
+     
     End Sub
 
     Public Sub New()
@@ -1004,7 +1029,7 @@ Class WindowSRRItemEditor
 #End Region
 
 #Region "TabControl"
-    Private Sub tabControl_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles tabControl.PreviewMouseLeftButtonDown
+    Private Sub tabControl_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles TabControl.PreviewMouseLeftButtonDown
         If e.Source.GetType() Is GetType(TabItem) Then
             If CType(e.Source, TabItem).Header.ToString() <> CurrentTabname Then
                 Select Case CType(CType(CType(e.Source, TabItem).Parent, TabControl).SelectedItem, TabItem).Header.ToString()
@@ -1023,7 +1048,7 @@ Class WindowSRRItemEditor
         End If
 
     End Sub
-    Private Sub tabControl_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles tabControl.SelectionChanged
+    Private Sub tabControl_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles TabControl.SelectionChanged
         If (e.Source.GetType Is GetType(TabControl)) Then
             CurrentTabname = CType(CType(e.Source, TabControl).SelectedItem, TabItem).Header.ToString()
             Select Case CType(CType(e.Source, TabControl).SelectedItem, TabItem).Header.ToString()
