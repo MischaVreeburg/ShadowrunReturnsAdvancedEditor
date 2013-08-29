@@ -435,11 +435,7 @@ Class WindowSRRItemEditor
             My.Settings.Save()
         End If
 
-        '  MsgBox("Im executed")
-
-
         'using reflection to get list of fuctions
-
         Dim Asm As Assembly = Assembly.LoadFile(Path.Combine(My.Settings.SRRLocation, "Shadowrun_Data\Managed\Assembly-CSharp.dll"))
 
 
@@ -526,6 +522,9 @@ Class WindowSRRItemEditor
         If ContentPackFile = "" Then
             Return
         End If
+
+        Dim Compressed As Boolean = False
+
         If Reload Then
             ListExpandedTreeViewItems.Clear()
             For Each TVI As TreeViewItem In TreeViewContentPack.Items
@@ -543,27 +542,34 @@ Class WindowSRRItemEditor
                     Next
                 End If
             Next
-
             ContentPackList.Clear()
             ContentPackLocationsList.Clear()
             TreeViewContentPack.Items.Clear()
             DataManifestList.Clear()
         End If
-        Dim TempContentPackProjectDef As isogame.ProjectDef
-        Using Fs As FileStream = File.Open(ContentPackFile, FileMode.Open)
-            TempContentPackProjectDef = Serializer.Deserialize(Of isogame.ProjectDef)(Fs)
-            If ContentPackList.FirstOrDefault(Function(C As isogame.ProjectDef) C.project_id = TempContentPackProjectDef.project_id) Is Nothing Then
-                ContentPackList.Add(TempContentPackProjectDef)
-                ContentPackLocationsList.Add(New ContentPackMetaData With {.Location = ContentPackFile, .Compressed = False})
-            Else
-                TempContentPackProjectDef = ContentPackList.FirstOrDefault(Function(C As isogame.ProjectDef) C.project_id = TempContentPackProjectDef.project_id)
-            End If
-            If Not AddingDependancies Then
-                CurrentContentPack = TempContentPackProjectDef
-                labelCurrentContentPack.Content = "Active Content Pack: " + TempContentPackProjectDef.project_name
-            End If
 
-        End Using
+        Dim TempContentPackProjectDef As New isogame.ProjectDef
+
+        TempContentPackProjectDef = LoadFile(Of isogame.ProjectDef)(ContentPackFile, TempContentPackProjectDef)
+        'If Path.GetExtension(ContentPackFile).ToLower() = "bytes" Then
+        '    Using Fs As FileStream = File.Open(ContentPackFile, FileMode.Open)
+        '        TempContentPackProjectDef = Serializer.Deserialize(Of isogame.ProjectDef)(Fs)
+        '    End Using
+        'ElseIf Path.GetExtension(ContentPackFile).ToLower() = "txt" Then
+        '    TempContentPackProjectDef = CType(parseProtoBufTextFormat(File.ReadAllLines(ContentPackFile), TempContentPackProjectDef), ProjectDef)
+        'End If
+        
+        If ContentPackList.FirstOrDefault(Function(C As isogame.ProjectDef) C.project_id = TempContentPackProjectDef.project_id) Is Nothing Then
+            ContentPackList.Add(TempContentPackProjectDef)
+            ContentPackLocationsList.Add(New ContentPackMetaData With {.Location = ContentPackFile, .Compressed = Compressed})
+        Else
+            TempContentPackProjectDef = ContentPackList.FirstOrDefault(Function(C As isogame.ProjectDef) C.project_id = TempContentPackProjectDef.project_id)
+        End If
+        If Not AddingDependancies Then
+            CurrentContentPack = TempContentPackProjectDef
+            labelCurrentContentPack.Content = "Active Content Pack: " + TempContentPackProjectDef.project_name
+        End If
+
         AddDependancies(TempContentPackProjectDef)
         If Reload Then
             FillContentPackTreeView()
@@ -809,7 +815,7 @@ Class WindowSRRItemEditor
             If Not CType(SelectedTVI.Tag, String).Contains("ContentPackIndex") AndAlso Not CType(SelectedTVI.Tag, String).Contains("Folder") AndAlso Not CType(SelectedTVI.Tag, String).Contains("NewObject") Then
                 ManualSelection = True
                 CType(CType(tabControl.FindName("ItemsTab"), TabItem).Content, ItemTabContent).StoreChangesItems()
-                LoadBytesfiles(CType(SelectedTVI.Tag, String))
+                LoadFiles(CType(SelectedTVI.Tag, String))
                 ManualSelection = False
             End If
         End If
@@ -862,31 +868,56 @@ Class WindowSRRItemEditor
             Dim CurrentContenPackIndex As Integer = ContentPackList.IndexOf(ContentPack)
             Dim TVIContentPack As TreeViewItem = CreateTreeViewFolderItem(ContentPack.project_name, "ContentPackIndex=" + CurrentContenPackIndex.ToString)
             TreeViewContentPack.Items.Add(TVIContentPack)
-            LoadBytesfiles(Path.Combine(Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data\manifest.mf.bytes"))
-            Dim TVIArtDir As TreeViewItem = CreateTreeViewFolderItem("Art")
-            Dim TVIDataDir As TreeViewItem = CreateTreeViewFolderItem("Data")
-            TVIContentPack.Items.Add(TVIArtDir)
-            TVIContentPack.Items.Add(TVIDataDir)
-            For Each ManEntry As isogame.Manifest.Entry In DataManifestList(CurrentContenPackIndex).entries
-                If Not ManEntry.name.Contains("readme") AndAlso Not ManEntry.name.Contains("epilogue") AndAlso Not ManEntry.name.Contains("ai_perception") AndAlso Not ManEntry.name.Contains("credentials") AndAlso Not ManEntry.name.Contains("hiring") Then
-                    LoadBytesfiles(IO.Path.Combine(IO.Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data", ManEntry.name), True)
-                    If TreeviewItemFinder(TVIDataDir, CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0))) IsNot Nothing Then
-                        Dim ItemnameArr() As String = ManEntry.name.Split(CChar("/"))(1).Split(CChar("."))
-                        Dim Itemname As String = String.Join("", ItemnameArr, 0, ItemnameArr.Count - 2)
-                        TreeviewItemFinder(TVIDataDir, CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0))).Items.Add(
-                            CreateTreeViewItem(Itemname,
-                                               IO.Path.Combine(IO.Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location),
-                                                            "data", ManEntry.name
-                                                            )))
-                    Else
-                        TVIDataDir.Items.Add(CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0)))
-                        Dim ItemnameArr() As String = ManEntry.name.Split(CChar("/"))(1).Split(CChar("."))
-                        Dim Itemname As String = String.Join("", ItemnameArr, 0, ItemnameArr.Count - 2)
-                        TreeviewItemFinder(TVIDataDir, CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0))).Items.Add(CreateTreeViewItem(Itemname, IO.Path.Combine(IO.Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data", ManEntry.name)))
+            Dim ManifestFound As Boolean
 
+            If File.Exists(Path.Combine(Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data\manifest.mf.bytes")) Then
+                ManifestFound = True
+                LoadFiles(Path.Combine(Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data\manifest.mf.bytes"))
+
+            ElseIf File.Exists(Path.Combine(Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data\manifest.mf.txt")) Then
+                ManifestFound = True
+                LoadFiles(Path.Combine(Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data\manifest.mf.txt"))
+            Else
+                DataManifestList.Add(New Manifest)
+            End If
+
+            If ManifestFound Then
+                Dim TVIArtDir As TreeViewItem = CreateTreeViewFolderItem("Art")
+                Dim TVIDataDir As TreeViewItem = CreateTreeViewFolderItem("Data")
+                TVIContentPack.Items.Add(TVIArtDir)
+                TVIContentPack.Items.Add(TVIDataDir)
+                For Each ManEntry As isogame.Manifest.Entry In DataManifestList(CurrentContenPackIndex).entries
+                    If Not ManEntry.name.Contains("readme") AndAlso Not ManEntry.name.Contains("epilogue") AndAlso Not ManEntry.name.Contains("ai_perception") AndAlso Not ManEntry.name.Contains("credentials") AndAlso Not ManEntry.name.Contains("hiring") Then
+
+                        LoadFiles(IO.Path.Combine(IO.Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location), "data", ManEntry.name), True)
+
+                        If TreeviewItemFinder(TVIDataDir, CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0))) IsNot Nothing Then
+
+                            Dim ItemNameArr() As String = ManEntry.name.Split(CChar("/"))(1).Split(CChar("."))
+                            Dim Itemname As String = String.Join("", ItemNameArr, 0, ItemNameArr.Count - 2)
+                            TreeviewItemFinder(TVIDataDir, CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0))).Items.Add(
+                                CreateTreeViewItem(Itemname,
+                                                   IO.Path.Combine(IO.Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location),
+                                                                "data", ManEntry.name
+                                                                )))
+                        Else
+                            TVIDataDir.Items.Add(CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0)))
+                            Dim ItemNameArr() As String = ManEntry.name.Split(CChar("/"))(1).Split(CChar("."))
+                            Dim Itemname As String = String.Join("", ItemNameArr, 0, ItemNameArr.Count - 2)
+                            TreeviewItemFinder(TVIDataDir, CreateTreeViewFolderItem(ManEntry.name.Split(CChar("/"))(0))).Items.Add(
+                                CreateTreeViewItem(Itemname,
+                                                   IO.Path.Combine(IO.Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location),
+                                                                   "data", ManEntry.name
+                                                                   )))
+                        End If
                     End If
-                End If
-            Next
+                Next
+            Else
+                'load all items in contentpack dir
+                LoadAllFilesInDir(Path.Combine(Path.GetDirectoryName(ContentPackLocationsList(CurrentContenPackIndex).Location)), TVIContentPack)
+
+            End If
+
         Next
         CurrentItemDefObject = New ItemDef()
         CurrentAbilityDefObject = New AbilityDef()
@@ -894,6 +925,33 @@ Class WindowSRRItemEditor
         CurrentModeIdString = ""
 
     End Sub
+    
+    Public Sub LoadAllFilesInDir(ByVal DirName As String, TVI As TreeViewItem)
+        Dim DirList As String()
+        Dim FileList As String()
+
+        FileList = Directory.GetFiles(DirName)
+        DirList = Directory.GetDirectories(DirName)
+
+        For Each File As String In FileList
+            If Not File.ToLower().Contains("cpack") AndAlso Not File.ToLower().Contains("preview") AndAlso Not File.ToLower().Contains("readme") AndAlso Not File.ToLower().Contains("epilogue") AndAlso Not File.ToLower().Contains("ai_perception") AndAlso Not File.ToLower().Contains("credentials") AndAlso Not File.ToLower().Contains("hiring") Then
+                LoadFiles(File, True)
+                TVI.Items.Add(CreateTreeViewItem(Path.GetFileNameWithoutExtension(File), File))
+            End If
+        Next
+
+        For Each Dir As String In DirList
+            If TreeviewItemFinder(TVI, CreateTreeViewFolderItem(Dir.Split(CChar("\"))(Dir.Split(CChar("\")).Length - 1))) IsNot Nothing Then
+                LoadAllFilesInDir(Dir, TreeviewItemFinder(TVI, CreateTreeViewFolderItem(Dir.Split(CChar("\"))(Dir.Split(CChar("\")).Length - 1))))
+            Else
+                TVI.Items.Add(CreateTreeViewFolderItem(Dir.Split(CChar("\"))(Dir.Split(CChar("\")).Length - 1)))
+                LoadAllFilesInDir(Dir, TreeviewItemFinder(TVI, CreateTreeViewFolderItem(Dir.Split(CChar("\"))(Dir.Split(CChar("\")).Length - 1))))
+            End If
+        Next
+
+    End Sub
+
+
 
     Public Shared Function TreeviewItemFinder(ByRef TreeViewItemToSearch As TreeViewItem, ByRef TreeviewItemToFind As TreeViewItem) As TreeViewItem
         Dim result As TreeViewItem = Nothing
@@ -1029,7 +1087,7 @@ Class WindowSRRItemEditor
 #End Region
 
 #Region "TabControl"
-    Private Sub tabControl_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles TabControl.PreviewMouseLeftButtonDown
+    Private Sub tabControl_PreviewMouseDown(sender As Object, e As MouseButtonEventArgs) Handles tabControl.PreviewMouseLeftButtonDown
         If e.Source.GetType() Is GetType(TabItem) Then
             If CType(e.Source, TabItem).Header.ToString() <> CurrentTabname Then
                 Select Case CType(CType(CType(e.Source, TabItem).Parent, TabControl).SelectedItem, TabItem).Header.ToString()
@@ -1048,7 +1106,7 @@ Class WindowSRRItemEditor
         End If
 
     End Sub
-    Private Sub tabControl_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles TabControl.SelectionChanged
+    Private Sub tabControl_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles tabControl.SelectionChanged
         If (e.Source.GetType Is GetType(TabControl)) Then
             CurrentTabname = CType(CType(e.Source, TabControl).SelectedItem, TabItem).Header.ToString()
             Select Case CType(CType(e.Source, TabControl).SelectedItem, TabItem).Header.ToString()
@@ -1078,7 +1136,7 @@ Class WindowSRRItemEditor
         '   loadSave()
         'printTlib()
         'copydotDFiles()
-        startParse()
+        ' startParse()
     End Sub
 
     Private Sub MenuItemSetLocationOfSRR_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSetLocationOfSRR.Click
@@ -1091,13 +1149,15 @@ Class WindowSRRItemEditor
     End Sub
 
     Private Sub MenuItemOpenContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemOpenContentPack.Click
-        Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file")
-        If Path.GetFileName(ContentPackLocation) = "project.cpack.bytes" Then
+        ' Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file")
+        Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file", "cpack.txt", "cpack.txt file")
+
+        If Path.GetFileName(ContentPackLocation) = "project.cpack.bytes" OrElse Path.GetFileName(ContentPackLocation) = "project.cpack.txt" Then
             TreeViewContentPack.Items.Clear()
             ContentPackList.Clear()
             ContentPackLocationsList.Clear()
             DataManifestList.Clear()
-            LoadBytesfiles(ContentPackLocation)
+            LoadFiles(ContentPackLocation)
         End If
     End Sub
 #End Region
@@ -1109,146 +1169,147 @@ Class WindowSRRItemEditor
         If Not File.Exists(FileName) Then
             Return
         End If
-        Using Fs As FileStream = File.Open(FileName, FileMode.Open)
+        WindowSRRItemEditor.CurrentItemDefObject = New ItemDef
+        WindowSRRItemEditor.CurrentItemDefObject = LoadFile(Of isogame.ItemDef)(FileName, WindowSRRItemEditor.CurrentItemDefObject)
+        'Using Fs As FileStream = File.Open(FileName, FileMode.Open)
+        '    WindowSRRItemEditor.CurrentItemDefObject = Serializer.Deserialize(Of isogame.ItemDef)(Fs)
+        'End Using
 
-            WindowSRRItemEditor.CurrentItemDefObject = Serializer.Deserialize(Of isogame.ItemDef)(Fs)
+        If ItemList.FirstOrDefault(Function(C As isogame.ItemDef) C.id = CurrentItemDefObject.id) Is Nothing Then
+            ItemList.Add(CurrentItemDefObject)
+        Else
+            CurrentItemDefObject = ItemList.FirstOrDefault(Function(C As isogame.ItemDef) C.id = CurrentItemDefObject.id)
+        End If
+        If Not ManualSelection Then
 
-            If ItemList.FirstOrDefault(Function(C As isogame.ItemDef) C.id = CurrentItemDefObject.id) Is Nothing Then
-                ItemList.Add(CurrentItemDefObject)
-            Else
-                CurrentItemDefObject = ItemList.FirstOrDefault(Function(C As isogame.ItemDef) C.id = CurrentItemDefObject.id)
+            If CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
+                If Not StackingCategoriesList.Contains(CurrentItemDefObject.activationStatusEffects.stackingCategory) AndAlso CurrentItemDefObject.activationStatusEffects.stackingCategory <> "" Then
+                    StackingCategoriesList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.stackingCategory))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListstackingCategory.txt"), CurrentItemDefObject.activationStatusEffects.stackingCategory + vbCrLf)
+                End If
+                If Not FXScriptList.Contains(CurrentItemDefObject.activationStatusEffects.fxScript) AndAlso CurrentItemDefObject.activationStatusEffects.fxScript <> "" Then
+                    FXScriptList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.fxScript))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListfxScript.txt"), CurrentItemDefObject.activationStatusEffects.fxScript + vbCrLf)
+                End If
+                If Not DurationFxScriptList.Contains(CurrentItemDefObject.activationStatusEffects.durationFxScript) AndAlso CurrentItemDefObject.activationStatusEffects.durationFxScript <> "" Then
+                    DurationFxScriptList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.durationFxScript))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListdurationFxScript.txt"), CurrentItemDefObject.activationStatusEffects.durationFxScript + vbCrLf)
+                End If
+                If CurrentItemDefObject.activationStatusEffects.uirep IsNot Nothing Then
+                    If Not IconList.Contains(CurrentItemDefObject.activationStatusEffects.uirep.icon) AndAlso CurrentItemDefObject.activationStatusEffects.uirep.icon <> "" Then
+                        IconList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.uirep.icon))
+                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listicon.txt"), CurrentItemDefObject.activationStatusEffects.uirep.icon + vbCrLf)
+                    End If
+                End If
             End If
-            If Not ManualSelection Then
-
-                If CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
-                    If Not StackingCategoriesList.Contains(CurrentItemDefObject.activationStatusEffects.stackingCategory) AndAlso CurrentItemDefObject.activationStatusEffects.stackingCategory <> "" Then
-                        StackingCategoriesList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.stackingCategory))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListstackingCategory.txt"), CurrentItemDefObject.activationStatusEffects.stackingCategory + vbCrLf)
-                    End If
-                    If Not FXScriptList.Contains(CurrentItemDefObject.activationStatusEffects.fxScript) AndAlso CurrentItemDefObject.activationStatusEffects.fxScript <> "" Then
-                        FXScriptList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.fxScript))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListfxScript.txt"), CurrentItemDefObject.activationStatusEffects.fxScript + vbCrLf)
-                    End If
-                    If Not DurationFxScriptList.Contains(CurrentItemDefObject.activationStatusEffects.durationFxScript) AndAlso CurrentItemDefObject.activationStatusEffects.durationFxScript <> "" Then
-                        DurationFxScriptList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.durationFxScript))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListdurationFxScript.txt"), CurrentItemDefObject.activationStatusEffects.durationFxScript + vbCrLf)
-                    End If
-                    If CurrentItemDefObject.activationStatusEffects.uirep IsNot Nothing Then
-                        If Not IconList.Contains(CurrentItemDefObject.activationStatusEffects.uirep.icon) AndAlso CurrentItemDefObject.activationStatusEffects.uirep.icon <> "" Then
-                            IconList.Add(String.Copy(CurrentItemDefObject.activationStatusEffects.uirep.icon))
-                            File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listicon.txt"), CurrentItemDefObject.activationStatusEffects.uirep.icon + vbCrLf)
-                        End If
+            If CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
+                If Not StackingCategoriesList.Contains(CurrentItemDefObject.equippedStatusEffects.stackingCategory) AndAlso CurrentItemDefObject.equippedStatusEffects.stackingCategory <> "" Then
+                    StackingCategoriesList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.stackingCategory))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListstackingCategory.txt"), CurrentItemDefObject.equippedStatusEffects.stackingCategory + vbCrLf)
+                End If
+                If Not FXScriptList.Contains(CurrentItemDefObject.equippedStatusEffects.fxScript) AndAlso CurrentItemDefObject.equippedStatusEffects.fxScript <> "" Then
+                    FXScriptList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.fxScript))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListfxScript.txt"), CurrentItemDefObject.equippedStatusEffects.fxScript + vbCrLf)
+                End If
+                If Not DurationFxScriptList.Contains(CurrentItemDefObject.equippedStatusEffects.durationFxScript) AndAlso CurrentItemDefObject.equippedStatusEffects.durationFxScript <> "" Then
+                    DurationFxScriptList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.durationFxScript))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListdurationFxScript.txt"), CurrentItemDefObject.equippedStatusEffects.durationFxScript + vbCrLf)
+                End If
+                If CurrentItemDefObject.equippedStatusEffects.uirep IsNot Nothing Then
+                    If Not IconList.Contains(CurrentItemDefObject.equippedStatusEffects.uirep.icon) AndAlso CurrentItemDefObject.equippedStatusEffects.uirep.icon <> "" Then
+                        IconList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.uirep.icon))
+                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listicon.txt"), CurrentItemDefObject.equippedStatusEffects.uirep.icon + vbCrLf)
                     End If
                 End If
-                If CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
-                    If Not StackingCategoriesList.Contains(CurrentItemDefObject.equippedStatusEffects.stackingCategory) AndAlso CurrentItemDefObject.equippedStatusEffects.stackingCategory <> "" Then
-                        StackingCategoriesList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.stackingCategory))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListstackingCategory.txt"), CurrentItemDefObject.equippedStatusEffects.stackingCategory + vbCrLf)
-                    End If
-                    If Not FXScriptList.Contains(CurrentItemDefObject.equippedStatusEffects.fxScript) AndAlso CurrentItemDefObject.equippedStatusEffects.fxScript <> "" Then
-                        FXScriptList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.fxScript))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListfxScript.txt"), CurrentItemDefObject.equippedStatusEffects.fxScript + vbCrLf)
-                    End If
-                    If Not DurationFxScriptList.Contains(CurrentItemDefObject.equippedStatusEffects.durationFxScript) AndAlso CurrentItemDefObject.equippedStatusEffects.durationFxScript <> "" Then
-                        DurationFxScriptList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.durationFxScript))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListdurationFxScript.txt"), CurrentItemDefObject.equippedStatusEffects.durationFxScript + vbCrLf)
-                    End If
-                    If CurrentItemDefObject.equippedStatusEffects.uirep IsNot Nothing Then
-                        If Not IconList.Contains(CurrentItemDefObject.equippedStatusEffects.uirep.icon) AndAlso CurrentItemDefObject.equippedStatusEffects.uirep.icon <> "" Then
-                            IconList.Add(String.Copy(CurrentItemDefObject.equippedStatusEffects.uirep.icon))
-                            File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listicon.txt"), CurrentItemDefObject.equippedStatusEffects.uirep.icon + vbCrLf)
-                        End If
-                    End If
-                End If
-
-                If CurrentItemDefObject.uirep IsNot Nothing Then
-                    If Not IconList.Contains(CurrentItemDefObject.uirep.icon) AndAlso CurrentItemDefObject.uirep.icon <> "" Then
-                        IconList.Add(String.Copy(CurrentItemDefObject.uirep.icon))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listicon.txt"), CurrentItemDefObject.uirep.icon + vbCrLf)
-                    End If
-                End If
-                If CurrentItemDefObject.fxrep IsNot Nothing Then
-                    If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.actionFxName) AndAlso CurrentItemDefObject.fxrep.actionFxName <> "" Then
-                        FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.actionFxName))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.actionFxName + vbCrLf)
-                    End If
-                    If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.hitReactionFxName) AndAlso CurrentItemDefObject.fxrep.hitReactionFxName <> "" Then
-                        FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.hitReactionFxName))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.hitReactionFxName + vbCrLf)
-                    End If
-                    If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.missReactionFxName) AndAlso CurrentItemDefObject.fxrep.missReactionFxName <> "" Then
-                        FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.missReactionFxName))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.missReactionFxName + vbCrLf)
-                    End If
-                    If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.postActionFxName) AndAlso CurrentItemDefObject.fxrep.postActionFxName <> "" Then
-                        FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.postActionFxName))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.postActionFxName + vbCrLf)
-                    End If
-                    If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.preActionFxName) AndAlso CurrentItemDefObject.fxrep.preActionFxName <> "" Then
-                        FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.preActionFxName))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.preActionFxName + vbCrLf)
-                    End If
-                End If
-                If Not GearBundleList.Contains(CurrentItemDefObject.gear_bundle) AndAlso CurrentItemDefObject.gear_bundle <> "" Then
-                    GearBundleList.Add(String.Copy(CurrentItemDefObject.gear_bundle))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listgear_bundle.txt"), CurrentItemDefObject.gear_bundle + vbCrLf)
-                End If
-                If Not OutfitTextureList.Contains(CurrentItemDefObject.outfit_texture) AndAlso CurrentItemDefObject.outfit_texture <> "" Then
-                    OutfitTextureList.Add(String.Copy(CurrentItemDefObject.outfit_texture))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listoutfit_texture.txt"), CurrentItemDefObject.outfit_texture + vbCrLf)
-                End If
-                If Not GearPrefabList.Contains(CurrentItemDefObject.gear_prefab) AndAlso CurrentItemDefObject.gear_prefab <> "" Then
-                    GearPrefabList.Add(String.Copy(CurrentItemDefObject.gear_prefab))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listgear_prefab.txt"), CurrentItemDefObject.gear_prefab + vbCrLf)
-                End If
-                If Not SortingGroupList.Contains(CurrentItemDefObject.sorting_group) AndAlso CurrentItemDefObject.sorting_group <> "" Then
-                    SortingGroupList.Add(String.Copy(CurrentItemDefObject.sorting_group))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listsorting_group.txt"), CurrentItemDefObject.sorting_group + vbCrLf)
-                End If
-                If Not CooldownCategoryList.Contains(CurrentItemDefObject.cooldown_category) AndAlso CurrentItemDefObject.cooldown_category <> "" Then
-                    CooldownCategoryList.Add(String.Copy(CurrentItemDefObject.cooldown_category))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListCooldowncategory.txt"), CurrentItemDefObject.cooldown_category + vbCrLf)
-                End If
-                If Not CharacterPrefabIdList.Contains(CurrentItemDefObject.character_prefab_id) AndAlso CurrentItemDefObject.character_prefab_id <> "" Then
-                    CharacterPrefabIdList.Add(String.Copy(CurrentItemDefObject.character_prefab_id))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listcharacter_prefab_id.txt"), CurrentItemDefObject.character_prefab_id + vbCrLf)
-                End If
-
-                If Not CharacterSheetIdList.Contains(CurrentItemDefObject.character_sheet_id) AndAlso CurrentItemDefObject.character_sheet_id <> "" Then
-                    CharacterSheetIdList.Add(String.Copy(CurrentItemDefObject.character_sheet_id))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListCharacterSheetId.txt"), CurrentItemDefObject.character_sheet_id + vbCrLf)
-                End If
-
-                If Not EquipmentPrefabList.Contains(CurrentItemDefObject.equipPrefabName) AndAlso CurrentItemDefObject.equipPrefabName <> "" Then
-                    EquipmentPrefabList.Add(String.Copy(CurrentItemDefObject.equipPrefabName))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListequipPrefabName.txt"), CurrentItemDefObject.equipPrefabName + vbCrLf)
-                End If
-                If Not CharacterUINameList.Contains(CurrentItemDefObject.character_ui_name) AndAlso CurrentItemDefObject.character_ui_name <> "" Then
-                    CharacterUINameList.Add(String.Copy(CurrentItemDefObject.character_ui_name))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listcharacter_ui_name.txt"), CurrentItemDefObject.character_ui_name + vbCrLf)
-                End If
-
-                If Not DefDeckingWeaponList.Contains(CurrentItemDefObject.decking_default_weapon) AndAlso CurrentItemDefObject.decking_default_weapon <> "" Then
-                    DefDeckingWeaponList.Add(String.Copy(CurrentItemDefObject.decking_default_weapon))
-                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listdecking_default_weapon.txt"), CurrentItemDefObject.decking_default_weapon + vbCrLf)
-                End If
-
-                For Each PrereqString As String In CurrentItemDefObject.prereqStrings
-                    If Not PreReqList.Contains(PrereqString) AndAlso PrereqString <> "" Then
-                        PreReqList.Add(String.Copy(PrereqString))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListprereqStrings.txt"), PrereqString + vbCrLf)
-                    End If
-                Next
-
-                For Each EquipmentSheetId As String In CurrentItemDefObject.equipment_sheet_id
-                    If Not EquipmentSheetIdList.Contains(EquipmentSheetId) AndAlso EquipmentSheetId <> "" Then
-                        EquipmentSheetIdList.Add(String.Copy(EquipmentSheetId))
-                        File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListEquipmentSheetIds.txt"), EquipmentSheetId + vbCrLf)
-                    End If
-                Next
             End If
-        End Using
 
+            If CurrentItemDefObject.uirep IsNot Nothing Then
+                If Not IconList.Contains(CurrentItemDefObject.uirep.icon) AndAlso CurrentItemDefObject.uirep.icon <> "" Then
+                    IconList.Add(String.Copy(CurrentItemDefObject.uirep.icon))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listicon.txt"), CurrentItemDefObject.uirep.icon + vbCrLf)
+                End If
+            End If
+            If CurrentItemDefObject.fxrep IsNot Nothing Then
+                If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.actionFxName) AndAlso CurrentItemDefObject.fxrep.actionFxName <> "" Then
+                    FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.actionFxName))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.actionFxName + vbCrLf)
+                End If
+                If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.hitReactionFxName) AndAlso CurrentItemDefObject.fxrep.hitReactionFxName <> "" Then
+                    FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.hitReactionFxName))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.hitReactionFxName + vbCrLf)
+                End If
+                If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.missReactionFxName) AndAlso CurrentItemDefObject.fxrep.missReactionFxName <> "" Then
+                    FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.missReactionFxName))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.missReactionFxName + vbCrLf)
+                End If
+                If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.postActionFxName) AndAlso CurrentItemDefObject.fxrep.postActionFxName <> "" Then
+                    FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.postActionFxName))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.postActionFxName + vbCrLf)
+                End If
+                If Not FxNamesList.Contains(CurrentItemDefObject.fxrep.preActionFxName) AndAlso CurrentItemDefObject.fxrep.preActionFxName <> "" Then
+                    FxNamesList.Add(String.Copy(CurrentItemDefObject.fxrep.preActionFxName))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListFxName.txt"), CurrentItemDefObject.fxrep.preActionFxName + vbCrLf)
+                End If
+            End If
+            If Not GearBundleList.Contains(CurrentItemDefObject.gear_bundle) AndAlso CurrentItemDefObject.gear_bundle <> "" Then
+                GearBundleList.Add(String.Copy(CurrentItemDefObject.gear_bundle))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listgear_bundle.txt"), CurrentItemDefObject.gear_bundle + vbCrLf)
+            End If
+            If Not OutfitTextureList.Contains(CurrentItemDefObject.outfit_texture) AndAlso CurrentItemDefObject.outfit_texture <> "" Then
+                OutfitTextureList.Add(String.Copy(CurrentItemDefObject.outfit_texture))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listoutfit_texture.txt"), CurrentItemDefObject.outfit_texture + vbCrLf)
+            End If
+            If Not GearPrefabList.Contains(CurrentItemDefObject.gear_prefab) AndAlso CurrentItemDefObject.gear_prefab <> "" Then
+                GearPrefabList.Add(String.Copy(CurrentItemDefObject.gear_prefab))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listgear_prefab.txt"), CurrentItemDefObject.gear_prefab + vbCrLf)
+            End If
+            If Not SortingGroupList.Contains(CurrentItemDefObject.sorting_group) AndAlso CurrentItemDefObject.sorting_group <> "" Then
+                SortingGroupList.Add(String.Copy(CurrentItemDefObject.sorting_group))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listsorting_group.txt"), CurrentItemDefObject.sorting_group + vbCrLf)
+            End If
+            If Not CooldownCategoryList.Contains(CurrentItemDefObject.cooldown_category) AndAlso CurrentItemDefObject.cooldown_category <> "" Then
+                CooldownCategoryList.Add(String.Copy(CurrentItemDefObject.cooldown_category))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListCooldowncategory.txt"), CurrentItemDefObject.cooldown_category + vbCrLf)
+            End If
+            If Not CharacterPrefabIdList.Contains(CurrentItemDefObject.character_prefab_id) AndAlso CurrentItemDefObject.character_prefab_id <> "" Then
+                CharacterPrefabIdList.Add(String.Copy(CurrentItemDefObject.character_prefab_id))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listcharacter_prefab_id.txt"), CurrentItemDefObject.character_prefab_id + vbCrLf)
+            End If
+
+            If Not CharacterSheetIdList.Contains(CurrentItemDefObject.character_sheet_id) AndAlso CurrentItemDefObject.character_sheet_id <> "" Then
+                CharacterSheetIdList.Add(String.Copy(CurrentItemDefObject.character_sheet_id))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListCharacterSheetId.txt"), CurrentItemDefObject.character_sheet_id + vbCrLf)
+            End If
+
+            If Not EquipmentPrefabList.Contains(CurrentItemDefObject.equipPrefabName) AndAlso CurrentItemDefObject.equipPrefabName <> "" Then
+                EquipmentPrefabList.Add(String.Copy(CurrentItemDefObject.equipPrefabName))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListequipPrefabName.txt"), CurrentItemDefObject.equipPrefabName + vbCrLf)
+            End If
+            If Not CharacterUINameList.Contains(CurrentItemDefObject.character_ui_name) AndAlso CurrentItemDefObject.character_ui_name <> "" Then
+                CharacterUINameList.Add(String.Copy(CurrentItemDefObject.character_ui_name))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listcharacter_ui_name.txt"), CurrentItemDefObject.character_ui_name + vbCrLf)
+            End If
+
+            If Not DefDeckingWeaponList.Contains(CurrentItemDefObject.decking_default_weapon) AndAlso CurrentItemDefObject.decking_default_weapon <> "" Then
+                DefDeckingWeaponList.Add(String.Copy(CurrentItemDefObject.decking_default_weapon))
+                File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Listdecking_default_weapon.txt"), CurrentItemDefObject.decking_default_weapon + vbCrLf)
+            End If
+
+            For Each PrereqString As String In CurrentItemDefObject.prereqStrings
+                If Not PreReqList.Contains(PrereqString) AndAlso PrereqString <> "" Then
+                    PreReqList.Add(String.Copy(PrereqString))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListprereqStrings.txt"), PrereqString + vbCrLf)
+                End If
+            Next
+
+            For Each EquipmentSheetId As String In CurrentItemDefObject.equipment_sheet_id
+                If Not EquipmentSheetIdList.Contains(EquipmentSheetId) AndAlso EquipmentSheetId <> "" Then
+                    EquipmentSheetIdList.Add(String.Copy(EquipmentSheetId))
+                    File.AppendAllText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "ListEquipmentSheetIds.txt"), EquipmentSheetId + vbCrLf)
+                End If
+            Next
+        End If
+ 
     End Sub
 
 #End Region
@@ -1258,23 +1319,25 @@ Class WindowSRRItemEditor
         If Not File.Exists(FileName) Then
             Return
         End If
-        Using Fs As FileStream = File.Open(FileName, FileMode.Open)
 
-            WindowSRRItemEditor.CurrentAbilityDefObject = Serializer.Deserialize(Of isogame.AbilityDef)(Fs)
+        WindowSRRItemEditor.CurrentAbilityDefObject = New AbilityDef
+        WindowSRRItemEditor.CurrentAbilityDefObject = LoadFile(Of isogame.AbilityDef)(FileName, WindowSRRItemEditor.CurrentAbilityDefObject)
+        'Using Fs As FileStream = File.Open(FileName, FileMode.Open)
+        '    WindowSRRItemEditor.CurrentAbilityDefObject = Serializer.Deserialize(Of isogame.AbilityDef)(Fs)
+        'End Using
 
-            If AbilityList.FirstOrDefault(Function(C As isogame.AbilityDef) C.id = CurrentAbilityDefObject.id) Is Nothing Then
-                AbilityList.Add(CurrentAbilityDefObject)
-            Else
-                CurrentAbilityDefObject = AbilityList.FirstOrDefault(Function(C As isogame.AbilityDef) C.id = CurrentAbilityDefObject.id)
+        If AbilityList.FirstOrDefault(Function(C As isogame.AbilityDef) C.id = CurrentAbilityDefObject.id) Is Nothing Then
+            AbilityList.Add(CurrentAbilityDefObject)
+        Else
+            CurrentAbilityDefObject = AbilityList.FirstOrDefault(Function(C As isogame.AbilityDef) C.id = CurrentAbilityDefObject.id)
+        End If
+        Try
+            If TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, AbilityTabContent) IsNot Nothing Then
+                TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, AbilityTabContent).DataContext = CurrentAbilityDefObject
             End If
-            Try
-                If TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, AbilityTabContent) IsNot Nothing Then
-                    TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, AbilityTabContent).DataContext = CurrentAbilityDefObject
-                End If
-            Catch
-            End Try
+        Catch
+        End Try
 
-        End Using
         If Not ManualSelection Then
 
             If CurrentAbilityDefObject.activationStatusEffects IsNot Nothing Then
@@ -1356,27 +1419,28 @@ Class WindowSRRItemEditor
         If Not File.Exists(FileName) Then
             Return
         End If
-        Using Fs As FileStream = File.Open(FileName, FileMode.Open)
+        WindowSRRItemEditor.CurrentModeDefObject = New ModeDef
+        WindowSRRItemEditor.CurrentModeDefObject = LoadFile(Of isogame.ModeDef)(FileName, WindowSRRItemEditor.CurrentModeDefObject)
+        'Using Fs As FileStream = File.Open(FileName, FileMode.Open)
+        '    WindowSRRItemEditor.CurrentModeDefObject = Serializer.Deserialize(Of isogame.ModeDef)(Fs)
+        'End Using
 
-            WindowSRRItemEditor.CurrentModeDefObject = Serializer.Deserialize(Of isogame.ModeDef)(Fs)
+        If ModesNamesList.IndexOf(Microsoft.VisualBasic.Left(Path.GetFileNameWithoutExtension(FileName), Path.GetFileNameWithoutExtension(FileName).Length - 5)) = -1 Then
+            ModesList.Add(CurrentModeDefObject)
+            ModesNamesList.Add(Microsoft.VisualBasic.Left(Path.GetFileNameWithoutExtension(FileName), Path.GetFileNameWithoutExtension(FileName).Length - 5))
 
-            If ModesNamesList.IndexOf(Microsoft.VisualBasic.Left(Path.GetFileNameWithoutExtension(FileName), Path.GetFileNameWithoutExtension(FileName).Length - 5)) = -1 Then
-                ModesList.Add(CurrentModeDefObject)
-                ModesNamesList.Add(Microsoft.VisualBasic.Left(Path.GetFileNameWithoutExtension(FileName), Path.GetFileNameWithoutExtension(FileName).Length - 5))
+        Else
+            CurrentModeDefObject = ModesList.Item(ModesNamesList.IndexOf(Microsoft.VisualBasic.Left(Path.GetFileNameWithoutExtension(FileName), Path.GetFileNameWithoutExtension(FileName).Length - 5)))
+        End If
+        Try
+            If TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, ModeTabContent) IsNot Nothing Then
+                TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, ModeTabContent).DataContext = CurrentModeDefObject
 
-            Else
-                CurrentModeDefObject = ModesList.Item(ModesNamesList.IndexOf(Microsoft.VisualBasic.Left(Path.GetFileNameWithoutExtension(FileName), Path.GetFileNameWithoutExtension(FileName).Length - 5)))
             End If
-            Try
-                If TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, ModeTabContent) IsNot Nothing Then
-                    TryCast(TryCast(tabControl.SelectedItem, TabItem).Content, ModeTabContent).DataContext = CurrentModeDefObject
+        Catch
+        End Try
 
-                End If
-            Catch
-            End Try
-
-        End Using
-        If Not ManualSelection Then
+      If Not ManualSelection Then
 
             If CurrentModeDefObject.uirep IsNot Nothing Then
                 If Not IconList.Contains(CurrentModeDefObject.uirep.icon) AndAlso CurrentModeDefObject.uirep.icon <> "" Then
@@ -1401,7 +1465,7 @@ Class WindowSRRItemEditor
 
 #Region "Load Functions"
 
-    Public Sub LoadBytesfiles(ByVal FileName As String, Optional Silent As Boolean = False)
+    Public Sub LoadFiles(ByVal FileName As String, Optional Silent As Boolean = False)
         Dim FileNameArray() As String
         FileNameArray = FileName.Split(CChar("."))
 
@@ -1453,68 +1517,18 @@ Class WindowSRRItemEditor
 
     End Sub
 
-    Public Sub LoadTxtFiles(ByVal FileName As String, Optional Silent As Boolean = False)
-        Dim FileNameArray() As String
-        FileNameArray = FileName.Split(CChar("."))
-
-        Dim TypeSelector As String = FileNameArray(FileNameArray.GetUpperBound(0) - 1)
-        Select Case TypeSelector
-            Case "ab"
-
-                '        ObjectType = CType(parseProtoBufTextFormat(ProtoBufText, ObjectType), AbilityDef)
-
-            Case "ch_inst"
-            Case "convo"
-            Case "item"
-                LoadItem(FileName)
-                If Not Silent Then
-                    'FillItemTab()
-                    If CType(tabControl.SelectedItem, TabItem).Header.ToString() = "Items" Then
-                        'CType(CType(tabControl.SelectedItem, TabItem).Content, ItemsTabContent).FillTab()
-                    End If
-                End If
-            Case "srm"
-            Case "pflib"
-            Case "srm"
-            Case "mode"
-                LoadMode(FileName)
-            Case "pb"
-            Case "srt"
-            Case "pb"
-            Case "story"
-            Case "topic"
-            Case "mf"
-                LoadManifest(FileName)
-            Case "cpack"
-                LoadContentPack(FileName)
-                AddingDependancies = False
-                FillContentPackTreeView()
-            Case "ambi"
-            Case "ch_sht"
-            Case "hiring"
-            Case "pl"
-            Case "ai"
-            Case "alib"
-            Case "blib"
-            Case "credentials"
-            Case "mlib"
-            Case "slib"
-            Case "pflib"
-            Case "tlib"
-            Case "submix"
-            Case Else
-        End Select
-
-    End Sub
-
     Private Sub LoadManifest(ByVal ManifestFile As String)
-        Using Fs As FileStream = File.Open(ManifestFile, FileMode.Open)
-            Dim TempManifest As isogame.Manifest
-            TempManifest = Serializer.Deserialize(Of isogame.Manifest)(Fs)
-            If Not DataManifestList.Contains(TempManifest) Then
-                DataManifestList.Add(TempManifest)
-            End If
-        End Using
+        Dim TempManifest As New isogame.Manifest
+
+        TempManifest = LoadFile(Of isogame.Manifest)(ManifestFile, TempManifest)
+
+        'Using Fs As FileStream = File.Open(ManifestFile, FileMode.Open)
+        '    TempManifest = Serializer.Deserialize(Of isogame.Manifest)(Fs)
+        'End Using
+
+        If Not DataManifestList.Contains(TempManifest) Then
+            DataManifestList.Add(TempManifest)
+        End If
     End Sub
 
 #End Region
@@ -1599,6 +1613,7 @@ Class WindowSRRItemEditor
         End If
         Return FilePath
     End Function
+
 
 #End Region
 

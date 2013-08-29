@@ -1,0 +1,5 @@
+﻿Shadowrun Returns Advanced Editor changelog
+
+Version 0.1.0.
+- Added: Filling lists for damageFunction and toHitfunction with options from assembly-csharp
+- Added: Loading of uncooked (txt files) content pack, such as the Street Samurai Catalog (http://shadowrunreturns.nexusmods.com/mods/18/?)

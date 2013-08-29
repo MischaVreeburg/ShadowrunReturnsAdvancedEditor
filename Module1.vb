@@ -1,16 +1,16 @@
-﻿Imports System.IO
-Imports Microsoft.VisualBasic.CompilerServices
+﻿Imports System.Collections
+Imports System.IO
+Imports System.Reflection
+Imports System.Web.Script.Serialization
 Imports isogame
+Imports Microsoft.VisualBasic.CompilerServices
+Imports Microsoft.VisualBasic.FileIO
 Imports ProtoBuf
 Imports UnityEngine
-Imports System.Collections
-Imports System.Web.Script.Serialization
-Imports System.Reflection
-Imports Microsoft.VisualBasic.FileIO
 
 Public Module Module1
 
-    Public Function FileSelector(ByVal Extension As String, ByVal MsgString As String) As String
+    Public Function FileSelector(ByVal Extension As String, ByVal MsgString As String, Optional ByVal Extension2 As String = "", Optional ByVal MsgString2 As String = "") As String
         Try
             Dim FileName As String = ""
             Dim FD As System.Windows.Forms.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
@@ -18,7 +18,12 @@ Public Module Module1
             FD.Title = "Open File Dialog"
             FD.InitialDirectory = My.Settings.LastUsedLocation
 
-            FD.Filter = MsgString & " (*." & Extension & ")|*." & Extension & "|All files (*.*)|*.*"
+            If Extension2 = "" Then
+                FD.Filter = MsgString & " (*." & Extension & ")|*." & Extension & "|All files (*.*)|*.*"
+            Else
+                FD.Filter = MsgString & " (*." & Extension & ")|*." & Extension & "|" & MsgString2 & " (*." & Extension2 & ")|*." & Extension2 & "|All files (*.*)|*.*"
+            End If
+
             FD.FilterIndex = 2
             FD.RestoreDirectory = True
 
@@ -307,48 +312,116 @@ Public Module Module1
         Dim PropInfoList As New List(Of PropertyInfo)
         Dim ProtoBufText2 As New List(Of String)
         Dim child As New Object
+        Dim child2 As New Object
+        Dim child3 As New Object
+        Dim child4 As New Object
+        
+        For i As Integer = 0 To ProtoBufText.Count - 1
+            Dim line As String = ProtoBufText(i)
 
-        For Each line As String In ProtoBufText
             'if a line contains ":"  then we're dealing with a property
             'write value to property.
             Dim newValue As Object
-            If line.Contains(":") Then
+            If line.Contains(":") AndAlso Not line.Contains("{") AndAlso Not line.Contains("}") Then
                 'setting type info
                 Dim PropInfo As PropertyInfo
 
                 If PropInfoList.Count = 0 Then
-                    PropInfo = Objecttype.GetType().GetProperty(line.Split(CChar(":"))(0).Replace(vbTab, ""))
+
+                    PropInfo = Objecttype.GetType().GetProperty(line.Split(CChar(":"))(0).Replace(vbTab, "").Trim())
 
                     If PropInfo.PropertyType = GetType(String) Then
-                        newValue = line.Split(CChar(":"))(1).Substring(2).Replace(ControlChars.Quote, "").Trim()
+                        newValue = line.Split(CChar(":"))(1).Replace(vbTab, "").Replace(ControlChars.Quote, "").Trim()
 
                     ElseIf PropInfo.PropertyType.IsEnum Then
-                        newValue = [Enum].Parse(PropInfo.PropertyType, line.Split(CChar(":"))(1).Substring(1))
+                        newValue = [Enum].Parse(PropInfo.PropertyType, line.Split(CChar(":"))(1).Replace(vbTab, "").Replace(ControlChars.Quote, "").Trim())
                     Else
-                        newValue = line.Split(CChar(":"))(1).Substring(1).Trim()
+                        newValue = line.Split(CChar(":"))(1).Replace(vbTab, "").Replace(ControlChars.Quote, "").Trim()
                     End If
-                    PropInfo.SetValue(Objecttype, newValue)
+
+                    If PropInfo.PropertyType.FullName = "System.Boolean" Then
+                        PropInfo.SetValue(Objecttype, CBool(newValue))
+                    ElseIf PropInfo.PropertyType.FullName = "System.Int32" Then
+                        PropInfo.SetValue(Objecttype, CInt(newValue))
+                    ElseIf PropInfo.PropertyType.Namespace = "System.Collections.Generic" Then
+                        child3 = Objecttype.GetType().GetProperty(line.Split(CChar(":"))(0).Replace(vbTab, "").Trim()).GetValue(Objecttype, Nothing)
+                        If child3 Is Nothing Then
+                            child3 = Activator.CreateInstance(Objecttype.GetType().GetProperty(line.Split(CChar(":"))(0).Replace(vbTab, "").Trim()).PropertyType)
+
+                            Objecttype.GetType().GetProperty(line.Split(CChar(":"))(0).Replace(vbTab, "").Trim()).SetValue(Objecttype, child3, Nothing)
+                        End If
+
+                        Dim add As MethodInfo = PropInfo.PropertyType.GetMethod("Add")
+                        ' child4 = Activator.CreateInstance(PropInfo.PropertyType.GetGenericArguments()(0))
+                        Dim par(0) As Object
+
+                        If PropInfo.PropertyType.GetGenericArguments()(0).FullName = "System.String" Then
+                            par(0) = CStr(newValue).Replace(ControlChars.Quote, "").Trim()
+                        ElseIf PropInfo.PropertyType.GetGenericArguments()(0).FullName = "isogame.StatusCondition" Then
+                            par(0) = [Enum].Parse(PropInfo.PropertyType.GetGenericArguments()(0), line.Split(CChar(":"))(1).Replace(ControlChars.Quote, "").Trim())
+                        End If
+
+                        add.Invoke(child3, par)
+
+                    ElseIf PropInfo.PropertyType.FullName = "System.Single" Then
+                        PropInfo.SetValue(Objecttype, CSng(newValue))
+                    Else
+                        PropInfo.SetValue(Objecttype, newValue)
+                    End If
                 Else
                     ProtoBufText2.Add(line)
                 End If
 
             ElseIf line.Contains("{") Then
                 'Starting subobject
-                PropInfoList.Add(Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(vbTab, "").Trim()))
-                child = Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(vbTab, "").Trim()).GetValue(Objecttype, Nothing)
-                If child Is Nothing Then
-                    child = Activator.CreateInstance(Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(vbTab, "").Trim()).PropertyType)
+                If PropInfoList.Count = 0 Then
+                    PropInfoList.Add(Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(":", "").Replace(vbTab, "").Trim()))
+                    child = Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(":", "").Replace(vbTab, "").Trim()).GetValue(Objecttype, Nothing)
+                    If child Is Nothing Then
+                        child = Activator.CreateInstance(Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(":", "").Replace(vbTab, "").Trim()).PropertyType)
 
-                    Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(vbTab, "").Trim()).SetValue(Objecttype, child, Nothing)
+                        Objecttype.GetType().GetProperty(line.Split(CChar("{"))(0).Replace(":", "").Replace(vbTab, "").Trim()).SetValue(Objecttype, child, Nothing)
+                    End If
+                ElseIf PropInfoList.Count > 0 Then
+                    ' start recursive
+                    Dim ProtoBufText3 As String()
+                    Dim numOfLines As Integer = Array.IndexOf(ProtoBufText, (ProtoBufText.First(Function(x As String) x.Contains("}"))))
+                    ProtoBufText3 = ProtoBufText.Skip(i).Take(numOfLines - i + 1).ToArray()
+                    child = parseProtoBufTextFormat(ProtoBufText3, child)
+                    For j As Integer = i To numOfLines Step 1
+
+                        ProtoBufText(j) = ""
+
+                        i = j
+                    Next
+
                 End If
 
             ElseIf line.Contains("}") Then
-                If child IsNot Nothing Then
+
+                If PropInfoList(PropInfoList.Count - 1).PropertyType.Namespace = "System.Collections.Generic" Then
+                    Dim add As MethodInfo = PropInfoList(PropInfoList.Count - 1).PropertyType.GetMethod("Add")
+                    child2 = Activator.CreateInstance(PropInfoList(PropInfoList.Count - 1).PropertyType.GetGenericArguments()(0))
+                    If child2 IsNot Nothing Then
+                        child2 = parseProtoBufTextFormat(ProtoBufText2.ToArray(), child2)
+                    End If
+                    Dim par(0) As Object
+                    par(0) = child2
+                    add.Invoke(child, par)
+                    'Objecttype.GetType().GetField("_" & PropInfoList(PropInfoList.Count - 1).Name).SetValue(Objecttype, child)
+                    'PropInfoList(PropInfoList.Count - 1).GetGetMethod().GetMethodBody()
+                    'PropInfoList(PropInfoList.Count - 1).SetValue(Objecttype, child)
+                    PropInfoList.RemoveAt(PropInfoList.Count - 1)
+
+                ElseIf child IsNot Nothing Then
+
                     PropInfoList(PropInfoList.Count - 1).SetValue(Objecttype, parseProtoBufTextFormat(ProtoBufText2.ToArray(), child))
                     PropInfoList.RemoveAt(PropInfoList.Count - 1)
+                    ProtoBufText2.Clear()
                 End If
             End If
-
+            'consume string:
+            ProtoBufText(i) = ""
         Next
 
         Return Objecttype
@@ -475,5 +548,18 @@ Public Module Module1
         End If
         Return result
     End Function
+    
+    Public Function LoadFile(Of T)(ByVal filename As String, ByVal Obj As T) As T
+        If Path.GetExtension(filename).ToLower() = ".bytes" Then
+            Using Fs As FileStream = File.Open(filename, FileMode.Open)
+                Obj = Serializer.Deserialize(Of T)(Fs)
+            End Using
+        ElseIf Path.GetExtension(filename).ToLower() = ".txt" Then
+            Obj = CType(parseProtoBufTextFormat(File.ReadAllLines(filename), Obj), T)
+        End If
+        Return Obj
+    End Function
+
+
 
 End Module
