@@ -10,7 +10,7 @@
              d:DesignHeight="3456"
              d:DesignWidth="700"
              mc:Ignorable="d"
-             Loaded="ItemTabContent_Loaded">
+             >
     <UserControl.Resources>
         <Local2:WindowSRRItemEditor x:Key="CurrentAbilityDefObj" />
         <Local2:AnimActionConverter x:Key="AnimActionConverter" />
@@ -313,7 +313,7 @@
                    Grid.Row="7"
                    Grid.Column="0"
                    Margin="0,0,29.1,1"
-                   Content="Core Skill"
+                   Content="Core Specialization"
                    d:LayoutOverrides="Margin"
                    />
             <ComboBox x:Name="comboBoxCoreSpecialization"
@@ -963,7 +963,7 @@
                    Grid.Column="1"
                    Width="120"
                    Height="26"
-                   Margin="0,28,0,0"
+                   Margin="0,26,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Content="Action FxName"
@@ -974,7 +974,7 @@
                       Grid.Column="1"
                       Width="323.49"
                       Height="26"
-                      Margin="121,28,0,0"
+                      Margin="121,26,0,0"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Top"
                       IsEditable="True"

@@ -12,7 +12,7 @@
         d:DesignHeight="1750"
         d:DesignWidth="700"
         mc:Ignorable="d"
-        Loaded="WindowSRRItemEditor_Loaded">
+        >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -81,6 +81,8 @@
               >
             <MenuItem x:Name="MenuItemFile" Header="File">
                 <MenuItem x:Name="MenuItemOpenContentPack" Header="Open Content Pack" />
+				<MenuItem x:Name="MenuItemOpenDirectory" Header="Open Directory" ToolTip="Load all files found within this and all subdirectories" IsEnabled="False" />
+				<MenuItem x:Name="MenuItemLoadSingleFile" Header="Load Single File" ToolTip="Loads a single file" IsEnabled="False" />
                 <MenuItem x:Name="MenuItemNewObject" Header="New object">
                     <MenuItem x:Name="MenuItemNewAbility" Header="New Ability" />
                     <MenuItem x:Name="MenuItemNewItem" Header="New Item" />
@@ -94,12 +96,12 @@
             </MenuItem>
 
             <MenuItem x:Name="MenuItemContentPackOptions" Header="Content Pack Options">
-                <MenuItem x:Name="MenuItemAddDependancy" Header="Add dependancy" />
-                <MenuItem x:Name="MenuItemRemoveDependancy" Header="Remove dependancy" />
-                <MenuItem x:Name="MenuItemSaveContentPack" Header="Save Content Pack" />
-                <MenuItem x:Name="MenuItemSaveAsCookedContentPack" Header="Save As ContentPack" />
-                <MenuItem x:Name="MenuItemSaveAsUnCookedContentPack" Header="Save As Uncooked ContentPack" />
-                <MenuItem x:Name="MenuItemSetAsActiveContentPack" Header="Set Active ContentPack" />
+                <MenuItem x:Name="MenuItemAddDependancy" Header="Add dependancy" IsEnabled="False"  />
+                <MenuItem x:Name="MenuItemRemoveDependancy" Header="Remove dependancy" IsEnabled="False" />
+                <MenuItem x:Name="MenuItemSaveContentPack" Header="Save Content Pack" IsEnabled="False" />
+                <MenuItem x:Name="MenuItemSaveAsCookedContentPack" Header="Save As ContentPack" IsEnabled="False" />
+                <MenuItem x:Name="MenuItemSaveAsUnCookedContentPack" Header="Save As Uncooked ContentPack" IsEnabled="False" />
+                <MenuItem x:Name="MenuItemSetAsActiveContentPack" Header="Set Active ContentPack" IsEnabled="False" />
             </MenuItem>
 
             <MenuItem x:Name="MenuItemSettings" Header="Settings">

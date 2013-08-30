@@ -23,12 +23,45 @@ Public Class ItemTabContent
     Public ManualSelection As Boolean = False
     Public AddingDependancies As Boolean = False
     Public CurrentTabname As String
-
+    Private ManualEdit As Boolean
     Public TreeViewContentPack As TreeView
+
+    Private _CurrItemDefObj As ItemDef
+    Private _BackupItemDefObj As ItemDef = Nothing
+
+    Public Property CurrentItemDefObj As ItemDef
+        Get
+            Return _CurrItemDefObj
+        End Get
+        Set(value As ItemDef)
+            _CurrItemDefObj = value
+        End Set
+    End Property
+
+    Public Property BackupItemDefObj As ItemDef
+        Get
+            Return _BackupItemDefObj
+        End Get
+        Set(value As ItemDef)
+            _BackupItemDefObj = value
+        End Set
+    End Property
+
+    Private Sub TextBoxId_LostKeyboardFocus(sender As Object, e As KeyboardFocusChangedEventArgs) Handles TextBoxId.LostKeyboardFocus
+        ManualEdit = True
+    End Sub
+
+    Private Sub TextBoxId_TextChanged(sender As Object, e As TextChangedEventArgs) Handles TextBoxId.TextChanged
+        If ManualEdit And Not Loading Then
+            BackupItemDefObj = CurrentItemDefObj
+            ManualEdit = False
+        End If
+    End Sub
 
 
     Friend Sub FillTab()
         Loading = True
+        '  ManualEdit = False
         'Integer items
         If CurrentItemDefObject IsNot Nothing Then
             TextBoxAIPriority.Value = WindowSRRItemEditor.CurrentItemDefObject.ai_priority
@@ -428,16 +461,20 @@ Public Class ItemTabContent
                 Next
             End If
         End If
+        CurrentItemDefObj = CurrentItemDefObject
+
         Loading = False
+        ' ManualEdit = True
     End Sub
 
     Friend Sub StoreChangesItems()
         Dim index As Integer = WindowSRRItemEditor.ItemList.IndexOf(WindowSRRItemEditor.CurrentItemDefObject)
-
-        If WindowSRRItemEditor.CurrentItemDefObject Is Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject = New ItemDef
-            WindowSRRItemEditor.ItemList.Add(WindowSRRItemEditor.CurrentItemDefObject)
-            Dim IndexOfAddedItem As Integer = WindowSRRItemEditor.ItemList.IndexOf(WindowSRRItemEditor.CurrentItemDefObject)
+        
+        If BackupItemDefObj IsNot Nothing Then
+            ' WindowSRRItemEditor.CurrentItemDefObject = New ItemDef
+            StoreChangesInBackupItem()
+            WindowSRRItemEditor.ItemList.Add(BackupItemDefObj)
+            Dim IndexOfAddedItem As Integer = WindowSRRItemEditor.ItemList.IndexOf(BackupItemDefObj)
 
 
 
@@ -450,388 +487,771 @@ Public Class ItemTabContent
                 TreeviewItemFinder(TreeViewContentPack, CreateTreeViewFolderItem("NewObjects", "NewObject")).Items.Add(TVINewItemsFolder)
             End If
             TreeviewItemFinder(TreeviewItemFinder(TreeViewContentPack, CreateTreeViewFolderItem("NewObjects", "NewObject")), CreateTreeViewFolderItem("items")).Items.Add(CreateTreeViewItem(TextBoxId.Text, IndexOfAddedItem.ToString()))
-
-        End If
-
-
-        If TextBoxId.Text = "" Then
-            'TODO usermessage, need id
-            Return
-        End If
-
-        'Integer items
-        If TextBoxAIPriority.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.ai_priority = CInt(TextBoxAIPriority.Value)
-        End If
-        If TextBoxAdditionalTargets.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.additionalTargets = CInt(TextBoxAdditionalTargets.Value)
-        End If
-        If TextBoxAmmoReloadAPCost.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.ammoReloadAPCost = CInt(TextBoxAmmoReloadAPCost.Value)
-        End If
-        If TextBoxApCost.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.apCost = CInt(TextBoxApCost.Value)
-        End If
-        If TextBoxCooldown.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.cooldown = CInt(TextBoxCooldown.Value)
-        End If
-        If TextBoxDeckingBody.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_body = CInt(TextBoxDeckingBody.Value)
-        End If
-        If TextBoxCredentials.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.credentials = CInt(TextBoxCredentials.Value)
-        End If
-        If TextBoxDeckingEspLimit.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_esp_limit = CInt(TextBoxDeckingEspLimit.Value)
-        End If
-        If TextBoxDeckingEvasion.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_evasion = CInt(TextBoxDeckingEvasion.Value)
-        End If
-        If TextBoxDeckingHardening.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_hardening = CInt(TextBoxDeckingHardening.Value)
-        End If
-        If TextBoxDeckingMaxAp.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_max_ap = CInt(TextBoxDeckingMaxAp.Value)
-        End If
-        If TextBoxDeckingMaxIp.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_max_ip = CInt(TextBoxDeckingMaxIp.Value)
-        End If
-        If TextBoxDeckingProgramLimit.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_program_limit = CInt(TextBoxDeckingProgramLimit.Value)
-        End If
-        If TextBoxEffectDuration.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.effectDuration = CInt(TextBoxEffectDuration.Value)
-        End If
-        If TextBoxEffectRadius.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.effectRadius = CInt(TextBoxEffectRadius.Value)
-        End If
-        If TextBoxForceRating.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.forceRating = CInt(TextBoxForceRating.Value)
-        End If
-        If TextBoxMaxAmmo.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.maxAmmo = CInt(TextBoxMaxAmmo.Value)
-        End If
-        If TextBoxNoiseRounds.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.noiseRounds = CInt(TextBoxNoiseRounds.Value)
-        End If
-        If TextBoxReactionsPerUse.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.reactions_per_use = CInt(TextBoxReactionsPerUse.Value)
-        End If
-        If TextBoxStoreCost.Value <> 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.store_cost = CInt(TextBoxStoreCost.Value)
-        End If
-
-        If TextBoxBaseAPDamage.Value <> 0.0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.baseAPDamage = CSng(TextBoxBaseAPDamage.Value)
-        End If
-        If TextBoxBaseHPDamage.Value <> 0.0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.baseHPDamage = CSng(TextBoxBaseHPDamage.Value)
-        End If
-        If TextBoxNoiseLevel.Value <> 0.0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.noiseLevel = CSng(TextBoxNoiseLevel.Value)
-        End If
-        If TextBoxSpreadAngle.Value <> 0.0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.spreadAngle = CSng(TextBoxSpreadAngle.Value)
-        End If
-
-        'string items
-        If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.durationFxScript = TextBoxASEDurationFxScript.Text
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.fxScript = TextBoxASEFxScript.Text
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.stackingCategory = TextBoxASEStackingCategory.Text
-            If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep IsNot Nothing Then
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
-            Else
-                If TextBoxASEUIRepName.Text <> "" OrElse TextBoxASEUIRepDescription.Text <> "" OrElse TextBoxASEUIRepIcon.Text <> "" OrElse TextBoxASEUIRepThumbnail.Text <> "" Then
-                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep = New isogame.UIRep()
-                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
-                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
-                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
-                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
-                End If
-            End If
+            BackupItemDefObj = New ItemDef
+            BackupItemDefObj = Nothing
         Else
-            If TextBoxASEDurationFxScript.Text <> "" OrElse TextBoxASEFxScript.Text <> "" OrElse TextBoxASEStackingCategory.Text <> "" Then
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects = New isogame.StatusEffects
+
+
+            If TextBoxId.Text = "" Then
+                'ToDo usermessage, need id
+                Return
+            End If
+
+            'Integer items
+            If TextBoxAIPriority.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.ai_priority = CInt(TextBoxAIPriority.Value)
+            End If
+            If TextBoxAdditionalTargets.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.additionalTargets = CInt(TextBoxAdditionalTargets.Value)
+            End If
+            If TextBoxAmmoReloadAPCost.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.ammoReloadAPCost = CInt(TextBoxAmmoReloadAPCost.Value)
+            End If
+            If TextBoxApCost.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.apCost = CInt(TextBoxApCost.Value)
+            End If
+            If TextBoxCooldown.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.cooldown = CInt(TextBoxCooldown.Value)
+            End If
+            If TextBoxDeckingBody.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_body = CInt(TextBoxDeckingBody.Value)
+            End If
+            If TextBoxCredentials.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.credentials = CInt(TextBoxCredentials.Value)
+            End If
+            If TextBoxDeckingEspLimit.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_esp_limit = CInt(TextBoxDeckingEspLimit.Value)
+            End If
+            If TextBoxDeckingEvasion.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_evasion = CInt(TextBoxDeckingEvasion.Value)
+            End If
+            If TextBoxDeckingHardening.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_hardening = CInt(TextBoxDeckingHardening.Value)
+            End If
+            If TextBoxDeckingMaxAp.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_max_ap = CInt(TextBoxDeckingMaxAp.Value)
+            End If
+            If TextBoxDeckingMaxIp.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_max_ip = CInt(TextBoxDeckingMaxIp.Value)
+            End If
+            If TextBoxDeckingProgramLimit.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_program_limit = CInt(TextBoxDeckingProgramLimit.Value)
+            End If
+            If TextBoxEffectDuration.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.effectDuration = CInt(TextBoxEffectDuration.Value)
+            End If
+            If TextBoxEffectRadius.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.effectRadius = CInt(TextBoxEffectRadius.Value)
+            End If
+            If TextBoxForceRating.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.forceRating = CInt(TextBoxForceRating.Value)
+            End If
+            If TextBoxMaxAmmo.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.maxAmmo = CInt(TextBoxMaxAmmo.Value)
+            End If
+            If TextBoxNoiseRounds.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.noiseRounds = CInt(TextBoxNoiseRounds.Value)
+            End If
+            If TextBoxReactionsPerUse.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.reactions_per_use = CInt(TextBoxReactionsPerUse.Value)
+            End If
+            If TextBoxStoreCost.Value <> 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.store_cost = CInt(TextBoxStoreCost.Value)
+            End If
+
+            If TextBoxBaseAPDamage.Value <> 0.0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.baseAPDamage = CSng(TextBoxBaseAPDamage.Value)
+            End If
+            If TextBoxBaseHPDamage.Value <> 0.0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.baseHPDamage = CSng(TextBoxBaseHPDamage.Value)
+            End If
+            If TextBoxNoiseLevel.Value <> 0.0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.noiseLevel = CSng(TextBoxNoiseLevel.Value)
+            End If
+            If TextBoxSpreadAngle.Value <> 0.0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.spreadAngle = CSng(TextBoxSpreadAngle.Value)
+            End If
+
+            'string items
+            If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
                 WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.durationFxScript = TextBoxASEDurationFxScript.Text
                 WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.fxScript = TextBoxASEFxScript.Text
                 WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.stackingCategory = TextBoxASEStackingCategory.Text
-                If TextBoxASEUIRepName.Text <> "" OrElse TextBoxASEUIRepDescription.Text <> "" OrElse TextBoxASEUIRepIcon.Text <> "" OrElse TextBoxASEUIRepThumbnail.Text <> "" Then
-                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep = New isogame.UIRep()
+                If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep IsNot Nothing Then
                     WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
                     WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
                     WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
                     WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
+                Else
+                    If TextBoxASEUIRepName.Text <> "" OrElse TextBoxASEUIRepDescription.Text <> "" OrElse TextBoxASEUIRepIcon.Text <> "" OrElse TextBoxASEUIRepThumbnail.Text <> "" Then
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep = New isogame.UIRep()
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
+                    End If
+                End If
+            Else
+                If TextBoxASEDurationFxScript.Text <> "" OrElse TextBoxASEFxScript.Text <> "" OrElse TextBoxASEStackingCategory.Text <> "" Then
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects = New isogame.StatusEffects
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.durationFxScript = TextBoxASEDurationFxScript.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.fxScript = TextBoxASEFxScript.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.stackingCategory = TextBoxASEStackingCategory.Text
+                    If TextBoxASEUIRepName.Text <> "" OrElse TextBoxASEUIRepDescription.Text <> "" OrElse TextBoxASEUIRepIcon.Text <> "" OrElse TextBoxASEUIRepThumbnail.Text <> "" Then
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep = New isogame.UIRep()
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
+                    End If
                 End If
             End If
-        End If
 
-        If WindowSRRItemEditor.CurrentItemDefObject.fxrep IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.fxrep.actionFxName = TextBoxActionFxName.Text
-            WindowSRRItemEditor.CurrentItemDefObject.fxrep.postActionFxName = TextBoxPostActionFxName.Text
-            WindowSRRItemEditor.CurrentItemDefObject.fxrep.preActionFxName = TextBoxPreActionFxName.Text
-            WindowSRRItemEditor.CurrentItemDefObject.fxrep.hitReactionFxName = TextBoxHitReactionFxName.Text
-            WindowSRRItemEditor.CurrentItemDefObject.fxrep.missReactionFxName = TextBoxMissReactionFxName.Text
-        Else
-            If TextBoxActionFxName.Text <> "" OrElse TextBoxPostActionFxName.Text <> "" OrElse TextBoxPreActionFxName.Text <> "" OrElse TextBoxHitReactionFxName.Text <> "" OrElse TextBoxMissReactionFxName.Text <> "" Then
-                WindowSRRItemEditor.CurrentItemDefObject.fxrep = New isogame.FxRep()
+            If WindowSRRItemEditor.CurrentItemDefObject.fxrep IsNot Nothing Then
                 WindowSRRItemEditor.CurrentItemDefObject.fxrep.actionFxName = TextBoxActionFxName.Text
                 WindowSRRItemEditor.CurrentItemDefObject.fxrep.postActionFxName = TextBoxPostActionFxName.Text
                 WindowSRRItemEditor.CurrentItemDefObject.fxrep.preActionFxName = TextBoxPreActionFxName.Text
                 WindowSRRItemEditor.CurrentItemDefObject.fxrep.hitReactionFxName = TextBoxHitReactionFxName.Text
                 WindowSRRItemEditor.CurrentItemDefObject.fxrep.missReactionFxName = TextBoxMissReactionFxName.Text
-            End If
-        End If
-
-        If TextBoxCharacterPrefabId.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.character_prefab_id = TextBoxCharacterPrefabId.Text
-        End If
-
-        If TextBoxCharacterSheetId.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.character_sheet_id = TextBoxCharacterSheetId.Text
-        End If
-
-        If TextBoxCharacterUIName.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.character_ui_name = TextBoxCharacterUIName.Text
-        End If
-
-        If TextBoxCooldownCategory.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.cooldown_category = TextBoxCooldownCategory.Text
-        End If
-
-        If TextBoxDeckingDefaultWeapon.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.decking_default_weapon = TextBoxDeckingDefaultWeapon.Text
-        End If
-
-        If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.durationFxScript = TextBoxESEDurationFxScript.Text
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.fxScript = TextBoxESEFxScript.Text
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.stackingCategory = TextBoxESEStackingCategory.Text
-            If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep IsNot Nothing Then
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
             Else
-                If TextBoxESEUIRepName.Text <> "" OrElse TextBoxESEUIRepDescription.Text <> "" OrElse TextBoxESEUIRepIcon.Text <> "" OrElse TextBoxESEUIRepThumbnail.Text <> "" Then
-                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep = New isogame.UIRep()
-                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
-                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
-                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
-                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                If TextBoxActionFxName.Text <> "" OrElse TextBoxPostActionFxName.Text <> "" OrElse TextBoxPreActionFxName.Text <> "" OrElse TextBoxHitReactionFxName.Text <> "" OrElse TextBoxMissReactionFxName.Text <> "" Then
+                    WindowSRRItemEditor.CurrentItemDefObject.fxrep = New isogame.FxRep()
+                    WindowSRRItemEditor.CurrentItemDefObject.fxrep.actionFxName = TextBoxActionFxName.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.fxrep.postActionFxName = TextBoxPostActionFxName.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.fxrep.preActionFxName = TextBoxPreActionFxName.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.fxrep.hitReactionFxName = TextBoxHitReactionFxName.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.fxrep.missReactionFxName = TextBoxMissReactionFxName.Text
                 End If
             End If
-        Else
-            If TextBoxESEDurationFxScript.Text <> "" OrElse TextBoxESEFxScript.Text <> "" OrElse TextBoxESEStackingCategory.Text <> "" Then
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects = New isogame.StatusEffects
+
+            If TextBoxCharacterPrefabId.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.character_prefab_id = TextBoxCharacterPrefabId.Text
+            End If
+
+            If TextBoxCharacterSheetId.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.character_sheet_id = TextBoxCharacterSheetId.Text
+            End If
+
+            If TextBoxCharacterUIName.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.character_ui_name = TextBoxCharacterUIName.Text
+            End If
+
+            If TextBoxCooldownCategory.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.cooldown_category = TextBoxCooldownCategory.Text
+            End If
+
+            If TextBoxDeckingDefaultWeapon.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.decking_default_weapon = TextBoxDeckingDefaultWeapon.Text
+            End If
+
+            If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
                 WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.durationFxScript = TextBoxESEDurationFxScript.Text
                 WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.fxScript = TextBoxESEFxScript.Text
                 WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.stackingCategory = TextBoxESEStackingCategory.Text
-                If TextBoxESEUIRepName.Text <> "" OrElse TextBoxESEUIRepDescription.Text <> "" OrElse TextBoxESEUIRepIcon.Text <> "" OrElse TextBoxESEUIRepThumbnail.Text <> "" Then
-                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep = New isogame.UIRep()
+                If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep IsNot Nothing Then
                     WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
                     WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
                     WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
                     WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                Else
+                    If TextBoxESEUIRepName.Text <> "" OrElse TextBoxESEUIRepDescription.Text <> "" OrElse TextBoxESEUIRepIcon.Text <> "" OrElse TextBoxESEUIRepThumbnail.Text <> "" Then
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep = New isogame.UIRep()
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                    End If
+                End If
+            Else
+                If TextBoxESEDurationFxScript.Text <> "" OrElse TextBoxESEFxScript.Text <> "" OrElse TextBoxESEStackingCategory.Text <> "" Then
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects = New isogame.StatusEffects
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.durationFxScript = TextBoxESEDurationFxScript.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.fxScript = TextBoxESEFxScript.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.stackingCategory = TextBoxESEStackingCategory.Text
+                    If TextBoxESEUIRepName.Text <> "" OrElse TextBoxESEUIRepDescription.Text <> "" OrElse TextBoxESEUIRepIcon.Text <> "" OrElse TextBoxESEUIRepThumbnail.Text <> "" Then
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep = New isogame.UIRep()
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
+                        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                    End If
                 End If
             End If
-        End If
 
-        If TextBoxEquipPrefabName.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.equipPrefabName = TextBoxEquipPrefabName.Text
-        End If
+            If TextBoxEquipPrefabName.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.equipPrefabName = TextBoxEquipPrefabName.Text
+            End If
 
-        If TextBoxGearBundle.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.gear_bundle = TextBoxGearBundle.Text
-        End If
+            If TextBoxGearBundle.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.gear_bundle = TextBoxGearBundle.Text
+            End If
 
-        If TextBoxGearPrefab.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.gear_prefab = TextBoxGearPrefab.Text
-        End If
+            If TextBoxGearPrefab.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.gear_prefab = TextBoxGearPrefab.Text
+            End If
 
-        If TextBoxId.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.id = TextBoxId.Text
-        End If
+            If TextBoxId.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.id = TextBoxId.Text
+            End If
 
-        If TextBoxOutfitTexture.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.outfit_texture = TextBoxOutfitTexture.Text
-        End If
+            If TextBoxOutfitTexture.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.outfit_texture = TextBoxOutfitTexture.Text
+            End If
 
-        If TextBoxSortingGroup.Text <> "" Then
-            WindowSRRItemEditor.CurrentItemDefObject.sorting_group = TextBoxSortingGroup.Text
-        End If
+            If TextBoxSortingGroup.Text <> "" Then
+                WindowSRRItemEditor.CurrentItemDefObject.sorting_group = TextBoxSortingGroup.Text
+            End If
 
-        If WindowSRRItemEditor.CurrentItemDefObject.uirep IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.uirep.name = TextBoxUIRepName.Text
-            WindowSRRItemEditor.CurrentItemDefObject.uirep.description = TextBoxUIRepDescription.Text
-            WindowSRRItemEditor.CurrentItemDefObject.uirep.icon = TextBoxUIRepIcon.Text
-            WindowSRRItemEditor.CurrentItemDefObject.uirep.thumbnail = TextBoxUIRepThumbnail.Text
-        Else
-            If TextBoxUIRepName.Text <> "" OrElse TextBoxUIRepDescription.Text <> "" OrElse TextBoxUIRepIcon.Text <> "" OrElse TextBoxUIRepThumbnail.Text <> "" Then
-                WindowSRRItemEditor.CurrentItemDefObject.uirep = New isogame.UIRep()
+            If WindowSRRItemEditor.CurrentItemDefObject.uirep IsNot Nothing Then
                 WindowSRRItemEditor.CurrentItemDefObject.uirep.name = TextBoxUIRepName.Text
                 WindowSRRItemEditor.CurrentItemDefObject.uirep.description = TextBoxUIRepDescription.Text
                 WindowSRRItemEditor.CurrentItemDefObject.uirep.icon = TextBoxUIRepIcon.Text
                 WindowSRRItemEditor.CurrentItemDefObject.uirep.thumbnail = TextBoxUIRepThumbnail.Text
+            Else
+                If TextBoxUIRepName.Text <> "" OrElse TextBoxUIRepDescription.Text <> "" OrElse TextBoxUIRepIcon.Text <> "" OrElse TextBoxUIRepThumbnail.Text <> "" Then
+                    WindowSRRItemEditor.CurrentItemDefObject.uirep = New isogame.UIRep()
+                    WindowSRRItemEditor.CurrentItemDefObject.uirep.name = TextBoxUIRepName.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.uirep.description = TextBoxUIRepDescription.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.uirep.icon = TextBoxUIRepIcon.Text
+                    WindowSRRItemEditor.CurrentItemDefObject.uirep.thumbnail = TextBoxUIRepThumbnail.Text
+                End If
             End If
-        End If
 
-        'Dropdown list choices
-        If comboBoxAnimType.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.anim_type = DirectCast([Enum].Parse(GetType(AnimType), comboBoxAnimType.SelectedItem.ToString()), AnimType)
-        End If
-        If comboBoxCoreAttribute.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.coreAttribute = DirectCast([Enum].Parse(GetType(isogame.Attribute), comboBoxCoreAttribute.SelectedItem.ToString()), isogame.Attribute)
-        End If
-        If comboBoxCoreSkill.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.coreSkill = DirectCast([Enum].Parse(GetType(isogame.Skill), comboBoxCoreSkill.SelectedItem.ToString()), isogame.Skill)
-        End If
-        If comboBoxCoreSpecialization.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.coreSpecialization = DirectCast([Enum].Parse(GetType(isogame.Specialization), comboBoxCoreSpecialization.SelectedItem.ToString()), isogame.Specialization)
-        End If
-        If comboBoxItemType.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.type = DirectCast([Enum].Parse(GetType(isogame.ItemType), comboBoxItemType.SelectedItem.ToString()), isogame.ItemType)
-        End If
-        If ComboBoxCyberwareType.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.cyberware_type = DirectCast([Enum].Parse(GetType(isogame.CyberwareType), ComboBoxCyberwareType.SelectedItem.ToString()), isogame.CyberwareType)
-        End If
-        If ComboBoxIntendedUser.SelectedIndex <> -1 Then
-            WindowSRRItemEditor.CurrentItemDefObject.intended_user = DirectCast([Enum].Parse(GetType(isogame.IntendedUser), ComboBoxIntendedUser.SelectedIndex.ToString()), isogame.IntendedUser)
-        End If
+            'Dropdown list choices
+            If comboBoxAnimType.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.anim_type = DirectCast([Enum].Parse(GetType(AnimType), comboBoxAnimType.SelectedItem.ToString()), AnimType)
+            End If
+            If comboBoxCoreAttribute.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.coreAttribute = DirectCast([Enum].Parse(GetType(isogame.Attribute), comboBoxCoreAttribute.SelectedItem.ToString()), isogame.Attribute)
+            End If
+            If comboBoxCoreSkill.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.coreSkill = DirectCast([Enum].Parse(GetType(isogame.Skill), comboBoxCoreSkill.SelectedItem.ToString()), isogame.Skill)
+            End If
+            If comboBoxCoreSpecialization.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.coreSpecialization = DirectCast([Enum].Parse(GetType(isogame.Specialization), comboBoxCoreSpecialization.SelectedItem.ToString()), isogame.Specialization)
+            End If
+            If comboBoxItemType.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.type = DirectCast([Enum].Parse(GetType(isogame.ItemType), comboBoxItemType.SelectedItem.ToString()), isogame.ItemType)
+            End If
+            If ComboBoxCyberwareType.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.cyberware_type = DirectCast([Enum].Parse(GetType(isogame.CyberwareType), ComboBoxCyberwareType.SelectedItem.ToString()), isogame.CyberwareType)
+            End If
+            If ComboBoxIntendedUser.SelectedIndex <> -1 Then
+                WindowSRRItemEditor.CurrentItemDefObject.intended_user = DirectCast([Enum].Parse(GetType(isogame.IntendedUser), ComboBoxIntendedUser.SelectedIndex.ToString()), isogame.IntendedUser)
+            End If
 
-        'Boolean choices
-        If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_buff = CBool(ComboBoxASEIsBuff.SelectedItem.ToString().Contains("True"))
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_debuff = CBool(ComboBoxASEIsDebuff.SelectedItem.ToString().Contains("True"))
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_totem = CBool(ComboBoxASEIsTotem.SelectedItem.ToString().Contains("True"))
-        Else
-            If ComboBoxASEIsBuff.SelectedIndex <> -1 OrElse ComboBoxASEIsBuff.SelectedIndex <> -1 OrElse ComboBoxASEIsBuff.SelectedIndex <> -1 Then
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects = New isogame.StatusEffects()
+            'Boolean choices
+            If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
                 WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_buff = CBool(ComboBoxASEIsBuff.SelectedItem.ToString().Contains("True"))
                 WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_debuff = CBool(ComboBoxASEIsDebuff.SelectedItem.ToString().Contains("True"))
                 WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_totem = CBool(ComboBoxASEIsTotem.SelectedItem.ToString().Contains("True"))
+            Else
+                If ComboBoxASEIsBuff.SelectedIndex <> -1 OrElse ComboBoxASEIsBuff.SelectedIndex <> -1 OrElse ComboBoxASEIsBuff.SelectedIndex <> -1 Then
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects = New isogame.StatusEffects()
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_buff = CBool(ComboBoxASEIsBuff.SelectedItem.ToString().Contains("True"))
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_debuff = CBool(ComboBoxASEIsDebuff.SelectedItem.ToString().Contains("True"))
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.is_totem = CBool(ComboBoxASEIsTotem.SelectedItem.ToString().Contains("True"))
+                End If
             End If
-        End If
 
-        WindowSRRItemEditor.CurrentItemDefObject.affectsDecker = CBool(ComboBoxAffectsDecker.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.affectsEnemy = CBool(ComboBoxAffectsEnemy.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.affectsFriendly = CBool(ComboBoxAffectsFriendly.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.canTargetActor = CBool(ComboBoxCanTargetActor.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.canTargetOccupiedGridPoint = CBool(ComboBoxCanTargetOccupiedGridPoint.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.canTargetUnoccupiedGridPoint = CBool(ComboBoxCanTargetUnoccupiedGridPoint.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.canTargetSelf = CBool(ComboBoxCanTargetSelf.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.affectsDecker = CBool(ComboBoxAffectsDecker.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.affectsEnemy = CBool(ComboBoxAffectsEnemy.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.affectsFriendly = CBool(ComboBoxAffectsFriendly.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.canTargetActor = CBool(ComboBoxCanTargetActor.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.canTargetOccupiedGridPoint = CBool(ComboBoxCanTargetOccupiedGridPoint.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.canTargetUnoccupiedGridPoint = CBool(ComboBoxCanTargetUnoccupiedGridPoint.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.canTargetSelf = CBool(ComboBoxCanTargetSelf.SelectedItem.ToString().Contains("True"))
 
-        If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_buff = CBool(ComboBoxESEIsBuff.SelectedItem.ToString().Contains("True"))
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_debuff = CBool(ComboBoxESEIsDebuff.SelectedItem.ToString().Contains("True"))
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_totem = CBool(ComboBoxESEIsTotem.SelectedItem.ToString().Contains("True"))
-        Else
-            If ComboBoxESEIsBuff.SelectedIndex <> -1 OrElse ComboBoxESEIsBuff.SelectedIndex <> -1 OrElse ComboBoxESEIsBuff.SelectedIndex <> -1 Then
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects = New isogame.StatusEffects()
+            If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
                 WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_buff = CBool(ComboBoxESEIsBuff.SelectedItem.ToString().Contains("True"))
                 WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_debuff = CBool(ComboBoxESEIsDebuff.SelectedItem.ToString().Contains("True"))
                 WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_totem = CBool(ComboBoxESEIsTotem.SelectedItem.ToString().Contains("True"))
+            Else
+                If ComboBoxESEIsBuff.SelectedIndex <> -1 OrElse ComboBoxESEIsBuff.SelectedIndex <> -1 OrElse ComboBoxESEIsBuff.SelectedIndex <> -1 Then
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects = New isogame.StatusEffects()
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_buff = CBool(ComboBoxESEIsBuff.SelectedItem.ToString().Contains("True"))
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_debuff = CBool(ComboBoxESEIsDebuff.SelectedItem.ToString().Contains("True"))
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.is_totem = CBool(ComboBoxESEIsTotem.SelectedItem.ToString().Contains("True"))
+                End If
+            End If
+
+            WindowSRRItemEditor.CurrentItemDefObject.gear_covers_arms = CBool(ComboBoxGearCoversArms.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.gear_covers_face = CBool(ComboBoxGearCoversFace.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.gear_covers_hair = CBool(ComboBoxGearCoversHair.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.isBuff = CBool(ComboBoxIsBuff.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.isDebuff = CBool(ComboBoxIsDebuff.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.isMagic = CBool(ComboBoxIsMagic.SelectedItem.ToString().Contains("True"))
+            WindowSRRItemEditor.CurrentItemDefObject.effectOnTile = CBool(ComboBoxEffectOnTile.SelectedItem.ToString().Contains("True"))
+
+            'lists
+
+            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statusConditions.Clear()
+            For Each StatCon As String In listBoxASEStatusConditions.Items
+                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statusConditions.Add(DirectCast([Enum].Parse(GetType(isogame.StatusCondition), StatCon.ToString()), isogame.StatusCondition))
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.abilityModes.Clear()
+            For Each AbilityMode As String In listBoxAbilityModes.Items
+                WindowSRRItemEditor.CurrentItemDefObject.abilityModes.Add(AbilityMode)
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statusConditions.Clear()
+            For Each StatCon As String In listBoxESEStatusConditions.Items
+                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statusConditions.Add(DirectCast([Enum].Parse(GetType(isogame.StatusCondition), StatCon.ToString()), isogame.StatusCondition))
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.effectModTable.Clear()
+            For Each EffectMod As String In listBoxEffectModTable.Items
+                WindowSRRItemEditor.CurrentItemDefObject.effectModTable.Add(CSng(EffectMod))
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.equipment_sheet_id.Clear()
+            For Each EquipSheetID As String In listBoxEquipmentSheetId.Items
+                WindowSRRItemEditor.CurrentItemDefObject.equipment_sheet_id.Add(EquipSheetID)
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.modelessAbilities.Clear()
+            For Each ModelessAbility As String In listBoxModelessAbilities.Items
+                WindowSRRItemEditor.CurrentItemDefObject.modelessAbilities.Add(ModelessAbility)
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.prereqStrings.Clear()
+            For Each PrereqString As String In listBoxPrereqStrings.Items
+                WindowSRRItemEditor.CurrentItemDefObject.prereqStrings.Add(PrereqString)
+            Next
+
+            WindowSRRItemEditor.CurrentItemDefObject.rangeModTable.Clear()
+
+            For Each Row As DataRow In RangeModTable.Rows
+                WindowSRRItemEditor.CurrentItemDefObject.rangeModTable.Add(CSng(Row("Modification")))
+            Next
+
+            'complicated lists
+            If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
+                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statMods.Clear()
+                For Each StatmodItem As StatMod In ListViewASEStatMods.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statMods.Add(StatmodItem)
+                Next
+            ElseIf ListViewASEStatMods.Items.Count > 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects = New isogame.StatusEffects()
+                For Each StatmodItem As StatMod In ListViewASEStatMods.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statMods.Add(StatmodItem)
+                Next
+            End If
+
+            If WindowSRRItemEditor.CurrentItemDefObject.drainBucket IsNot Nothing Then
+                For Each FailureEntry As isogame.ResultBucket.Entry In ListViewDrainBucketFailureEntries.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.drainBucket.failureEntries.Add(FailureEntry)
+                Next
+                For Each SuccessEntry As isogame.ResultBucket.Entry In ListViewDrainBucketSuccesEntries.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.drainBucket.successEntries.Add(SuccessEntry)
+                Next
+            ElseIf ListViewDrainBucketFailureEntries.Items.Count > 0 OrElse ListViewDrainBucketSuccesEntries.Items.Count > 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.drainBucket = New isogame.ResultBucket()
+                For Each FailureEntry As isogame.ResultBucket.Entry In ListViewDrainBucketFailureEntries.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.drainBucket.failureEntries.Add(FailureEntry)
+                Next
+                For Each SuccessEntry As isogame.ResultBucket.Entry In ListViewDrainBucketSuccesEntries.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.drainBucket.successEntries.Add(SuccessEntry)
+                Next
+            End If
+
+
+            If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
+                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statMods.Clear()
+                For Each StatmodItem As StatMod In ListViewESEStatMods.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statMods.Add(StatmodItem)
+                Next
+            ElseIf ListViewESEStatMods.Items.Count > 0 Then
+                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects = New isogame.StatusEffects()
+                For Each StatmodItem As StatMod In ListViewESEStatMods.Items
+                    WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statMods.Add(StatmodItem)
+                Next
             End If
         End If
-
-        WindowSRRItemEditor.CurrentItemDefObject.gear_covers_arms = CBool(ComboBoxGearCoversArms.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.gear_covers_face = CBool(ComboBoxGearCoversFace.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.gear_covers_hair = CBool(ComboBoxGearCoversHair.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.isBuff = CBool(ComboBoxIsBuff.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.isDebuff = CBool(ComboBoxIsDebuff.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.isMagic = CBool(ComboBoxIsMagic.SelectedItem.ToString().Contains("True"))
-        WindowSRRItemEditor.CurrentItemDefObject.effectOnTile = CBool(ComboBoxEffectOnTile.SelectedItem.ToString().Contains("True"))
-
-        'lists
-
-        WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statusConditions.Clear()
-        For Each StatCon As String In listBoxASEStatusConditions.Items
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statusConditions.Add(DirectCast([Enum].Parse(GetType(isogame.StatusCondition), StatCon.ToString()), isogame.StatusCondition))
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.abilityModes.Clear()
-        For Each AbilityMode As String In listBoxAbilityModes.Items
-            WindowSRRItemEditor.CurrentItemDefObject.abilityModes.Add(AbilityMode)
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statusConditions.Clear()
-        For Each StatCon As String In listBoxESEStatusConditions.Items
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statusConditions.Add(DirectCast([Enum].Parse(GetType(isogame.StatusCondition), StatCon.ToString()), isogame.StatusCondition))
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.effectModTable.Clear()
-        For Each EffectMod As String In listBoxEffectModTable.Items
-            WindowSRRItemEditor.CurrentItemDefObject.effectModTable.Add(CSng(EffectMod))
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.equipment_sheet_id.Clear()
-        For Each EquipSheetID As String In listBoxEquipmentSheetId.Items
-            WindowSRRItemEditor.CurrentItemDefObject.equipment_sheet_id.Add(EquipSheetID)
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.modelessAbilities.Clear()
-        For Each ModelessAbility As String In listBoxModelessAbilities.Items
-            WindowSRRItemEditor.CurrentItemDefObject.modelessAbilities.Add(ModelessAbility)
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.prereqStrings.Clear()
-        For Each PrereqString As String In listBoxPrereqStrings.Items
-            WindowSRRItemEditor.CurrentItemDefObject.prereqStrings.Add(PrereqString)
-        Next
-
-        WindowSRRItemEditor.CurrentItemDefObject.rangeModTable.Clear()
-
-        For Each Row As DataRow In RangeModTable.Rows
-            WindowSRRItemEditor.CurrentItemDefObject.rangeModTable.Add(CSng(Row("Modification")))
-        Next
-
-        'complicated lists
-        If WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statMods.Clear()
-            For Each StatmodItem As StatMod In ListViewASEStatMods.Items
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statMods.Add(StatmodItem)
-            Next
-        ElseIf ListViewASEStatMods.Items.Count > 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects = New isogame.StatusEffects()
-            For Each StatmodItem As StatMod In ListViewASEStatMods.Items
-                WindowSRRItemEditor.CurrentItemDefObject.activationStatusEffects.statMods.Add(StatmodItem)
-            Next
-        End If
-
-        If WindowSRRItemEditor.CurrentItemDefObject.drainBucket IsNot Nothing Then
-            For Each FailureEntry As isogame.ResultBucket.Entry In ListViewDrainBucketFailureEntries.Items
-                WindowSRRItemEditor.CurrentItemDefObject.drainBucket.failureEntries.Add(FailureEntry)
-            Next
-            For Each SuccessEntry As isogame.ResultBucket.Entry In ListViewDrainBucketSuccesEntries.Items
-                WindowSRRItemEditor.CurrentItemDefObject.drainBucket.successEntries.Add(SuccessEntry)
-            Next
-        ElseIf ListViewDrainBucketFailureEntries.Items.Count > 0 OrElse ListViewDrainBucketSuccesEntries.Items.Count > 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.drainBucket = New isogame.ResultBucket()
-            For Each FailureEntry As isogame.ResultBucket.Entry In ListViewDrainBucketFailureEntries.Items
-                WindowSRRItemEditor.CurrentItemDefObject.drainBucket.failureEntries.Add(FailureEntry)
-            Next
-            For Each SuccessEntry As isogame.ResultBucket.Entry In ListViewDrainBucketSuccesEntries.Items
-                WindowSRRItemEditor.CurrentItemDefObject.drainBucket.successEntries.Add(SuccessEntry)
-            Next
-        End If
-
-
-        If WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects IsNot Nothing Then
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statMods.Clear()
-            For Each StatmodItem As StatMod In ListViewESEStatMods.Items
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statMods.Add(StatmodItem)
-            Next
-        ElseIf ListViewESEStatMods.Items.Count > 0 Then
-            WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects = New isogame.StatusEffects()
-            For Each StatmodItem As StatMod In ListViewESEStatMods.Items
-                WindowSRRItemEditor.CurrentItemDefObject.equippedStatusEffects.statMods.Add(StatmodItem)
-            Next
-        End If
-
     End Sub
+
+    Friend Sub StoreChangesInBackupItem()
+        If BackupItemDefObj IsNot Nothing Then
+            If TextBoxId.Text = "" Then
+                'ToDo usermessage, need id
+                Return
+            End If
+
+            'Integer items
+            If TextBoxAIPriority.Value <> 0 Then
+                BackupItemDefObj.ai_priority = CInt(TextBoxAIPriority.Value)
+            End If
+            If TextBoxAdditionalTargets.Value <> 0 Then
+                BackupItemDefObj.additionalTargets = CInt(TextBoxAdditionalTargets.Value)
+            End If
+            If TextBoxAmmoReloadAPCost.Value <> 0 Then
+                BackupItemDefObj.ammoReloadAPCost = CInt(TextBoxAmmoReloadAPCost.Value)
+            End If
+            If TextBoxApCost.Value <> 0 Then
+                BackupItemDefObj.apCost = CInt(TextBoxApCost.Value)
+            End If
+            If TextBoxCooldown.Value <> 0 Then
+                BackupItemDefObj.cooldown = CInt(TextBoxCooldown.Value)
+            End If
+            If TextBoxDeckingBody.Value <> 0 Then
+                BackupItemDefObj.decking_body = CInt(TextBoxDeckingBody.Value)
+            End If
+            If TextBoxCredentials.Value <> 0 Then
+                BackupItemDefObj.credentials = CInt(TextBoxCredentials.Value)
+            End If
+            If TextBoxDeckingEspLimit.Value <> 0 Then
+                BackupItemDefObj.decking_esp_limit = CInt(TextBoxDeckingEspLimit.Value)
+            End If
+            If TextBoxDeckingEvasion.Value <> 0 Then
+                BackupItemDefObj.decking_evasion = CInt(TextBoxDeckingEvasion.Value)
+            End If
+            If TextBoxDeckingHardening.Value <> 0 Then
+                BackupItemDefObj.decking_hardening = CInt(TextBoxDeckingHardening.Value)
+            End If
+            If TextBoxDeckingMaxAp.Value <> 0 Then
+                BackupItemDefObj.decking_max_ap = CInt(TextBoxDeckingMaxAp.Value)
+            End If
+            If TextBoxDeckingMaxIp.Value <> 0 Then
+                BackupItemDefObj.decking_max_ip = CInt(TextBoxDeckingMaxIp.Value)
+            End If
+            If TextBoxDeckingProgramLimit.Value <> 0 Then
+                BackupItemDefObj.decking_program_limit = CInt(TextBoxDeckingProgramLimit.Value)
+            End If
+            If TextBoxEffectDuration.Value <> 0 Then
+                BackupItemDefObj.effectDuration = CInt(TextBoxEffectDuration.Value)
+            End If
+            If TextBoxEffectRadius.Value <> 0 Then
+                BackupItemDefObj.effectRadius = CInt(TextBoxEffectRadius.Value)
+            End If
+            If TextBoxForceRating.Value <> 0 Then
+                BackupItemDefObj.forceRating = CInt(TextBoxForceRating.Value)
+            End If
+            If TextBoxMaxAmmo.Value <> 0 Then
+                BackupItemDefObj.maxAmmo = CInt(TextBoxMaxAmmo.Value)
+            End If
+            If TextBoxNoiseRounds.Value <> 0 Then
+                BackupItemDefObj.noiseRounds = CInt(TextBoxNoiseRounds.Value)
+            End If
+            If TextBoxReactionsPerUse.Value <> 0 Then
+                BackupItemDefObj.reactions_per_use = CInt(TextBoxReactionsPerUse.Value)
+            End If
+            If TextBoxStoreCost.Value <> 0 Then
+                BackupItemDefObj.store_cost = CInt(TextBoxStoreCost.Value)
+            End If
+
+            If TextBoxBaseAPDamage.Value <> 0.0 Then
+                BackupItemDefObj.baseAPDamage = CSng(TextBoxBaseAPDamage.Value)
+            End If
+            If TextBoxBaseHPDamage.Value <> 0.0 Then
+                BackupItemDefObj.baseHPDamage = CSng(TextBoxBaseHPDamage.Value)
+            End If
+            If TextBoxNoiseLevel.Value <> 0.0 Then
+                BackupItemDefObj.noiseLevel = CSng(TextBoxNoiseLevel.Value)
+            End If
+            If TextBoxSpreadAngle.Value <> 0.0 Then
+                BackupItemDefObj.spreadAngle = CSng(TextBoxSpreadAngle.Value)
+            End If
+
+            'string items
+            If BackupItemDefObj.activationStatusEffects IsNot Nothing Then
+                BackupItemDefObj.activationStatusEffects.durationFxScript = TextBoxASEDurationFxScript.Text
+                BackupItemDefObj.activationStatusEffects.fxScript = TextBoxASEFxScript.Text
+                BackupItemDefObj.activationStatusEffects.stackingCategory = TextBoxASEStackingCategory.Text
+                If BackupItemDefObj.activationStatusEffects.uirep IsNot Nothing Then
+                    BackupItemDefObj.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
+                    BackupItemDefObj.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
+                    BackupItemDefObj.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
+                    BackupItemDefObj.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
+                Else
+                    If TextBoxASEUIRepName.Text <> "" OrElse TextBoxASEUIRepDescription.Text <> "" OrElse TextBoxASEUIRepIcon.Text <> "" OrElse TextBoxASEUIRepThumbnail.Text <> "" Then
+                        BackupItemDefObj.activationStatusEffects.uirep = New isogame.UIRep()
+                        BackupItemDefObj.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
+                        BackupItemDefObj.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
+                        BackupItemDefObj.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
+                        BackupItemDefObj.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
+                    End If
+                End If
+            Else
+                If TextBoxASEDurationFxScript.Text <> "" OrElse TextBoxASEFxScript.Text <> "" OrElse TextBoxASEStackingCategory.Text <> "" Then
+                    BackupItemDefObj.activationStatusEffects = New isogame.StatusEffects
+                    BackupItemDefObj.activationStatusEffects.durationFxScript = TextBoxASEDurationFxScript.Text
+                    BackupItemDefObj.activationStatusEffects.fxScript = TextBoxASEFxScript.Text
+                    BackupItemDefObj.activationStatusEffects.stackingCategory = TextBoxASEStackingCategory.Text
+                    If TextBoxASEUIRepName.Text <> "" OrElse TextBoxASEUIRepDescription.Text <> "" OrElse TextBoxASEUIRepIcon.Text <> "" OrElse TextBoxASEUIRepThumbnail.Text <> "" Then
+                        BackupItemDefObj.activationStatusEffects.uirep = New isogame.UIRep()
+                        BackupItemDefObj.activationStatusEffects.uirep.name = TextBoxASEUIRepName.Text
+                        BackupItemDefObj.activationStatusEffects.uirep.description = TextBoxASEUIRepDescription.Text
+                        BackupItemDefObj.activationStatusEffects.uirep.icon = TextBoxASEUIRepIcon.Text
+                        BackupItemDefObj.activationStatusEffects.uirep.thumbnail = TextBoxASEUIRepThumbnail.Text
+                    End If
+                End If
+            End If
+
+            If BackupItemDefObj.fxrep IsNot Nothing Then
+                BackupItemDefObj.fxrep.actionFxName = TextBoxActionFxName.Text
+                BackupItemDefObj.fxrep.postActionFxName = TextBoxPostActionFxName.Text
+                BackupItemDefObj.fxrep.preActionFxName = TextBoxPreActionFxName.Text
+                BackupItemDefObj.fxrep.hitReactionFxName = TextBoxHitReactionFxName.Text
+                BackupItemDefObj.fxrep.missReactionFxName = TextBoxMissReactionFxName.Text
+            Else
+                If TextBoxActionFxName.Text <> "" OrElse TextBoxPostActionFxName.Text <> "" OrElse TextBoxPreActionFxName.Text <> "" OrElse TextBoxHitReactionFxName.Text <> "" OrElse TextBoxMissReactionFxName.Text <> "" Then
+                    BackupItemDefObj.fxrep = New isogame.FxRep()
+                    BackupItemDefObj.fxrep.actionFxName = TextBoxActionFxName.Text
+                    BackupItemDefObj.fxrep.postActionFxName = TextBoxPostActionFxName.Text
+                    BackupItemDefObj.fxrep.preActionFxName = TextBoxPreActionFxName.Text
+                    BackupItemDefObj.fxrep.hitReactionFxName = TextBoxHitReactionFxName.Text
+                    BackupItemDefObj.fxrep.missReactionFxName = TextBoxMissReactionFxName.Text
+                End If
+            End If
+
+            If TextBoxCharacterPrefabId.Text <> "" Then
+                BackupItemDefObj.character_prefab_id = TextBoxCharacterPrefabId.Text
+            End If
+
+            If TextBoxCharacterSheetId.Text <> "" Then
+                BackupItemDefObj.character_sheet_id = TextBoxCharacterSheetId.Text
+            End If
+
+            If TextBoxCharacterUIName.Text <> "" Then
+                BackupItemDefObj.character_ui_name = TextBoxCharacterUIName.Text
+            End If
+
+            If TextBoxCooldownCategory.Text <> "" Then
+                BackupItemDefObj.cooldown_category = TextBoxCooldownCategory.Text
+            End If
+
+            If TextBoxDeckingDefaultWeapon.Text <> "" Then
+                BackupItemDefObj.decking_default_weapon = TextBoxDeckingDefaultWeapon.Text
+            End If
+
+            If BackupItemDefObj.equippedStatusEffects IsNot Nothing Then
+                BackupItemDefObj.equippedStatusEffects.durationFxScript = TextBoxESEDurationFxScript.Text
+                BackupItemDefObj.equippedStatusEffects.fxScript = TextBoxESEFxScript.Text
+                BackupItemDefObj.equippedStatusEffects.stackingCategory = TextBoxESEStackingCategory.Text
+                If BackupItemDefObj.equippedStatusEffects.uirep IsNot Nothing Then
+                    BackupItemDefObj.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
+                    BackupItemDefObj.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
+                    BackupItemDefObj.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
+                    BackupItemDefObj.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                Else
+                    If TextBoxESEUIRepName.Text <> "" OrElse TextBoxESEUIRepDescription.Text <> "" OrElse TextBoxESEUIRepIcon.Text <> "" OrElse TextBoxESEUIRepThumbnail.Text <> "" Then
+                        BackupItemDefObj.equippedStatusEffects.uirep = New isogame.UIRep()
+                        BackupItemDefObj.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
+                        BackupItemDefObj.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
+                        BackupItemDefObj.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
+                        BackupItemDefObj.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                    End If
+                End If
+            Else
+                If TextBoxESEDurationFxScript.Text <> "" OrElse TextBoxESEFxScript.Text <> "" OrElse TextBoxESEStackingCategory.Text <> "" Then
+                    BackupItemDefObj.equippedStatusEffects = New isogame.StatusEffects
+                    BackupItemDefObj.equippedStatusEffects.durationFxScript = TextBoxESEDurationFxScript.Text
+                    BackupItemDefObj.equippedStatusEffects.fxScript = TextBoxESEFxScript.Text
+                    BackupItemDefObj.equippedStatusEffects.stackingCategory = TextBoxESEStackingCategory.Text
+                    If TextBoxESEUIRepName.Text <> "" OrElse TextBoxESEUIRepDescription.Text <> "" OrElse TextBoxESEUIRepIcon.Text <> "" OrElse TextBoxESEUIRepThumbnail.Text <> "" Then
+                        BackupItemDefObj.equippedStatusEffects.uirep = New isogame.UIRep()
+                        BackupItemDefObj.equippedStatusEffects.uirep.name = TextBoxESEUIRepName.Text
+                        BackupItemDefObj.equippedStatusEffects.uirep.description = TextBoxESEUIRepDescription.Text
+                        BackupItemDefObj.equippedStatusEffects.uirep.icon = TextBoxESEUIRepIcon.Text
+                        BackupItemDefObj.equippedStatusEffects.uirep.thumbnail = TextBoxESEUIRepThumbnail.Text
+                    End If
+                End If
+            End If
+
+            If TextBoxEquipPrefabName.Text <> "" Then
+                BackupItemDefObj.equipPrefabName = TextBoxEquipPrefabName.Text
+            End If
+
+            If TextBoxGearBundle.Text <> "" Then
+                BackupItemDefObj.gear_bundle = TextBoxGearBundle.Text
+            End If
+
+            If TextBoxGearPrefab.Text <> "" Then
+                BackupItemDefObj.gear_prefab = TextBoxGearPrefab.Text
+            End If
+
+            If TextBoxId.Text <> "" Then
+                BackupItemDefObj.id = TextBoxId.Text
+            End If
+
+            If TextBoxOutfitTexture.Text <> "" Then
+                BackupItemDefObj.outfit_texture = TextBoxOutfitTexture.Text
+            End If
+
+            If TextBoxSortingGroup.Text <> "" Then
+                BackupItemDefObj.sorting_group = TextBoxSortingGroup.Text
+            End If
+
+            If BackupItemDefObj.uirep IsNot Nothing Then
+                BackupItemDefObj.uirep.name = TextBoxUIRepName.Text
+                BackupItemDefObj.uirep.description = TextBoxUIRepDescription.Text
+                BackupItemDefObj.uirep.icon = TextBoxUIRepIcon.Text
+                BackupItemDefObj.uirep.thumbnail = TextBoxUIRepThumbnail.Text
+            Else
+                If TextBoxUIRepName.Text <> "" OrElse TextBoxUIRepDescription.Text <> "" OrElse TextBoxUIRepIcon.Text <> "" OrElse TextBoxUIRepThumbnail.Text <> "" Then
+                    BackupItemDefObj.uirep = New isogame.UIRep()
+                    BackupItemDefObj.uirep.name = TextBoxUIRepName.Text
+                    BackupItemDefObj.uirep.description = TextBoxUIRepDescription.Text
+                    BackupItemDefObj.uirep.icon = TextBoxUIRepIcon.Text
+                    BackupItemDefObj.uirep.thumbnail = TextBoxUIRepThumbnail.Text
+                End If
+            End If
+
+            'Dropdown list choices
+            If comboBoxAnimType.SelectedIndex <> -1 Then
+                BackupItemDefObj.anim_type = DirectCast([Enum].Parse(GetType(AnimType), comboBoxAnimType.SelectedItem.ToString()), AnimType)
+            End If
+            If comboBoxCoreAttribute.SelectedIndex <> -1 Then
+                BackupItemDefObj.coreAttribute = DirectCast([Enum].Parse(GetType(isogame.Attribute), comboBoxCoreAttribute.SelectedItem.ToString()), isogame.Attribute)
+            End If
+            If comboBoxCoreSkill.SelectedIndex <> -1 Then
+                BackupItemDefObj.coreSkill = DirectCast([Enum].Parse(GetType(isogame.Skill), comboBoxCoreSkill.SelectedItem.ToString()), isogame.Skill)
+            End If
+            If comboBoxCoreSpecialization.SelectedIndex <> -1 Then
+                BackupItemDefObj.coreSpecialization = DirectCast([Enum].Parse(GetType(isogame.Specialization), comboBoxCoreSpecialization.SelectedItem.ToString()), isogame.Specialization)
+            End If
+            If comboBoxItemType.SelectedIndex <> -1 Then
+                BackupItemDefObj.type = DirectCast([Enum].Parse(GetType(isogame.ItemType), comboBoxItemType.SelectedItem.ToString()), isogame.ItemType)
+            End If
+            If ComboBoxCyberwareType.SelectedIndex <> -1 Then
+                BackupItemDefObj.cyberware_type = DirectCast([Enum].Parse(GetType(isogame.CyberwareType), ComboBoxCyberwareType.SelectedItem.ToString()), isogame.CyberwareType)
+            End If
+            If ComboBoxIntendedUser.SelectedIndex <> -1 Then
+                BackupItemDefObj.intended_user = DirectCast([Enum].Parse(GetType(isogame.IntendedUser), ComboBoxIntendedUser.SelectedIndex.ToString()), isogame.IntendedUser)
+            End If
+
+            'Boolean choices
+            If BackupItemDefObj.activationStatusEffects IsNot Nothing Then
+                BackupItemDefObj.activationStatusEffects.is_buff = CBool(ComboBoxASEIsBuff.SelectedItem.ToString().Contains("True"))
+                BackupItemDefObj.activationStatusEffects.is_debuff = CBool(ComboBoxASEIsDebuff.SelectedItem.ToString().Contains("True"))
+                BackupItemDefObj.activationStatusEffects.is_totem = CBool(ComboBoxASEIsTotem.SelectedItem.ToString().Contains("True"))
+            Else
+                If ComboBoxASEIsBuff.SelectedIndex <> -1 OrElse ComboBoxASEIsBuff.SelectedIndex <> -1 OrElse ComboBoxASEIsBuff.SelectedIndex <> -1 Then
+                    BackupItemDefObj.activationStatusEffects = New isogame.StatusEffects()
+                    BackupItemDefObj.activationStatusEffects.is_buff = CBool(ComboBoxASEIsBuff.SelectedItem.ToString().Contains("True"))
+                    BackupItemDefObj.activationStatusEffects.is_debuff = CBool(ComboBoxASEIsDebuff.SelectedItem.ToString().Contains("True"))
+                    BackupItemDefObj.activationStatusEffects.is_totem = CBool(ComboBoxASEIsTotem.SelectedItem.ToString().Contains("True"))
+                End If
+            End If
+
+            BackupItemDefObj.affectsDecker = CBool(ComboBoxAffectsDecker.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.affectsEnemy = CBool(ComboBoxAffectsEnemy.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.affectsFriendly = CBool(ComboBoxAffectsFriendly.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.canTargetActor = CBool(ComboBoxCanTargetActor.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.canTargetOccupiedGridPoint = CBool(ComboBoxCanTargetOccupiedGridPoint.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.canTargetUnoccupiedGridPoint = CBool(ComboBoxCanTargetUnoccupiedGridPoint.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.canTargetSelf = CBool(ComboBoxCanTargetSelf.SelectedItem.ToString().Contains("True"))
+
+            If BackupItemDefObj.equippedStatusEffects IsNot Nothing Then
+                BackupItemDefObj.equippedStatusEffects.is_buff = CBool(ComboBoxESEIsBuff.SelectedItem.ToString().Contains("True"))
+                BackupItemDefObj.equippedStatusEffects.is_debuff = CBool(ComboBoxESEIsDebuff.SelectedItem.ToString().Contains("True"))
+                BackupItemDefObj.equippedStatusEffects.is_totem = CBool(ComboBoxESEIsTotem.SelectedItem.ToString().Contains("True"))
+            Else
+                If ComboBoxESEIsBuff.SelectedIndex <> -1 OrElse ComboBoxESEIsBuff.SelectedIndex <> -1 OrElse ComboBoxESEIsBuff.SelectedIndex <> -1 Then
+                    BackupItemDefObj.equippedStatusEffects = New isogame.StatusEffects()
+                    BackupItemDefObj.equippedStatusEffects.is_buff = CBool(ComboBoxESEIsBuff.SelectedItem.ToString().Contains("True"))
+                    BackupItemDefObj.equippedStatusEffects.is_debuff = CBool(ComboBoxESEIsDebuff.SelectedItem.ToString().Contains("True"))
+                    BackupItemDefObj.equippedStatusEffects.is_totem = CBool(ComboBoxESEIsTotem.SelectedItem.ToString().Contains("True"))
+                End If
+            End If
+
+            BackupItemDefObj.gear_covers_arms = CBool(ComboBoxGearCoversArms.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.gear_covers_face = CBool(ComboBoxGearCoversFace.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.gear_covers_hair = CBool(ComboBoxGearCoversHair.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.isBuff = CBool(ComboBoxIsBuff.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.isDebuff = CBool(ComboBoxIsDebuff.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.isMagic = CBool(ComboBoxIsMagic.SelectedItem.ToString().Contains("True"))
+            BackupItemDefObj.effectOnTile = CBool(ComboBoxEffectOnTile.SelectedItem.ToString().Contains("True"))
+
+            'lists
+
+            BackupItemDefObj.activationStatusEffects.statusConditions.Clear()
+            For Each StatCon As String In listBoxASEStatusConditions.Items
+                BackupItemDefObj.activationStatusEffects.statusConditions.Add(DirectCast([Enum].Parse(GetType(isogame.StatusCondition), StatCon.ToString()), isogame.StatusCondition))
+            Next
+
+            BackupItemDefObj.abilityModes.Clear()
+            For Each AbilityMode As String In listBoxAbilityModes.Items
+                BackupItemDefObj.abilityModes.Add(AbilityMode)
+            Next
+
+            BackupItemDefObj.equippedStatusEffects.statusConditions.Clear()
+            For Each StatCon As String In listBoxESEStatusConditions.Items
+                BackupItemDefObj.equippedStatusEffects.statusConditions.Add(DirectCast([Enum].Parse(GetType(isogame.StatusCondition), StatCon.ToString()), isogame.StatusCondition))
+            Next
+
+            BackupItemDefObj.effectModTable.Clear()
+            For Each EffectMod As String In listBoxEffectModTable.Items
+                BackupItemDefObj.effectModTable.Add(CSng(EffectMod))
+            Next
+
+            BackupItemDefObj.equipment_sheet_id.Clear()
+            For Each EquipSheetID As String In listBoxEquipmentSheetId.Items
+                BackupItemDefObj.equipment_sheet_id.Add(EquipSheetID)
+            Next
+
+            BackupItemDefObj.modelessAbilities.Clear()
+            For Each ModelessAbility As String In listBoxModelessAbilities.Items
+                BackupItemDefObj.modelessAbilities.Add(ModelessAbility)
+            Next
+
+            BackupItemDefObj.prereqStrings.Clear()
+            For Each PrereqString As String In listBoxPrereqStrings.Items
+                BackupItemDefObj.prereqStrings.Add(PrereqString)
+            Next
+
+            BackupItemDefObj.rangeModTable.Clear()
+
+            For Each Row As DataRow In RangeModTable.Rows
+                BackupItemDefObj.rangeModTable.Add(CSng(Row("Modification")))
+            Next
+
+            'complicated lists
+            If BackupItemDefObj.activationStatusEffects IsNot Nothing Then
+                BackupItemDefObj.activationStatusEffects.statMods.Clear()
+                For Each StatmodItem As StatMod In ListViewASEStatMods.Items
+                    BackupItemDefObj.activationStatusEffects.statMods.Add(StatmodItem)
+                Next
+            ElseIf ListViewASEStatMods.Items.Count > 0 Then
+                BackupItemDefObj.activationStatusEffects = New isogame.StatusEffects()
+                For Each StatmodItem As StatMod In ListViewASEStatMods.Items
+                    BackupItemDefObj.activationStatusEffects.statMods.Add(StatmodItem)
+                Next
+            End If
+
+            If BackupItemDefObj.drainBucket IsNot Nothing Then
+                For Each FailureEntry As isogame.ResultBucket.Entry In ListViewDrainBucketFailureEntries.Items
+                    BackupItemDefObj.drainBucket.failureEntries.Add(FailureEntry)
+                Next
+                For Each SuccessEntry As isogame.ResultBucket.Entry In ListViewDrainBucketSuccesEntries.Items
+                    BackupItemDefObj.drainBucket.successEntries.Add(SuccessEntry)
+                Next
+            ElseIf ListViewDrainBucketFailureEntries.Items.Count > 0 OrElse ListViewDrainBucketSuccesEntries.Items.Count > 0 Then
+                BackupItemDefObj.drainBucket = New isogame.ResultBucket()
+                For Each FailureEntry As isogame.ResultBucket.Entry In ListViewDrainBucketFailureEntries.Items
+                    BackupItemDefObj.drainBucket.failureEntries.Add(FailureEntry)
+                Next
+                For Each SuccessEntry As isogame.ResultBucket.Entry In ListViewDrainBucketSuccesEntries.Items
+                    BackupItemDefObj.drainBucket.successEntries.Add(SuccessEntry)
+                Next
+            End If
+
+
+            If BackupItemDefObj.equippedStatusEffects IsNot Nothing Then
+                BackupItemDefObj.equippedStatusEffects.statMods.Clear()
+                For Each StatmodItem As StatMod In ListViewESEStatMods.Items
+                    BackupItemDefObj.equippedStatusEffects.statMods.Add(StatmodItem)
+                Next
+            ElseIf ListViewESEStatMods.Items.Count > 0 Then
+                BackupItemDefObj.equippedStatusEffects = New isogame.StatusEffects()
+                For Each StatmodItem As StatMod In ListViewESEStatMods.Items
+                    BackupItemDefObj.equippedStatusEffects.statMods.Add(StatmodItem)
+                Next
+            End If
+        End If
+    End Sub
+
 
     Private Sub buttonAddPreRequisiteStrings_Click(sender As Object, e As RoutedEventArgs) Handles buttonAddPreRequisiteStrings.Click
 
@@ -929,25 +1349,10 @@ Public Class ItemTabContent
         RBE.ShowDialog()
         If RBE.Cancelled = False Then
             ListViewDrainBucketFailureEntries.Items.Clear()
-            ' ListViewDrainBucketSuccesEntries.Items.Clear()
-            'If WindowSRRItemEditor.CurrentItemDefObject.drainBucket IsNot Nothing Then
             For Each FailureEntry As isogame.ResultBucket.Entry In RBE.Choice.failureEntries
                 ListViewDrainBucketFailureEntries.Items.Add(FailureEntry)
             Next
-            'For Each SuccessEntry As isogame.ResultBucket.Entry In WindowSRRItemEditor.CurrentItemDefObject.drainBucket.successEntries
-            'ListViewDrainBucketSuccesEntries.Items.Add(SuccessEntry)
-            ' Next
-            ' End If
         End If
-        'Dim LSF As New ResultBucketSelectionFiller
-
-        'LSF.label.Content = "Enter a new failure Entry"
-
-        'LSF.ShowDialog()
-        'If LSF.Canceled Then
-        '    Return
-        'End If
-        'ListViewDrainBucketFailureEntries.Items.Add(LSF.Choice)
 
     End Sub
 
@@ -970,10 +1375,6 @@ Public Class ItemTabContent
             For Each SuccessEntry As isogame.ResultBucket.Entry In RBE.Choice.successEntries
                 ListViewDrainBucketSuccesEntries.Items.Add(SuccessEntry)
             Next
-            'For Each SuccessEntry As isogame.ResultBucket.Entry In WindowSRRItemEditor.CurrentItemDefObject.drainBucket.successEntries
-            'ListViewDrainBucketSuccesEntries.Items.Add(SuccessEntry)
-            ' Next
-            ' End If
         End If
 
     End Sub

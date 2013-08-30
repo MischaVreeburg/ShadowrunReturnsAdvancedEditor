@@ -1,17 +1,17 @@
-﻿TO DO:
+﻿ToDo:
 Equipment sheet id invullen in items list bij laden.
 Bij toevoegen van bestaande EquipSheetId, de EquipsheetId object aanvullen,
 bij toevoegen van nieuwe equipsheetId, een nieuw equipmentsheetid object aanmaken
-Verwijderen van item van equipmentsheetid bij verwijdering van equipmentsheetid in lijst
+Removal of item from equipmentsheetid bij verwijdering van equipmentsheetid in lijst
 Object sorting en filtering toevoegen
 Search functionaliteit voor objecten.
 Better install srr location scanner + message box en mogelijkheid om te veranderen.
-schrijf readme + licenties
-Configureer opties voor saven.
-tlib creator schrijven
+write readme + licenties
+Configureer opties for saving.
+write tlib creator 
 save uncooked files - base functions implemented
-Load uncooked files - base functions implemented
-Lijst van changed objecten
+Load uncooked files - base functions implemented -50%
+List of changed objects => in tree, mark items with * and bold type
 read shadowrun install location from: C:\Program Files (x86)\Steam\config\config.vdf
 using reg key HKEY_CURRENT_USER\software\valve\steam\ steampath
 Find key under HKEY_CURRENT_USER\software\valve\steam\app
@@ -19,6 +19,13 @@ use key name to get personal install path for UGC
 Add for DRMfree UGC path C:\Users\Mischa Vreeburg\Documents\Shadowrun Returns\ContentPacks
 Load cpr(zip)
 Save item.=> Clear backup.
+Implement recent locations list
+
+rightclick on tree, => context menu. options - copy item/ set as active content pack / paste item / new item /
+double click on tree => show selected item
+
+
+Make sub folders for the sorting catergories of the itemdefs. + store items in visual tree based upon sorting catergories
 
 Add for result bucket, test funcionality if  earlier entries are greater then later.
 

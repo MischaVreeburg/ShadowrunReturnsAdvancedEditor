@@ -432,12 +432,14 @@ Class WindowSRRItemEditor
                 My.Settings.SteamUGCLocation = FindSubFolders(New DirectoryInfo(Path.Combine(Directory.GetParent(My.Settings.SRRLocation).Parent.Parent.FullName, "userdata")), "ugc")
 
             End If
+
+            My.Settings.SteamUGCLocation.Add(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "\Shadowrun Returns\ContentPacks"))
+            
             My.Settings.Save()
         End If
 
         'using reflection to get list of fuctions
         Dim Asm As Assembly = Assembly.LoadFile(Path.Combine(My.Settings.SRRLocation, "Shadowrun_Data\Managed\Assembly-CSharp.dll"))
-
 
         Dim methodInfos As MethodInfo() = Asm.GetType("GameEffect").GetMethods(BindingFlags.[Public] Or BindingFlags.[Static])
 
@@ -484,36 +486,6 @@ Class WindowSRRItemEditor
 
     End Sub
 
-    'Private Sub buttonSaveAs_Click(sender As Object, e As RoutedEventArgs) Handles buttonSaveAs.Click
-
-    '    Dim NewFile As String
-
-    '    Dim dlg As New Microsoft.Win32.SaveFileDialog
-    '    dlg.InitialDirectory = Path.GetDirectoryName(CStr(My.Settings.LastUsedLocation))
-    '    dlg.FileName = Path.GetFileName(textBoxBytesFile.Text)
-    '    dlg.DefaultExt = ".bytes" ' Default file extension
-    '    dlg.Filter = "bytes Files (.bytes)|*.bytes" ' Filter files by extension
-
-    '    ' Show open file dialog box
-    '    Dim result? As Boolean = dlg.ShowDialog()
-
-    '    ' Process open file dialog box results
-    '    If result = True Then
-    '        ' Open document
-    '        NewFile = dlg.FileName
-
-    '        My.Settings.LastUsedLocation = Path.GetDirectoryName(NewFile) & "\"
-    '        My.Settings.Save()
-
-    '        If tabControl.SelectedIndex = tabControl.Items.IndexOf(ItemsTab) Then
-    '            StoreChangesItems()
-    '            Using fs As FileStream = File.Create(NewFile)
-    '                Serializer.Serialize(fs, CurrentItemDefObject)
-    '            End Using
-    '        End If
-    '    End If
-
-    'End Sub
 #End Region
 
 #Region "ContenPacks"
@@ -551,14 +523,7 @@ Class WindowSRRItemEditor
         Dim TempContentPackProjectDef As New isogame.ProjectDef
 
         TempContentPackProjectDef = LoadFile(Of isogame.ProjectDef)(ContentPackFile, TempContentPackProjectDef)
-        'If Path.GetExtension(ContentPackFile).ToLower() = "bytes" Then
-        '    Using Fs As FileStream = File.Open(ContentPackFile, FileMode.Open)
-        '        TempContentPackProjectDef = Serializer.Deserialize(Of isogame.ProjectDef)(Fs)
-        '    End Using
-        'ElseIf Path.GetExtension(ContentPackFile).ToLower() = "txt" Then
-        '    TempContentPackProjectDef = CType(parseProtoBufTextFormat(File.ReadAllLines(ContentPackFile), TempContentPackProjectDef), ProjectDef)
-        'End If
-        
+ 
         If ContentPackList.FirstOrDefault(Function(C As isogame.ProjectDef) C.project_id = TempContentPackProjectDef.project_id) Is Nothing Then
             ContentPackList.Add(TempContentPackProjectDef)
             ContentPackLocationsList.Add(New ContentPackMetaData With {.Location = ContentPackFile, .Compressed = Compressed})
@@ -574,7 +539,9 @@ Class WindowSRRItemEditor
         If Reload Then
             FillContentPackTreeView()
             For Each TVI As TreeViewItem In ListExpandedTreeViewItems
-                TreeviewItemFinderRecursive(TreeViewContentPack, TVI).IsExpanded = True
+                If TreeviewItemFinderRecursive(TreeViewContentPack, TVI) IsNot Nothing Then
+                    TreeviewItemFinderRecursive(TreeViewContentPack, TVI).IsExpanded = True
+                End If
             Next
             ListExpandedTreeViewItems.Clear()
         End If
@@ -927,6 +894,7 @@ Class WindowSRRItemEditor
     End Sub
     
     Public Sub LoadAllFilesInDir(ByVal DirName As String, TVI As TreeViewItem)
+        'ToDo Add automatic creation of manifest during loading.
         Dim DirList As String()
         Dim FileList As String()
 
@@ -976,6 +944,9 @@ Class WindowSRRItemEditor
     Public Shared Function TreeviewItemFinderRecursive(ByRef TreeViewToSearch As TreeView, ByRef TreeviewItemToFind As TreeViewItem) As TreeViewItem
         Dim found As Boolean
         TreeviewItemFinderRecursive = New TreeViewItem()
+        If TreeviewItemToFind Is Nothing Then
+            Return Nothing
+        End If
         For Each objTreeviewItem As TreeViewItem In TreeViewToSearch.Items
             If CType(CType(objTreeviewItem.Header, StackPanel).Children(1), TextBlock).Text = CType(CType(TreeviewItemToFind.Header, StackPanel).Children(1), TextBlock).Text Then
                 TreeviewItemFinderRecursive = objTreeviewItem
@@ -1131,6 +1102,169 @@ Class WindowSRRItemEditor
 #End Region
 
 #Region "Menu"
+
+#Region "File Menu"
+
+    Private Sub MenuItemOpenContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemOpenContentPack.Click
+        ' Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file")
+        Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file", "cpack.txt", "cpack.txt file")
+
+        If Path.GetFileName(ContentPackLocation) = "project.cpack.bytes" OrElse Path.GetFileName(ContentPackLocation) = "project.cpack.txt" Then
+            ListExpandedTreeViewItems.Clear()
+            TreeViewContentPack.Items.Clear()
+            ContentPackList.Clear()
+            ContentPackLocationsList.Clear()
+            DataManifestList.Clear()
+            LoadFiles(ContentPackLocation)
+        End If
+    End Sub
+
+    Private Sub MenuItemNewItem_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemNewItem.Click
+        CurrentItemDefObject = New ItemDef
+        tabControl.SelectedIndex = tabControl.Items.IndexOf(ItemsTab)
+    End Sub
+
+    Private Sub MenuItemNewAbility_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemNewAbility.Click
+        CurrentAbilityDefObject = New AbilityDef
+        tabControl.SelectedIndex = tabControl.Items.IndexOf(AbilitiesTab)
+    End Sub
+
+    Private Sub MenuItemNewMode_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemNewMode.Click
+        CurrentModeDefObject = New ModeDef
+        CurrentModeIdString = ""
+        tabControl.SelectedIndex = tabControl.Items.IndexOf(ModesTab)
+    End Sub
+
+    Private Sub MenuItemSave_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSave.Click
+        'save into 
+        Select Case CStr(CType(tabControl.SelectedItem, TabItem).Header)
+            Case "Items"
+                If CurrentItemDefObject Is Nothing Then
+                    CurrentItemDefObject = New isogame.ItemDef
+                    ItemList.Add(CurrentItemDefObject)
+                End If
+                SaveIntoContentPack(CType(CurrentItemDefObject, Object))
+            Case "Abilities"
+                SaveIntoContentPack(CType(CurrentAbilityDefObject, Object))
+            Case "Modes"
+                SaveIntoContentPack(CType(CurrentModeDefObject, Object))
+        End Select
+    End Sub
+
+    Private Sub MenuItemSaveAs_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSaveAs.Click
+        Dim NewFile As String
+        Dim FileName As String
+        Dim saveObj As Object
+        Select Case CStr(CType(tabControl.SelectedItem, TabItem).Header)
+            Case "Items"
+                If CurrentItemDefObject Is Nothing Then
+                    CurrentItemDefObject = New isogame.ItemDef
+                    ItemList.Add(CurrentItemDefObject)
+                End If
+                CType(CType(tabControl.SelectedItem, TabItem).Content, ItemTabContent).StoreChangesItems()
+                FileName = CurrentItemDefObject.id
+                saveObj = CType(CurrentItemDefObject, Object)
+            Case "Abilities"
+                FileName = CurrentAbilityDefObject.id
+                saveObj = CType(CurrentAbilityDefObject, Object)
+            Case "Modes"
+                FileName = CurrentModeIdString
+                saveObj = CType(CurrentModeDefObject, Object)
+        End Select
+        
+
+        Dim dlg As New Microsoft.Win32.SaveFileDialog
+        dlg.InitialDirectory = Path.GetDirectoryName(CStr(My.Settings.LastUsedLocation))
+        dlg.FileName = Path.GetFileName(FileName)
+        dlg.DefaultExt = ".bytes" ' Default file extension
+        dlg.Filter = "bytes Files (.bytes)|*.bytes" ' Filter files by extension
+
+        ' Show open file dialog box
+        Dim result? As Boolean = dlg.ShowDialog()
+
+        ' Process open file dialog box results
+        If result = True Then
+            ' Open document
+            NewFile = dlg.FileName
+
+            My.Settings.LastUsedLocation = Path.GetDirectoryName(NewFile) & "\"
+            My.Settings.Save()
+            
+            Using fs As FileStream = File.Create(NewFile)
+                Serializer.Serialize(fs, saveObj)
+            End Using
+
+        End If
+    End Sub
+
+    Private Sub MenuItemSaveAsUncooked_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSaveAsUncooked.Click
+        Dim NewFile As String
+        Dim FileName As String
+        Dim saveObj As Object
+        Select Case CStr(CType(tabControl.SelectedItem, TabItem).Header)
+            Case "Items"
+                If CurrentItemDefObject Is Nothing Then
+                    CurrentItemDefObject = New isogame.ItemDef
+                    ItemList.Add(CurrentItemDefObject)
+                End If
+                CType(CType(tabControl.SelectedItem, TabItem).Content, ItemTabContent).StoreChangesItems()
+                FileName = CurrentItemDefObject.id
+                saveObj = CType(CurrentItemDefObject, Object)
+            Case "Abilities"
+                FileName = CurrentAbilityDefObject.id
+                saveObj = CType(CurrentAbilityDefObject, Object)
+            Case "Modes"
+                FileName = CurrentModeIdString
+                saveObj = CType(CurrentModeDefObject, Object)
+        End Select
+
+
+        Dim dlg As New Microsoft.Win32.SaveFileDialog
+        dlg.InitialDirectory = Path.GetDirectoryName(CStr(My.Settings.LastUsedLocation))
+        dlg.FileName = Path.GetFileName(FileName)
+        dlg.DefaultExt = ".txt" ' Default file extension
+        dlg.Filter = "txt Files (.txt)|*.txt" ' Filter files by extension
+
+        ' Show open file dialog box
+        Dim result? As Boolean = dlg.ShowDialog()
+
+        ' Process open file dialog box results
+        If result = True Then
+            ' Open document
+            NewFile = dlg.FileName
+
+            My.Settings.LastUsedLocation = Path.GetDirectoryName(NewFile) & "\"
+            My.Settings.Save()
+
+            File.WriteAllText(NewFile, ToProtoText(saveObj.GetType(), saveObj, 0))
+
+        End If
+    End Sub
+
+    Private Sub MenuItemSaveIntoContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSaveIntoContentPack.Click
+        Select Case CStr(CType(tabControl.SelectedItem, TabItem).Header)
+            Case "Items"
+                If CurrentItemDefObject Is Nothing Then
+                    CurrentItemDefObject = New isogame.ItemDef
+                    ItemList.Add(CurrentItemDefObject)
+                End If
+                SaveIntoContentPack(CType(CurrentItemDefObject, Object))
+            Case "Abilities"
+                SaveIntoContentPack(CType(CurrentAbilityDefObject, Object))
+            Case "Modes"
+                SaveIntoContentPack(CType(CurrentModeDefObject, Object))
+        End Select
+    End Sub
+
+    Private Sub MenuItemQuit_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemQuit.Click
+        Me.Close()
+        Application.Current.Shutdown()
+    End Sub
+
+#End Region
+
+#Region "Content Pack menu"
+
     Private Sub MenuItemAddDependancy_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemAddDependancy.Click
         'testTxtimport()
         '   loadSave()
@@ -1138,6 +1272,10 @@ Class WindowSRRItemEditor
         'copydotDFiles()
         ' startParse()
     End Sub
+
+#End Region
+
+#Region "Settings Menu"
 
     Private Sub MenuItemSetLocationOfSRR_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSetLocationOfSRR.Click
         Dim SRRLocation As String = InputBox("SRR is located at " + My.Settings.SRRLocation + ", Enter new location if you want to change the default location.")
@@ -1148,18 +1286,8 @@ Class WindowSRRItemEditor
 
     End Sub
 
-    Private Sub MenuItemOpenContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemOpenContentPack.Click
-        ' Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file")
-        Dim ContentPackLocation As String = FileSelector("cpack.bytes", "cpack.bytes file", "cpack.txt", "cpack.txt file")
+#End Region
 
-        If Path.GetFileName(ContentPackLocation) = "project.cpack.bytes" OrElse Path.GetFileName(ContentPackLocation) = "project.cpack.txt" Then
-            TreeViewContentPack.Items.Clear()
-            ContentPackList.Clear()
-            ContentPackLocationsList.Clear()
-            DataManifestList.Clear()
-            LoadFiles(ContentPackLocation)
-        End If
-    End Sub
 #End Region
 
 #Region "Items Tab"
@@ -1638,4 +1766,31 @@ Class WindowSRRItemEditor
 
 #End Region
 
+    Private Sub MenuItemLoadSingleFile_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemLoadSingleFile.Click
+
+    End Sub
+
+    Private Sub MenuItemRemoveDependancy_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemRemoveDependancy.Click
+
+    End Sub
+
+    Private Sub MenuItemSaveAsCookedContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSaveAsCookedContentPack.Click
+
+    End Sub
+
+    Private Sub MenuItemSaveAsUnCookedContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSaveAsUnCookedContentPack.Click
+
+    End Sub
+
+    Private Sub MenuItemSaveContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSaveContentPack.Click
+
+    End Sub
+
+    Private Sub MenuItemSetAsActiveContentPack_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemSetAsActiveContentPack.Click
+
+    End Sub
+
+    Private Sub MenuItemOpenDirectory_Click(sender As Object, e As RoutedEventArgs) Handles MenuItemOpenDirectory.Click
+
+    End Sub
 End Class
