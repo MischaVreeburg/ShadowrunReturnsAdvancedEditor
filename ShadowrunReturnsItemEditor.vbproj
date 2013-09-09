@@ -24,8 +24,8 @@
     <MapFileExtensions>false</MapFileExtensions>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>74</ApplicationRevision>
-    <ApplicationVersion>0.1.1.74</ApplicationVersion>
+    <ApplicationRevision>98</ApplicationRevision>
+    <ApplicationVersion>0.1.1.98</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -116,6 +116,7 @@
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.640\lib\net40\protobuf-net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ShadowrunDTO">
       <HintPath>lib\ShadowrunDTO.dll</HintPath>
@@ -353,6 +354,16 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
+    <PublishFile Include="protobuf-net">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
     <PublishFile Include="RAINOne">
       <Visible>False</Visible>
       <Group>
@@ -415,7 +426,14 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Changelog.txt" />
+    <Resource Include="Changelog.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

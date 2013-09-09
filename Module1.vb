@@ -340,7 +340,7 @@ Public Module Module1
                     End If
 
                     If PropInfo.PropertyType.FullName = "System.Boolean" Then
-                        PropInfo.SetValue(Objecttype, CBool(newValue))
+                        PropInfo.SetValue(Objecttype, CBool(CStr(newValue).ToLower()))
                     ElseIf PropInfo.PropertyType.FullName = "System.Int32" Then
                         PropInfo.SetValue(Objecttype, CInt(newValue))
                     ElseIf PropInfo.PropertyType.Namespace = "System.Collections.Generic" Then
@@ -408,9 +408,6 @@ Public Module Module1
                     Dim par(0) As Object
                     par(0) = child2
                     add.Invoke(child, par)
-                    'Objecttype.GetType().GetField("_" & PropInfoList(PropInfoList.Count - 1).Name).SetValue(Objecttype, child)
-                    'PropInfoList(PropInfoList.Count - 1).GetGetMethod().GetMethodBody()
-                    'PropInfoList(PropInfoList.Count - 1).SetValue(Objecttype, child)
                     PropInfoList.RemoveAt(PropInfoList.Count - 1)
 
                 ElseIf child IsNot Nothing Then

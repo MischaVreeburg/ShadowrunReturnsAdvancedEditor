@@ -433,7 +433,7 @@ Class WindowSRRItemEditor
 
             End If
 
-            My.Settings.SteamUGCLocation.Add(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "\Shadowrun Returns\ContentPacks"))
+            My.Settings.SteamUGCLocation.Add(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Shadowrun Returns\ContentPacks"))
             
             My.Settings.Save()
         End If
@@ -904,7 +904,7 @@ Class WindowSRRItemEditor
         For Each File As String In FileList
             If Not File.ToLower().Contains("cpack") AndAlso Not File.ToLower().Contains("preview") AndAlso Not File.ToLower().Contains("readme") AndAlso Not File.ToLower().Contains("epilogue") AndAlso Not File.ToLower().Contains("ai_perception") AndAlso Not File.ToLower().Contains("credentials") AndAlso Not File.ToLower().Contains("hiring") Then
                 LoadFiles(File, True)
-                TVI.Items.Add(CreateTreeViewItem(Path.GetFileNameWithoutExtension(File), File))
+                TVI.Items.Add(CreateTreeViewItem(Path.GetFileNameWithoutExtension(File).Split(CChar("."))(0), File))
             End If
         Next
 
@@ -1681,12 +1681,22 @@ Class WindowSRRItemEditor
 
     Private Function FindSubFoldersSpecial(ByVal dir As DirectoryInfo, ByVal DirName As String) As String
         Dim result As String = String.Empty
+
+        If dir.FullName = New DirectoryInfo("\Shadowrun Returns\ContentPacks").FullName Then
+            Return Nothing
+        End If
+
         For Each folder As DirectoryInfo In dir.GetDirectories()
             If folder.Name <> "art" AndAlso folder.Name <> "data" Then
                 If folder.Name.ToLower().Contains(DirName.ToLower()) Then
                     result = folder.FullName
                     Exit For
                 Else
+                    If folder.FullName Is New DirectoryInfo("\Shadowrun Returns\ContentPacks").FullName Then
+
+                        Exit For
+                    End If
+
                     result = FindSubFoldersSpecial(folder, DirName)
                 End If
             End If

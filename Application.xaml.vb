@@ -15,7 +15,7 @@ Class Application
 
 
 
-        WindowSRRItemEditor.Show()
+        ' WindowSRRItemEditor.Show()
 
     End Sub
     

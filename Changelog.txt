@@ -1,9 +1,16 @@
 ﻿Shadowrun Returns Advanced Editor changelog
 
+Version 0.1.1.1
+- 
+
+Version 0.1.1.110
+- Fixed capital T or F not converting into boolean with the txt file import.
+- Fixed wrong UGC location string for the "c:\users\[username]\my documents\shadowrun returns\contentpacks" string.
+- Fixed for txt items the tree display, removed the type indication in the name.
+
 Version 0.1.1.98
 - Added: Filling lists for damageFunction and toHitfunction with options from assembly-csharp
 - Added: Loading of uncooked (txt files) content pack, such as the Street Samurai Catalog (http://shadowrunreturns.nexusmods.com/mods/18/?)
 - Added saving single object to different name
 - Added creating new object, instead of editing existing objects to get new objects (still possible)
 - Added saving single object to ucooked file
-- 
